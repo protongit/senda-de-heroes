@@ -1,0 +1,8 @@
+services:
+  senda-de-heroes:
+    build: .
+    image: senda-de-heroes
+    container_name: senda-de-heroes
+    ports:
+      - "8080:80"
+    restart: unless-stopped

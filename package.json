@@ -1,0 +1,13 @@
+{
+  "name": "senda-de-heroes",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Juego de cartas de construcción de mazos ambientado en fantasía medieval.",
+  "scripts": {
+    "serve": "python3 -m http.server 8080",
+    "smoke": "node scripts/smoke.mjs",
+    "balance": "node scripts/balance.mjs",
+    "art": "node scripts/generate-cards.mjs"
+  }
+}

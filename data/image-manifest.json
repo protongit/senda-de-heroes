@@ -1,0 +1,686 @@
+[
+  {
+    "id": "sword_short",
+    "group": "cards",
+    "file": "assets/cards/sword_short.png",
+    "prompt": "a short sword of polished steel with a leather grip on a stone ledge",
+    "seed": 1000,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "axe_war",
+    "group": "cards",
+    "file": "assets/cards/axe_war.png",
+    "prompt": "a heavy dwarven war axe with a broad steel blade",
+    "seed": 1001,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "bow_long",
+    "group": "cards",
+    "file": "assets/cards/bow_long.png",
+    "prompt": "an elegant elven longbow made of yew wood",
+    "seed": 1002,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "dagger_elf",
+    "group": "cards",
+    "file": "assets/cards/dagger_elf.png",
+    "prompt": "a slender elven dagger with an ornate silver hilt",
+    "seed": 1003,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "staff_arcane",
+    "group": "cards",
+    "file": "assets/cards/staff_arcane.png",
+    "prompt": "a gnarled wooden staff topped with a glowing blue crystal",
+    "seed": 1004,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "shield_round",
+    "group": "cards",
+    "file": "assets/cards/shield_round.png",
+    "prompt": "a round wooden shield with an iron boss and leather straps",
+    "seed": 1005,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "shield_oak",
+    "group": "cards",
+    "file": "assets/cards/shield_oak.png",
+    "prompt": "a large oak shield reinforced with iron bands",
+    "seed": 1006,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "armor_leather",
+    "group": "cards",
+    "file": "assets/cards/armor_leather.png",
+    "prompt": "a set of sturdy boiled leather armor",
+    "seed": 1007,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "armor_chain",
+    "group": "cards",
+    "file": "assets/cards/armor_chain.png",
+    "prompt": "a heavy chainmail hauberk of interlocking iron rings",
+    "seed": 1008,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "robe_runic",
+    "group": "cards",
+    "file": "assets/cards/robe_runic.png",
+    "prompt": "a deep blue mage robe embroidered with glowing silver runes",
+    "seed": 1009,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "helm_iron",
+    "group": "cards",
+    "file": "assets/cards/helm_iron.png",
+    "prompt": "a simple iron helmet with a nose guard resting on a wooden stand",
+    "seed": 1010,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "boots_leather",
+    "group": "cards",
+    "file": "assets/cards/boots_leather.png",
+    "prompt": "a pair of sturdy brown leather traveling boots",
+    "seed": 1011,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "amulet_arcane",
+    "group": "cards",
+    "file": "assets/cards/amulet_arcane.png",
+    "prompt": "an ornate amulet with a glowing gemstone on a chain",
+    "seed": 1012,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "cloak_scout",
+    "group": "cards",
+    "file": "assets/cards/cloak_scout.png",
+    "prompt": "a dark green hooded scout's cloak",
+    "seed": 1013,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "circlet_arcane",
+    "group": "cards",
+    "file": "assets/cards/circlet_arcane.png",
+    "prompt": "an elegant silver headband jewel with a small blue gemstone, displayed on dark velvet",
+    "seed": 1014,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "food",
+    "group": "cards",
+    "file": "assets/cards/food.png",
+    "prompt": "a hearty medieval meal of roasted meat and bread on a wooden plate",
+    "seed": 1015,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "water",
+    "group": "cards",
+    "file": "assets/cards/water.png",
+    "prompt": "a clear waterskin and a wooden cup of fresh water",
+    "seed": 1016,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "potion",
+    "group": "cards",
+    "file": "assets/cards/potion.png",
+    "prompt": "a glass potion bottle of glowing red liquid",
+    "seed": 1017,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "beer",
+    "group": "cards",
+    "file": "assets/cards/beer.png",
+    "prompt": "a wooden tankard of foaming ale",
+    "seed": 1018,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "bread",
+    "group": "cards",
+    "file": "assets/cards/bread.png",
+    "prompt": "a rustic loaf of travel bread",
+    "seed": 1019,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "shield_bash",
+    "group": "cards",
+    "file": "assets/cards/shield_bash.png",
+    "prompt": "a warrior slamming a shield into an enemy, impact sparks",
+    "seed": 1020,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "feint",
+    "group": "cards",
+    "file": "assets/cards/feint.png",
+    "prompt": "a duelist performing a deceptive feint with a sword",
+    "seed": 1021,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "dodge",
+    "group": "cards",
+    "file": "assets/cards/dodge.png",
+    "prompt": "an agile fighter dodging an incoming blow",
+    "seed": 1022,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "lunge",
+    "group": "cards",
+    "file": "assets/cards/lunge.png",
+    "prompt": "a warrior performing a thrusting lunge attack",
+    "seed": 1023,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "war_cry",
+    "group": "cards",
+    "file": "assets/cards/war_cry.png",
+    "prompt": "a warrior raising his sword high to rally his allies",
+    "seed": 1024,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "ram",
+    "group": "cards",
+    "file": "assets/cards/ram.png",
+    "prompt": "a dwarf delivering a powerful shoulder charge",
+    "seed": 1025,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "fortify",
+    "group": "cards",
+    "file": "assets/cards/fortify.png",
+    "prompt": "a warrior raising a shield in a defensive stance",
+    "seed": 1026,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "endurance",
+    "group": "cards",
+    "file": "assets/cards/endurance.png",
+    "prompt": "a wounded hero catching his breath and recovering",
+    "seed": 1027,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "whirlwind",
+    "group": "cards",
+    "file": "assets/cards/whirlwind.png",
+    "prompt": "a warrior spinning with a weapon in a whirlwind attack",
+    "seed": 1028,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "battle_cry",
+    "group": "cards",
+    "file": "assets/cards/battle_cry.png",
+    "prompt": "a heroic figure rallying allies with a shout",
+    "seed": 1029,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "fireball",
+    "group": "cards",
+    "file": "assets/cards/fireball.png",
+    "prompt": "a mage casting a blazing fireball spell",
+    "seed": 1030,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "arcane_shield",
+    "group": "cards",
+    "file": "assets/cards/arcane_shield.png",
+    "prompt": "a mage conjuring a shimmering magical barrier",
+    "seed": 1031,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "drain",
+    "group": "cards",
+    "file": "assets/cards/drain.png",
+    "prompt": "a sorceress draining life energy from an enemy with red wisps",
+    "seed": 1032,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "lightning",
+    "group": "cards",
+    "file": "assets/cards/lightning.png",
+    "prompt": "a glowing blue magical energy orb surrounded by bright sparks",
+    "seed": 1033,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "minor_bolt",
+    "group": "cards",
+    "file": "assets/cards/minor_bolt.png",
+    "prompt": "a small crackling magic bolt of energy",
+    "seed": 1034,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "sure_shot",
+    "group": "cards",
+    "file": "assets/cards/sure_shot.png",
+    "prompt": "an elven archer loosing an accurate arrow",
+    "seed": 1035,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "shadow_step",
+    "group": "cards",
+    "file": "assets/cards/shadow_step.png",
+    "prompt": "a cloaked elven figure stepping through shadow",
+    "seed": 1036,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "arrow_rain",
+    "group": "cards",
+    "file": "assets/cards/arrow_rain.png",
+    "prompt": "a volley of arrows raining down from the sky",
+    "seed": 1037,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "hunter_mark",
+    "group": "cards",
+    "file": "assets/cards/hunter_mark.png",
+    "prompt": "a glowing magical rune floating in the air above a stone",
+    "seed": 1038,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "sting",
+    "group": "cards",
+    "file": "assets/cards/sting.png",
+    "prompt": "a quick precise dagger stab from the shadows",
+    "seed": 1039,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "poison_vial",
+    "group": "cards",
+    "file": "assets/cards/poison_vial.png",
+    "prompt": "a small glass vial of bubbling green toxic liquid",
+    "seed": 1040,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "blessing_war",
+    "group": "cards",
+    "file": "assets/cards/blessing_war.png",
+    "prompt": "a warrior kneeling as golden divine light descends on him",
+    "seed": 1041,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "curse_weak",
+    "group": "cards",
+    "file": "assets/cards/curse_weak.png",
+    "prompt": "a dark purple curse mark hovering over a bent knee enemy",
+    "seed": 1042,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "regen_brew",
+    "group": "cards",
+    "file": "assets/cards/regen_brew.png",
+    "prompt": "a warm steaming herbal brew in a wooden bowl with leaves",
+    "seed": 1043,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "curse_languor",
+    "group": "cards",
+    "file": "assets/cards/curse_languor.png",
+    "prompt": "a heavy iron chain coiled around a glowing hourglass",
+    "seed": 1044,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "last_fury",
+    "group": "cards",
+    "file": "assets/cards/last_fury.png",
+    "prompt": "a wounded warrior erupting in a blazing aura of final rage",
+    "seed": 1045,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "counter_attack",
+    "group": "cards",
+    "file": "assets/cards/counter_attack.png",
+    "prompt": "a fighter turning a parry into a swift counter slash",
+    "seed": 1046,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "intercept",
+    "group": "cards",
+    "file": "assets/cards/intercept.png",
+    "prompt": "a defender stepping in front of an ally raising a shield",
+    "seed": 1047,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "disrupt",
+    "group": "cards",
+    "file": "assets/cards/disrupt.png",
+    "prompt": "a hooded figure silencing a chanting enemy with a hushing gesture",
+    "seed": 1048,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "quick_cut",
+    "group": "cards",
+    "file": "assets/cards/quick_cut.png",
+    "prompt": "a swift dagger slash leaving a bright cutting trail in the air",
+    "seed": 1049,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "slash_under",
+    "group": "cards",
+    "file": "assets/cards/slash_under.png",
+    "prompt": "a low rising sword cut slipping under an enemy guard",
+    "seed": 1050,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "shield_wall",
+    "group": "cards",
+    "file": "assets/cards/shield_wall.png",
+    "prompt": "a tall tower shield planted into the ground forming a barrier",
+    "seed": 1051,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "fierce_charge",
+    "group": "cards",
+    "file": "assets/cards/fierce_charge.png",
+    "prompt": "a determined hero dashing forward with swirling dust and motion trails",
+    "seed": 1052,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "growing_fury",
+    "group": "cards",
+    "file": "assets/cards/growing_fury.png",
+    "prompt": "a focused warrior surrounded by glowing orange energy wisps",
+    "seed": 1053,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "ring_might",
+    "group": "cards",
+    "file": "assets/cards/ring_might.png",
+    "prompt": "a polished gold jewelry band resting on velvet with a tiny blue gem",
+    "seed": 1054,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "boots_swift",
+    "group": "cards",
+    "file": "assets/cards/boots_swift.png",
+    "prompt": "a pair of nimble light leather boots with wing motifs",
+    "seed": 1055,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "mage_cloak",
+    "group": "cards",
+    "file": "assets/cards/mage_cloak.png",
+    "prompt": "a deep purple mage cloak with silver star embroidery",
+    "seed": 1056,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "plate_h",
+    "group": "cards",
+    "file": "assets/cards/plate_h.png",
+    "prompt": "a massive ornate plate cuirass polished to a mirror shine",
+    "seed": 1057,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "reaper_scythe",
+    "group": "cards",
+    "file": "assets/cards/reaper_scythe.png",
+    "prompt": "a menacing two-handed scythe with a curved black blade",
+    "seed": 1058,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "gema_fuego",
+    "group": "cards",
+    "file": "assets/cards/gema_fuego.png",
+    "prompt": "a glowing fiery red gemstone carved with runes on a dark cloth",
+    "seed": 1059,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "gema_hielo",
+    "group": "cards",
+    "file": "assets/cards/gema_hielo.png",
+    "prompt": "a translucent icy blue crystal gem with frost mist around it",
+    "seed": 1060,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "gema_vida",
+    "group": "cards",
+    "file": "assets/cards/gema_vida.png",
+    "prompt": "a warm emerald green healing gem pulsing with soft light",
+    "seed": 1061,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "runa_guarda",
+    "group": "cards",
+    "file": "assets/cards/runa_guarda.png",
+    "prompt": "a carved stone rune tile glowing with protective blue shield light",
+    "seed": 1062,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "runa_poder",
+    "group": "cards",
+    "file": "assets/cards/runa_poder.png",
+    "prompt": "an ancient amber rune stone etched with a fierce glowing symbol",
+    "seed": 1063,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "runa_terror",
+    "group": "cards",
+    "file": "assets/cards/runa_terror.png",
+    "prompt": "a cracked obsidian rune stone oozing dark purple shadow",
+    "seed": 1064,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "warrior",
+    "group": "portraits",
+    "file": "assets/portraits/warrior.png",
+    "prompt": "a veteran human warrior in worn steel armor with sword and round shield, stern face",
+    "seed": 1065,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "dwarf",
+    "group": "portraits",
+    "file": "assets/portraits/dwarf.png",
+    "prompt": "a stout bearded dwarf defender in heavy armor with a war axe and oak shield",
+    "seed": 1066,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "sorceress",
+    "group": "portraits",
+    "file": "assets/portraits/sorceress.png",
+    "prompt": "a female sorceress in a blue runic robe holding a glowing arcane staff",
+    "seed": 1067,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "elf",
+    "group": "portraits",
+    "file": "assets/portraits/elf.png",
+    "prompt": "a lithe elven ranger in a green cloak drawing a longbow",
+    "seed": 1068,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "goblin",
+    "group": "portraits",
+    "file": "assets/portraits/goblin.png",
+    "prompt": "a sneering green goblin with a rusty dagger",
+    "seed": 1069,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "lobo",
+    "group": "portraits",
+    "file": "assets/portraits/lobo.png",
+    "prompt": "a ferocious grey dire wolf snarling",
+    "seed": 1070,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "esqueleto",
+    "group": "portraits",
+    "file": "assets/portraits/esqueleto.png",
+    "prompt": "an undead skeleton warrior in tarnished armor with a chipped sword",
+    "seed": 1071,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "trol",
+    "group": "portraits",
+    "file": "assets/portraits/trol.png",
+    "prompt": "a large mossy stone troll guardian standing in a misty forest",
+    "seed": 1072,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "nigromante",
+    "group": "portraits",
+    "file": "assets/portraits/nigromante.png",
+    "prompt": "a gaunt necromancer in dark robes with glowing green eyes",
+    "seed": 1073,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "senor_orco",
+    "group": "portraits",
+    "file": "assets/portraits/senor_orco.png",
+    "prompt": "a proud orc chieftain warrior in tribal armor holding a tall banner",
+    "seed": 1074,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "lich",
+    "group": "portraits",
+    "file": "assets/portraits/lich.png",
+    "prompt": "an ancient lich king with a crown, skeletal face, glowing blue eyes and dark robes",
+    "seed": 1075,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  }
+]

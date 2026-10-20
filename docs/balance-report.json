@@ -1,0 +1,46 @@
+{
+  "samples": 500,
+  "heroWinRate": {
+    "warrior": 50,
+    "dwarf": 44,
+    "sorceress": 47.8,
+    "elf": 54.6
+  },
+  "enemyWinRate": {
+    "lobo": {
+      "rate": 100,
+      "level": 2,
+      "kind": "normal"
+    },
+    "trol": {
+      "rate": 97.4,
+      "level": 4,
+      "kind": "normal"
+    },
+    "lich": {
+      "rate": 54,
+      "level": 7,
+      "kind": "boss"
+    },
+    "goblin": {
+      "rate": 100,
+      "level": 1,
+      "kind": "normal"
+    },
+    "esqueleto": {
+      "rate": 99.9,
+      "level": 3,
+      "kind": "normal"
+    },
+    "senor_orco": {
+      "rate": 84.5,
+      "level": 6,
+      "kind": "boss"
+    },
+    "nigromante": {
+      "rate": 98.2,
+      "level": 5,
+      "kind": "elite"
+    }
+  }
+}
