@@ -66,11 +66,11 @@ Balance final y metodología en [`BALANCE.md`](./BALANCE.md).
 ## Contenedor (Docker)
 ```bash
 docker buildx build --load -t senda-de-heroes .
-docker run -d --name senda-de-heroes -p 8080:80 senda-de-heroes
+docker run -d --name senda-de-heroes -p 8080:8080 senda-de-heroes
 # o con compose (recomendado):
 docker compose up -d --build
 ```
-Abre `http://localhost:8080`. El contenedor sirve el juego con nginx (gzip para JS/CSS, caché larga para imágenes y `no-cache` para código).
+Abre `http://localhost:8080`. El contenedor sirve el juego con nginx (gzip para JS/CSS, caché larga para imágenes y `no-cache` para código) en el **puerto 8080** y con usuario sin privilegios, compatible con OpenShift/Knative (nan.builders).
 
 ## Modo de pruebas / autoplay
 - Una partida: `?autoplay=1&hero=warrior&seed=1` → resultado en `#autoplay-result`.
