@@ -1,6 +1,7 @@
 import { resolveCard } from "../cards.js";
 import { BALANCE } from "../balance-config.js";
 import { esc } from "../ui.js";
+import { icon as ic } from "../icons.js";
 
 function discount(run) {
   return 1 - (run.forgeDiscount || 0);
@@ -30,7 +31,7 @@ export function forge(ctx) {
       const eq = equippedUids.has(inst.uid) ? `<span class="equipped-tag">Equipado</span>` : "";
       return `<div class="forge-item">
         <span>${card.icon} <strong>${esc(card.name)}</strong> <span class="muted">${esc(card.text)}</span> ${eq}</span>
-        <button class="btn small" data-improve="${inst.uid}" ${can ? "" : "disabled"}>Mejorar ${cost}🪙</button>
+        <button class="btn small" data-improve="${inst.uid}" ${can ? "" : "disabled"}>Mejorar ${cost}${ic("coin")}</button>
       </div>`;
     })
     .join("") || `<span class="muted">Nada que mejorar.</span>`;
@@ -42,7 +43,7 @@ export function forge(ctx) {
       const selected = selUid === inst.uid;
       const eq = equippedUids.has(inst.uid) ? `<span class="equipped-tag">Equipado</span>` : "";
       return `<button class="forge-eq ${selected ? "selected" : ""}" data-eqsel="${inst.uid}">
-        ${card.icon} ${esc(card.name)}${eq}${card.upgrade ? ` <span class="badge upgrade">⭐</span>` : ""}
+        ${card.icon} ${esc(card.name)}${eq}${card.upgrade ? ` <span class="badge upgrade">${ic("star")}</span>` : ""}
       </button>`;
     })
     .join("") || `<span class="muted">Sin equipo fusionable.</span>`;
@@ -55,7 +56,7 @@ export function forge(ctx) {
       const can = run.coins >= cost && selUid;
       return `<div class="forge-item ${selUid ? "" : "dim"}">
         <span>${card.icon} <strong>${esc(card.name)}</strong> <span class="muted">${esc(card.text)}</span></span>
-        <button class="btn small" data-effsel="${inst.uid}" ${can ? "" : "disabled"} title="${selUid ? "" : "Elige primero un equipo"}">Fusionar ${cost}🪙</button>
+        <button class="btn small" data-effsel="${inst.uid}" ${can ? "" : "disabled"} title="${selUid ? "" : "Elige primero un equipo"}">Fusionar ${cost}${ic("coin")}</button>
       </div>`;
     })
     .join("") || `<span class="muted">No tienes cartas de efecto en el mazo: consíguelas en el mercado (gemas 💎, runas 🔮, bendiciones 🙏, venenos 🧴…) y vuelve a la fragua para fusionarlas.</span>`;
@@ -73,9 +74,9 @@ export function forge(ctx) {
   const html = `
   <section class="screen forge">
     <header class="hud">
-      <span>🔨 Fragua</span>
+      <span>${ic("hammer")} Fragua</span>
       <span>${run.heroDef.icon} ${run.heroDef.name} · Nv ${run.level}</span>
-      <span>🪙 ${run.coins}</span>
+      <span>${ic("coin")} ${run.coins}</span>
     </header>
     <div class="shop-grid">
       <div class="shop-col">
@@ -90,7 +91,7 @@ export function forge(ctx) {
         <div class="forge-fx">${effects}</div>
       </div>
     </div>
-    <button class="btn primary" data-action="leave">Salir de la fragua</button>
+    <button class="btn primary" data-action="leave">${ic("arrowLeft")} Salir de la fragua</button>
     ${toast}
   </section>`;
   return {

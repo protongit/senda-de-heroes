@@ -1,5 +1,6 @@
 import { resolveCard, instanceKey } from "../cards.js";
 import { deckCardHTML } from "../ui.js";
+import { icon as ic } from "../icons.js";
 
 export function deck(ctx) {
   const { G } = ctx;
@@ -36,16 +37,16 @@ export function deck(ctx) {
   const html = `
   <section class="screen deck-view">
     <header class="hud">
-      <span>Mazo de ${run.heroDef.name}</span>
-      <span>${run.deck.length} cartas</span>
-      <span>Equipado: ${(run.loadout || []).length}</span>
+      <span class="hud-hero">${run.heroDef.icon} Mazo de ${run.heroDef.name}</span>
+      <span>${ic("cards")} ${run.deck.length} cartas</span>
+      <span>${ic("shield")} ${(run.loadout || []).length} en mesa</span>
     </header>
     ${section("Equipo", groups.equipment)}
     ${section("Habilidades", groups.skill)}
     ${section("Efectos", groups.effect)}
     ${section("Recursos", groups.resource)}
     ${section("Maldiciones", groups.curse)}
-    <button class="btn primary" data-action="back">Volver</button>
+    <button class="btn primary" data-action="back">${ic("arrowLeft")} Volver</button>
   </section>`;
   return {
     html,

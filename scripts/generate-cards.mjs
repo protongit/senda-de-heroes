@@ -2,6 +2,7 @@ import { writeFileSync, mkdirSync, existsSync, readFileSync } from "node:fs";
 import { CARDS } from "../js/cards.js";
 import { CHARACTERS } from "../js/characters.js";
 import { ENEMIES } from "../js/enemies.js";
+import { PERKS } from "../js/perks.js";
 
 const STYLE =
   "medieval fantasy trading card game art, painterly digital illustration, dramatic warm lighting, rich saturated colors, ornate decorative border, centered composition, high detail, no text, no watermark";
@@ -31,6 +32,24 @@ const PATH_PROMPTS = {
   treasure: "an ornate treasure chest overflowing with gold coins and glowing gems in a dark dungeon",
   forge: "a glowing blacksmith forge with an anvil, hammer and flying sparks in a stone workshop",
   challenge: "an ancient rune-covered wayshrine with a glowing magical portal in a misty forest, mysterious atmosphere",
+  menu: "an armored hero standing at the mouth of a stone archway on a mountain path, banner and distant castle in a violet dusk sky, embers drifting, epic scale",
+  victory: "a triumphant hero raising a glowing sword on a sunlit battlefield, scattered enemy banners and golden mist, hopeful dawn light, epic scale",
+  defeat: "a broken sword and torn cloak lying on a rain-soaked dark road at night, crows silhouetted against a blood-red haze, mournful atmosphere, epic scale",
+};
+
+// Medallones simbolicos de las ventajas: un solo objeto legible a ~150 px.
+const PERK_PROMPTS = {
+  perk_vigor: "a glowing ruby heart set into a sturdy iron breastplate, warm vital aura radiating",
+  perk_might: "a muscular armored forearm bending a steel horseshoe by sheer brute strength",
+  perk_arcana: "a stream of blue arcane light flowing between two open palms, spiraling runes",
+  perk_insight: "a sharp golden hawk eye above a fan of parchment cards, keen focus",
+  perk_guard: "a round steel shield bearing an engraved lighthouse sigil with a warding glow",
+  perk_brutality: "a notched blackened battle dagger dripping onto cracked stone",
+  perk_haggle: "a merchant's brass balance scale loaded with a pile of gold coins",
+  perk_smith: "a blacksmith hammer resting on an anvil with a glowing horseshoe, flying sparks",
+  perk_mending: "a gentle hand healing a wound with golden light and herbal leaves",
+  perk_venom: "a slender dagger coated in shimmering green venom, a single drop falling",
+  perk_speed: "a leather boot with small lightning feathers and motion blur streaks",
 };
 
 const CARD_PROMPTS = {
@@ -203,6 +222,11 @@ function buildManifest() {
   }
   for (const id of Object.keys(PATH_PROMPTS)) {
     addEntry({ id, group: "paths", file: `assets/paths/${id}.png`, prompt: PATH_PROMPTS[id], seed: 0, model: "flux-2-klein", size: "1024x640" });
+  }
+  for (const p of PERKS) {
+    const prompt = PERK_PROMPTS[p.id];
+    if (!prompt) continue;
+    addEntry({ id: p.id, group: "perks", file: `assets/perks/${p.id}.png`, prompt, seed: 0, model: "flux-2-klein", size: "1024x1024" });
   }
   return entries;
 }

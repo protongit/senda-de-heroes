@@ -1,5 +1,6 @@
 import { resolveCard } from "../cards.js";
 import { lootSlotHTML, miniCardHTML, esc } from "../ui.js";
+import { icon as ic } from "../icons.js";
 import { diffChallengeState } from "../run.js";
 import { revealItems } from "../fx.js";
 
@@ -141,7 +142,7 @@ export function challenge(ctx) {
       <span>${node.icon || "🎯"} ${esc(node.kind === "hunt" ? "Cacería" : node.kind === "puzzle" ? "Enigma" : node.kind === "risk" ? "Pacto" : "Prueba")}</span>
       <span>${esc(node.style || "")}</span>
       <span>${esc(G.run.heroDef.icon)} ${esc(G.run.heroDef.name)} · Nv ${G.run.level}</span>
-      <span>❤️ ${G.run.hp}/${G.run.maxHp}</span>
+      <span>${ic("heart")} ${G.run.hp}/${G.run.maxHp}</span>
     </header>
     <h2>${esc(title)}</h2>
     ${body}

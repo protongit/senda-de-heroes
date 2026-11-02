@@ -1249,5 +1249,131 @@
     "seed": 1113,
     "model": "flux-2-klein",
     "size": "1024x640"
+  },
+  {
+    "id": "menu",
+    "group": "paths",
+    "file": "assets/paths/menu.png",
+    "prompt": "an armored hero standing at the mouth of a stone archway on a mountain path, banner and distant castle in a violet dusk sky, embers drifting, epic scale",
+    "seed": 1139,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "victory",
+    "group": "paths",
+    "file": "assets/paths/victory.png",
+    "prompt": "a triumphant hero raising a glowing sword on a sunlit battlefield, scattered enemy banners and golden mist, hopeful dawn light, epic scale",
+    "seed": 1140,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "defeat",
+    "group": "paths",
+    "file": "assets/paths/defeat.png",
+    "prompt": "a broken sword and torn cloak lying on a rain-soaked dark road at night, crows silhouetted against a blood-red haze, mournful atmosphere, epic scale",
+    "seed": 1141,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "perk_vigor",
+    "group": "perks",
+    "file": "assets/perks/perk_vigor.png",
+    "prompt": "a glowing ruby heart set into a sturdy iron breastplate, warm vital aura radiating",
+    "seed": 1142,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "perk_might",
+    "group": "perks",
+    "file": "assets/perks/perk_might.png",
+    "prompt": "a muscular armored forearm bending a steel horseshoe by sheer brute strength",
+    "seed": 1143,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "perk_arcana",
+    "group": "perks",
+    "file": "assets/perks/perk_arcana.png",
+    "prompt": "a stream of blue arcane light flowing between two open palms, spiraling runes",
+    "seed": 1144,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "perk_insight",
+    "group": "perks",
+    "file": "assets/perks/perk_insight.png",
+    "prompt": "a sharp golden hawk eye above a fan of parchment cards, keen focus",
+    "seed": 1145,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "perk_guard",
+    "group": "perks",
+    "file": "assets/perks/perk_guard.png",
+    "prompt": "a round steel shield bearing an engraved lighthouse sigil with a warding glow",
+    "seed": 1146,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "perk_brutality",
+    "group": "perks",
+    "file": "assets/perks/perk_brutality.png",
+    "prompt": "a notched blackened battle dagger dripping onto cracked stone",
+    "seed": 1147,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "perk_haggle",
+    "group": "perks",
+    "file": "assets/perks/perk_haggle.png",
+    "prompt": "a merchant's brass balance scale loaded with a pile of gold coins",
+    "seed": 1148,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "perk_smith",
+    "group": "perks",
+    "file": "assets/perks/perk_smith.png",
+    "prompt": "a blacksmith hammer resting on an anvil with a glowing horseshoe, flying sparks",
+    "seed": 1149,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "perk_mending",
+    "group": "perks",
+    "file": "assets/perks/perk_mending.png",
+    "prompt": "a gentle hand healing a wound with golden light and herbal leaves",
+    "seed": 1150,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "perk_venom",
+    "group": "perks",
+    "file": "assets/perks/perk_venom.png",
+    "prompt": "a slender dagger coated in shimmering green venom, a single drop falling",
+    "seed": 1151,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "perk_speed",
+    "group": "perks",
+    "file": "assets/perks/perk_speed.png",
+    "prompt": "a leather boot with small lightning feathers and motion blur streaks",
+    "seed": 1152,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
   }
 ]

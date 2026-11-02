@@ -1,6 +1,7 @@
 import { CHARACTERS } from "../characters.js";
 import { ENEMIES } from "../enemies.js";
 import { portraitHTML } from "../ui.js";
+import { icon as ic } from "../icons.js";
 
 export function duelsetup(ctx) {
   const mode = ctx.payload.mode || "coop";
@@ -11,12 +12,12 @@ export function duelsetup(ctx) {
   const setup = G.duelSetup;
 
   const heroCards = Object.values(CHARACTERS)
-    .map((c) => {
+    .map((c, i) => {
       const on = setup.heroes.includes(c.id) ? "selected" : "";
-      return `<button class="hero-card ${on}" data-hero="${c.id}">
+      return `<button class="hero-card ${on}" data-hero="${c.id}" data-tilt style="--i:${i}">
         ${portraitHTML(c.icon, c.portrait, "hero-portrait")}
         <span class="hero-name">${c.name}</span>
-        <span class="hero-stats">❤️ ${c.base.hp} · 💪 ${c.base.str} · ${c.arcane ? c.energyPerRound + "✦" : "marcial"}</span>
+        <span class="hero-stats">${ic("heart")} ${c.base.hp} · ${ic("strength")} ${c.base.str} · ${c.arcane ? ic("bolt") + " " + c.energyPerRound : "marcial"}</span>
       </button>`;
     })
     .join("");
@@ -38,8 +39,8 @@ export function duelsetup(ctx) {
     <div class="hero-grid">${heroCards}</div>
     ${enemyPicker}
     <div class="map-actions">
-      <button class="btn primary" data-action="start" ${ready ? "" : "disabled"}>Comenzar</button>
-      <button class="btn" data-action="back">Volver</button>
+      <button class="btn primary" data-action="start" ${ready ? "" : "disabled"}>${ic("sword")} Comenzar</button>
+      <button class="btn" data-action="back">${ic("arrowLeft")} Volver</button>
     </div>
   </section>`;
   return {

@@ -1,6 +1,7 @@
 import { canEquip, cardRestriction } from "../engine.js";
 import { currentUnit, derivedEnergy } from "../duel.js";
-import { barHTML, handCardHTML, chipsHTML, marksChipsHTML, logHTML, miniCardHTML, portraitHTML } from "../ui.js";
+import { barHTML, handCardHTML, chipsHTML, marksChipsHTML, logHTML, miniCardHTML, portraitHTML, esc } from "../ui.js";
+import { icon } from "../icons.js";
 import { syncDuel, playCard as fxPlayCard } from "../fx.js";
 
 function unitPanel(unit, active, isEnemy) {
@@ -63,21 +64,23 @@ export function duelbattle(ctx) {
   const html = `
   <section class="screen battle">
     <header class="hud">
-      <span>Ronda ${d.round}</span>
+      <span class="hud-hero">${active.icon} ${esc(active.name)}</span>
+      <span>${icon("spark")} Ronda ${d.round}</span>
       <span>${d.mode === "coop" ? "Cooperativo vs IA" : "Competitivo 1v1"}</span>
-      <span>Turno: ${active.name}</span>
       ${energyHud}
-      ${active && active.side === "player" ? `<span>Acciones: ${active.actions}</span>` : ""}
+      ${active && active.side === "player" ? `<span>${icon("hourglass")} ${active.actions} acciones</span>` : ""}
     </header>
     <div class="battle-layout">
       <div class="battle-main">
+        <div class="arena-stage" style="--stage:url('${d.mode === "coop" && d.enemy ? `assets/paths/combat_${d.enemy.id}.png` : "assets/paths/combat.png"}')">
         <div class="arena arena-3">
           ${panels}
           ${enemyPanel}
         </div>
+        </div>
         <div class="hand">${hand}</div>
         <div class="battle-controls">
-          <button class="btn primary" data-action="end" ${activeIsPlayer ? "" : "disabled"}>${activeIsPlayer ? `Terminar turno (${active.name})` : "Turno de la IA..."}</button>
+          <button class="btn primary" data-action="end" ${activeIsPlayer ? "" : "disabled"}>${activeIsPlayer ? `Terminar turno (${esc(active.name)}) ${icon("hourglass")}` : "Turno de la IA..."}</button>
         </div>
       </div>
       ${logHTML(d.log, G.logHidden, d.players[0]?.icon || "⚔️", d.enemy?.icon || d.players[1]?.icon || "👹")}

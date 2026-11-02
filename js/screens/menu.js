@@ -1,23 +1,27 @@
 import { savedRunInfo } from "../save.js";
 import { esc } from "../ui.js";
+import { icon } from "../icons.js";
+import { accordion } from "../fx.js";
 
 export function menu(ctx) {
   const saved = savedRunInfo();
   const continueButton = saved
-    ? `<button class="btn primary" data-action="continue">Continuar partida
+    ? `<button class="btn primary" data-action="continue">${icon("scroll")} Continuar partida
         <span class="muted">${esc(saved.heroIcon)} ${esc(saved.heroName)} · Nv ${esc(saved.level)} · Paso ${esc(saved.depth + 1)}${saved.ascension ? ` · Senda ★${esc(saved.ascension + 1)}` : ""}</span>
       </button>`
     : "";
   const html = `
   <section class="screen menu">
+    <div class="menu-stage">
     <h1 class="title">Senda de Héroes</h1>
-    <p class="subtitle">Construye tu mazo, recorre la senda y derrota al Lich.</p>
+    <p class="subtitle">Construye tu mazo, recorre la senda y derrota al jefe final.</p>
     <div class="menu-actions">
       ${continueButton}
-      <button class="btn primary" data-action="solo">1 jugador</button>
-      <button class="btn" data-action="coop">Cooperativo (2P vs IA)</button>
-      <button class="btn" data-action="versus">Competitivo (1v1)</button>
-      <button class="btn" data-action="help">Cómo jugar</button>
+      <button class="btn primary" data-action="solo">${icon("sword")} 1 jugador</button>
+      <button class="btn" data-action="coop">${icon("shield")} Cooperativo<span class="muted">2 jugadores vs la IA</span></button>
+      <button class="btn" data-action="versus">${icon("swords")} Competitivo<span class="muted">1 contra 1</span></button>
+      <button class="btn ghost" data-action="help">${icon("book")} Cómo jugar</button>
+    </div>
     </div>
     <div class="help hidden" data-help>
       <h3>Turno y recursos</h3>
@@ -66,7 +70,8 @@ export function menu(ctx) {
       root.querySelector('[data-action="coop"]').onclick = () => ctx.go("duelsetup", { mode: "coop" });
       root.querySelector('[data-action="versus"]').onclick = () => ctx.go("duelsetup", { mode: "versus" });
       root.querySelector('[data-action="help"]').onclick = () => {
-        root.querySelector("[data-help]").classList.toggle("hidden");
+        const panel = root.querySelector("[data-help]");
+        accordion(panel, panel.classList.contains("hidden"));
       };
     },
   };
