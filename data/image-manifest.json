@@ -1249,5 +1249,32 @@
     "seed": 1113,
     "model": "flux-2-klein",
     "size": "1024x640"
+  },
+  {
+    "id": "menu",
+    "group": "paths",
+    "file": "assets/paths/menu.png",
+    "prompt": "an armored hero standing at the mouth of a stone archway on a mountain path, banner and distant castle in a violet dusk sky, embers drifting, epic scale",
+    "seed": 1139,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "victory",
+    "group": "paths",
+    "file": "assets/paths/victory.png",
+    "prompt": "a triumphant hero raising a glowing sword on a sunlit battlefield, scattered enemy banners and golden mist, hopeful dawn light, epic scale",
+    "seed": 1140,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "defeat",
+    "group": "paths",
+    "file": "assets/paths/defeat.png",
+    "prompt": "a broken sword and torn cloak lying on a rain-soaked dark road at night, crows silhouetted against a blood-red haze, mournful atmosphere, epic scale",
+    "seed": 1141,
+    "model": "flux-2-klein",
+    "size": "1024x640"
   }
 ]

@@ -1,15 +1,16 @@
 import { CHARACTERS } from "../characters.js";
 import { portraitHTML } from "../ui.js";
+import { icon } from "../icons.js";
 
 export function select(ctx) {
   const cards = Object.values(CHARACTERS)
-    .map((c) => {
-      const energy = c.arcane ? `${c.energyPerRound}✦ energía` : "sin energía";
-      return `<button class="hero-card" data-hero="${c.id}">
+    .map((c, i) => {
+      const energy = c.arcane ? `${icon("bolt")} ${c.energyPerRound} energía` : `${icon("shield")} sin energía`;
+      return `<button class="hero-card" data-hero="${c.id}" data-tilt style="--i:${i}">
         ${portraitHTML(c.icon, c.portrait, "hero-portrait")}
         <span class="hero-name">${c.name}</span>
         <span class="hero-title">${c.title}</span>
-        <span class="hero-stats">❤️ ${c.base.hp} · 💪 ${c.base.str} · ${energy}</span>
+        <span class="hero-stats">${icon("heart")} ${c.base.hp} · ${icon("strength")} ${c.base.str} · ${energy}</span>
         <span class="hero-tags">${c.arcane ? "Arcano" : "Marcial"} · ${c.capacity.allowedArmor.join("/")}</span>
       </button>`;
     })
@@ -18,7 +19,7 @@ export function select(ctx) {
   <section class="screen select">
     <h2>Elige tu héroe</h2>
     <div class="hero-grid">${cards}</div>
-    <button class="btn" data-action="back">Volver</button>
+    <button class="btn" data-action="back">${icon("arrowLeft")} Volver</button>
   </section>`;
   return {
     html,

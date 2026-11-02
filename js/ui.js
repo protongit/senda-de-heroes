@@ -1,4 +1,5 @@
 import { MARK_META } from "./elements.js";
+import { icon } from "./icons.js";
 
 export function esc(str) {
   return String(str).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -22,33 +23,33 @@ export function cardArtHTML(card, cls) {
 
 export function badgesHTML(card) {
   let html = "";
-  if (card.upgrade) html += `<span class="badge upgrade" title="Carta mejorada">⭐</span>`;
-  if (card.subtype === "relic") html += `<span class="badge relic" title="Reliquia: una activa">Reliquia</span>`;
+  if (card.upgrade) html += `<span class="badge upgrade" title="Carta mejorada">${icon("star")}</span>`;
+  if (card.subtype === "relic") html += `<span class="badge relic" title="Reliquia: una activa">${icon("crown")}</span>`;
   if (card.fused) html += `<span class="badge fused" title="${esc(card.fused.name)}: ${esc(card.fused.text)}">${card.fused.icon}</span>`;
-  return html;
+  return html ? `<span class="badges">${html}</span>` : "";
 }
 
 export function handCardHTML(card, opts = {}) {
   const disabled = opts.disabled ? "disabled" : "";
   const reason = opts.reason ? `<div class="card-reason">${esc(opts.reason)}</div>` : "";
-  const cost = opts.showCost ? `<span class="card-cost">${card.cost}✦</span>` : "";
-  const restriction = opts.restriction ? `<span class="card-restriction">⚠ ${esc(opts.restriction)}</span>` : "";
-  return `<button class="card type-${card.type} ${cardRarityClass(card)} ${disabled}" data-card-id="${card.id}" ${disabled}>
+  const cost = opts.showCost ? `<span class="card-cost">${card.cost}${icon("bolt")}</span>` : "";
+  const restriction = opts.restriction ? `<span class="card-restriction">${esc(opts.restriction)}</span>` : "";
+  return `<button class="card type-${card.type} ${cardRarityClass(card)} ${disabled}" data-card-id="${card.id}" data-tilt ${disabled}>
     ${cost}
     ${cardArtHTML(card)}
     <span class="card-name">${esc(card.name)}</span>
     <span class="card-text">${esc(card.text)}</span>
     ${badgesHTML(card)}
     ${restriction}
-    <span class="card-value">${card.value}🪙</span>
+    <span class="card-value">${card.value}${icon("coin")}</span>
     ${reason}
   </button>`;
 }
 
 const MOD_META = {
-  damage: { icon: "🗡️", label: "daño" },
-  block: { icon: "🛡️", label: "bloqueo" },
-  energy: { icon: "✦", label: "energía" },
+  damage: { icon: "🗡️", ic: "sword", label: "daño" },
+  block: { icon: "🛡️", ic: "shield", label: "bloqueo" },
+  energy: { icon: "✦", ic: "bolt", label: "energía" },
 };
 
 function modLine(kind, value) {
@@ -70,7 +71,7 @@ export function modsChipHTML(state, kind) {
   if (!sources.length) return "";
   const total = state.loadout.reduce((s, c) => s + ((c.mods && c.mods[kind]) || 0), 0);
   const tip = `${meta.icon} +${total} ${meta.label}\n${sources.join("\n")}`;
-  return `<span class="chip ${kind === "damage" ? "dmg" : "block"}" tabindex="0" data-tip="${esc(tip)}">${meta.icon} +${total}</span>`;
+  return `<span class="chip ${kind === "damage" ? "dmg" : "block"}" tabindex="0" data-tip="${esc(tip)}">${icon(meta.ic)} +${total}</span>`;
 }
 
 // Tooltip de una carta de equipo en la mesa: rasgos + bonificadores y su origen
@@ -103,7 +104,7 @@ export function miniCardHTML(card) {
 }
 
 export function deckCardHTML(card, count) {
-  const cost = card.cost > 0 ? `<span class="card-cost">${card.cost}✦</span>` : "";
+  const cost = card.cost > 0 ? `<span class="card-cost">${card.cost}${icon("bolt")}</span>` : "";
   const restriction = card.reqStr || card.tags.includes("twoHanded") || card.tags.includes("bow")
     ? `<span class="card-restriction">${esc(card.reqStr ? `Fuerza ${card.reqStr}` : card.tags.includes("bow") ? "Arco a 2 manos" : "A dos manos")}</span>`
     : "";
@@ -127,10 +128,14 @@ export function lootSlotHTML(card, index = 0, extra = "") {
 }
 
 export function barHTML(label, cur, max, cls) {
-  const pct = max > 0 ? Math.max(0, Math.min(100, (cur / max) * 100)) : 0;
-  return `<div class="bar ${cls || ""}">
-    <div class="bar-fill" style="width:${pct}%"></div>
-    <span class="bar-label">${label}: ${cur}/${max}</span>
+  const pct = max > 0 ? Math.max(0, Math.min(1, cur / max)) : 0;
+  const shown = Math.max(0, Math.round(cur));
+  // El color comunica la urgencia antes que el número: verde >50 %, ámbar >25 %, rojo por debajo.
+  const tier = cls === "hp" ? (pct > 0.5 ? "" : pct > 0.25 ? " hp-warn" : " hp-crit") : "";
+  return `<div class="bar ${cls || ""}${tier}" style="--p:${pct.toFixed(4)}">
+    <div class="bar-ghost"></div>
+    <div class="bar-fill" style="width:${(pct * 100).toFixed(2)}%"></div>
+    <span class="bar-label">${label}: ${shown}/${max}</span>
   </div>`;
 }
 
@@ -144,12 +149,12 @@ export function portraitHTML(icon, portrait, cls) {
 
 export function chipsHTML(unit) {
   const chips = [];
-  if (unit.downed) chips.push(`<span class="chip downed">💀 Caído</span>`);
-  if (unit.block > 0) chips.push(`<span class="chip block">🛡️ ${unit.block}</span>`);
-  if (unit.strength > 0) chips.push(`<span class="chip str">💪 ${unit.strength}</span>`);
-  if (unit.vulnerable > 0) chips.push(`<span class="chip vuln">🔻 ${unit.vulnerable}</span>`);
-  if (unit.guard > 0) chips.push(`<span class="chip guard">🛡️ Cubriendo</span>`);
-  if (unit.threat > 0) chips.push(`<span class="chip threat">🎯 ${unit.threat}</span>`);
+  if (unit.downed) chips.push(`<span class="chip downed">${icon("skull")} Caído</span>`);
+  if (unit.block > 0) chips.push(`<span class="chip block">${icon("shield")} ${unit.block}</span>`);
+  if (unit.strength > 0) chips.push(`<span class="chip str">${icon("strength")} ${unit.strength}</span>`);
+  if (unit.vulnerable > 0) chips.push(`<span class="chip vuln">${icon("vulnerable")} ${unit.vulnerable}</span>`);
+  if (unit.guard > 0) chips.push(`<span class="chip guard">${icon("shield")} Cubriendo</span>`);
+  if (unit.threat > 0) chips.push(`<span class="chip threat">${icon("target")} ${unit.threat}</span>`);
   return chips.join("");
 }
 
@@ -229,7 +234,9 @@ export function logHTML(log, hidden, heroIcon = "⚔️", enemyIcon = "👹") {
     })
     .join("");
   return `<aside class="combat-log ${hidden ? "hidden" : ""}">
-    <button class="btn small ghost log-toggle" data-action="toggle-log" title="Mostrar/ocultar log">📜</button>
+    <button class="btn small ghost log-toggle" data-action="toggle-log" aria-expanded="${hidden ? "false" : "true"}" title="Mostrar/ocultar log">
+      <span class="log-toggle-label">${icon("scroll")} Registro</span>${icon("chevron", "log-chev")}
+    </button>
     <div class="log-body">${rows}</div>
   </aside>`;
 }

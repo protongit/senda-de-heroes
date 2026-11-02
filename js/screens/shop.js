@@ -3,15 +3,16 @@ import { price, sellPrice } from "../shop.js";
 import { MARKET_TIER_LABEL, healerPrices } from "../run.js";
 import { BALANCE } from "../balance-config.js";
 import { cardArtHTML, badgesHTML, esc, cardTip, barHTML } from "../ui.js";
+import { icon as ic } from "../icons.js";
 
 function marketItemHTML(card, extra) {
   const can = true;
   return `<div class="shop-item">
     ${cardArtHTML(card, "shop-art")}
     <div class="shop-info">
-      <strong>${card.name}</strong> ${extra || ""}
+      <span class="shop-item-name"><strong>${card.name}</strong> ${extra || ""}</span>
       <span class="muted">${card.text}</span>
-      <span>${price(card)} 🪙</span>
+      <span class="shop-price">${price(card)}${ic("coin")}</span>
     </div>
     <button class="btn small" data-buy="${card.id}" ${can ? "" : "disabled"}>Comprar</button>
   </div>`;
@@ -45,7 +46,7 @@ export function shop(ctx) {
       const eq = equipped ? ` <span class="equipped-tag">Equipado${equipped > 1 ? ` x${equipped}` : ""}</span>` : "";
       return `<div class="sell-item" tabindex="0" data-tip="${esc(cardTip(card))}">
         <span>${card.icon} ${esc(card.name)} <span class="muted">×${uids.length}</span>${eq}${badgesHTML(card)}</span>
-        <button class="btn small ghost" data-sell="${uids[0]}">Vender +${sellPrice(card, run)}🪙</button>
+        <button class="btn small ghost" data-sell="${uids[0]}">Vender +${sellPrice(card, run)}${ic("coin")}</button>
       </div>`;
     })
     .join("");
@@ -58,7 +59,7 @@ export function shop(ctx) {
       const card = resolveCard(inst);
       return `<div class="shop-service-row">
         <span>${card.icon} <strong>${esc(card.name)}</strong> <span class="muted">${esc(card.text)}</span></span>
-        <button class="btn small" data-exorcise="${inst.uid}" ${run.coins >= BALANCE.curseRemovalCost ? "" : "disabled"}>Exorcizar ${BALANCE.curseRemovalCost}🪙</button>
+        <button class="btn small" data-exorcise="${inst.uid}" ${run.coins >= BALANCE.curseRemovalCost ? "" : "disabled"}>Exorcizar ${BALANCE.curseRemovalCost}${ic("coin")}</button>
       </div>`;
     })
     .join("");
@@ -68,8 +69,8 @@ export function shop(ctx) {
         <p class="muted">Cura tus heridas por monedas.</p>
         <div class="heal-hp">${barHTML("Vida", run.hp, run.maxHp, "hp")}</div>
         <div class="shop-service-actions">
-          <button class="btn small" data-heal="small" ${run.coins >= heal.smallCost && heal.missing > 0 ? "" : "disabled"}>Venda · +${heal.smallAmount}❤️ · ${heal.smallCost}🪙</button>
-          <button class="btn small" data-heal="full" ${run.coins >= heal.fullCost && heal.missing > 0 ? "" : "disabled"}>Cura completa · +${heal.fullAmount}❤️ · ${heal.fullCost}🪙</button>
+          <button class="btn small" data-heal="small" ${run.coins >= heal.smallCost && heal.missing > 0 ? "" : "disabled"}>Venda · +${heal.smallAmount}${ic("heart")} · ${heal.smallCost}${ic("coin")}</button>
+          <button class="btn small" data-heal="full" ${run.coins >= heal.fullCost && heal.missing > 0 ? "" : "disabled"}>Cura completa · +${heal.fullAmount}${ic("heart")} · ${heal.fullCost}${ic("coin")}</button>
         </div>
       </div>`
     : "";
@@ -90,9 +91,9 @@ export function shop(ctx) {
   const html = `
   <section class="screen shop">
     <header class="hud">
-      <span>🛒 Mercader</span>
+      <span>${ic("bag")} Mercader</span>
       <span>${run.heroDef.icon} ${run.heroDef.name} · Nv ${run.level}</span>
-      <span>🪙 ${run.coins}</span>
+      <span>${ic("coin")} ${run.coins}</span>
     </header>
     <div class="shop-grid">
       <div class="shop-col">

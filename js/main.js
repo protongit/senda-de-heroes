@@ -47,7 +47,8 @@ import { saveRun, loadRun } from "./save.js";
 import { initTooltips } from "./tooltip.js";
 import { createDuel, playDuelCard, endDuelTurn } from "./duel.js";
 import { evaluateCombatOutcome, puzzleSolved } from "./challenges.js";
-import { koCombatant, prefersReducedMotion } from "./fx.js";
+import { koCombatant, prefersReducedMotion, initAmbience, initPressFeedback, initTilt } from "./fx.js";
+import { injectSprite } from "./icons.js";
 
 const VIEWS = { menu, select, senda, battle, reward, shop, forge, perk, deck, gameover, duelsetup, duelbattle, challenge };
 
@@ -131,6 +132,12 @@ function go(view, payload) {
     const root = app.firstElementChild;
     if (root) root.classList.toggle("screen-enter", viewChanged);
     if (bind) bind(app);
+    // los listeners viven en el contenedor que survive al re-render;
+    // tras cambiar de pantalla hay que volver a asegurar el feedback táctil
+    if (viewChanged) {
+      initPressFeedback(app);
+      initTilt(app);
+    }
     lastRenderedView = view;
   } catch (err) {
     app.innerHTML = `<section class="screen screen-enter"><h2>Error en la vista "${view}"</h2><pre style="white-space:pre-wrap;color:#f0a0a0">${String(err && err.stack ? err.stack : err)}</pre></section>`;
@@ -817,6 +824,11 @@ window.addEventListener("error", (e) => {
   if (app) app.innerHTML = `<section class="screen"><h2>Error</h2><pre style="white-space:pre-wrap;color:#f0a0a0">${e.message}\n${e.error && e.error.stack ? e.error.stack : ""}</pre></section>`;
 });
 document.addEventListener("DOMContentLoaded", () => {
+  injectSprite();
+  initAmbience();
+  const app = document.getElementById("app");
+  initPressFeedback(app);
+  initTilt(app);
   initTooltips();
   boot();
 });

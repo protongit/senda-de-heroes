@@ -1,6 +1,10 @@
 import { derivedMods, canEquip, cardRestriction, intentPreview, reactionMatches } from "../engine.js";
 import { barHTML, handCardHTML, chipsHTML, effectsChipsHTML, marksChipsHTML, modsChipHTML, tableEffectsHTML, logHTML, miniCardHTML, portraitHTML, esc } from "../ui.js";
-import { syncCombat, playCard as fxPlayCard } from "../fx.js";
+import { icon } from "../icons.js";
+import { syncCombat, playCard as fxPlayCard, enemyActed } from "../fx.js";
+
+// Arte del encuentro: cada enemigo tiene su escena; si falta, el degradado CSS.
+const stageArt = (enemyDef) => `assets/paths/combat_${enemyDef.id}.png`;
 
 export function battle(ctx) {
   const { G } = ctx;
@@ -69,9 +73,9 @@ export function battle(ctx) {
     ? s.loadout.map(miniCardHTML).join("")
     : `<span class="muted">Sin equipo en la mesa</span>`;
 
-  const energyHud = hero.arcane ? `<span class="energy">✦ ${hero.energy}/${hero.energyPerRound + mods.energy}</span>` : "";
+  const energyHud = hero.arcane ? `<span class="energy">${icon("bolt")} ${hero.energy}/${hero.energyPerRound + mods.energy}</span>` : "";
   const intentChip = !reacting && intent
-    ? `<div class="intent-chip">Prepara: ${intent.move.icon} ${esc(intent.move.name)}${intent.damage > 0 ? ` · ≈${intent.damage}⚔️` : ""}</div>`
+    ? `<div class="intent-chip">${icon("hourglass")} Prepara: ${intent.move.icon} ${esc(intent.move.name)}${intent.damage > 0 ? ` · ≈${intent.damage} de daño` : ""}</div>`
     : "";
   const reactionBanner = reacting && intent
     ? `<div class="intent-banner">⚔️ ${esc(s.enemyDef.name)} prepara ${intent.move.icon} <strong>${esc(intent.move.name)}</strong>${
@@ -142,16 +146,17 @@ export function battle(ctx) {
   const html = `
   <section class="screen battle">
     <header class="hud">
-      <span>Ronda ${s.round}</span>
-      <span>${run.heroDef.icon} ${run.heroDef.name} Nv ${run.level}</span>
+      <span class="hud-hero">${run.heroDef.icon} ${esc(run.heroDef.name)} · Nv ${run.level}</span>
+      <span>${icon("spark")} Ronda ${s.round}</span>
       ${energyHud}
-      <span>Acciones: ${hero.actions}${hero.actionDebt ? ` (deuda: ${hero.actionDebt})` : ""}</span>
-      <span>🪙 ${run.coins}</span>
+      <span>${icon("hourglass")} ${hero.actions} acciones${hero.actionDebt ? ` · deuda ${hero.actionDebt}` : ""}</span>
+      <span>${icon("coin")} ${run.coins}</span>
     </header>
 
     ${challengeBanner}
     <div class="battle-layout">
       <div class="battle-main">
+        <div class="arena-stage" style="--stage:url('${stageArt(s.enemyDef)}')">
         <div class="arena">
           <div class="enemy-panel ${enemyActive ? "active-combatant" : ""}" data-combatant="enemy">
             <div class="enemy-head">
@@ -182,6 +187,7 @@ export function battle(ctx) {
             ${tableEffectsHTML(s.effects, "hero") ? `<div class="loadout"><span class="loadout-title">Efectos activos</span>${tableEffectsHTML(s.effects, "hero")}</div>` : ""}
           </div>
         </div>
+        </div>
 
         ${enemyTurnView}
         ${reactionBanner}
@@ -190,12 +196,12 @@ export function battle(ctx) {
         <div class="battle-controls">
           ${
             enemyDone
-              ? `<button class="btn primary continue-btn" data-action="continue">Continuar ▶<span class="continue-counter">10</span></button>`
+              ? `<button class="btn primary continue-btn" data-action="continue">Continuar ${icon("arrowRight")}<span class="continue-counter">10</span></button>`
               : reacting
-                ? `<button class="btn primary" data-action="resolve">No reaccionar ▶</button>`
-                : `<button class="btn primary" data-action="end">Terminar turno</button>`
+                ? `<button class="btn primary" data-action="resolve">No reaccionar ${icon("arrowRight")}</button>`
+                : `<button class="btn primary" data-action="end">Terminar turno ${icon("hourglass")}</button>`
           }
-          <button class="btn" data-action="deck">Ver mazo (${s.deck.draw.length}/${s.deck.discard.length}${s.exhaustedUids.length ? ` · ${s.exhaustedUids.length} agotada${s.exhaustedUids.length > 1 ? "s" : ""}` : ""})</button>
+          <button class="btn" data-action="deck">${icon("cards")} Ver mazo (${s.deck.draw.length}/${s.deck.discard.length}${s.exhaustedUids.length ? ` · ${s.exhaustedUids.length} agotada${s.exhaustedUids.length > 1 ? "s" : ""}` : ""})</button>
         </div>
       </div>
       ${logHTML(s.log, G.logHidden, run.heroDef.icon, s.enemyDef.icon)}
@@ -206,6 +212,7 @@ export function battle(ctx) {
     html,
     bind(root) {
       syncCombat(s, root);
+      enemyActed(root, s.enemyTurnSummary);
       if (enemyDone) {
         let left = 10;
         const counterEl = root.querySelector(".continue-counter");

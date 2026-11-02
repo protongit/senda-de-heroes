@@ -29,8 +29,10 @@ Guerrero, Enano (marciales), Hechicera y Elfa (arcanas).
 Cada partida genera una senda distinta. **No se muestra el recorrido:** en cada paso el jugador **elige entre dos opciones** (combate, tienda, tesoro o fragua) y avanza hasta el jefe final. En los últimos pasos aparece un jefe intermedio aleatorio y, al final, un jefe final de la bolsa sin repetición.
 
 ## Interfaz
-- Cartas grandes en la mano (≈200 px) y en la vista de mazo (≈190 px), con insignias de ⭐ mejorada y 🧉 efecto fusionado.
-- **Log de combate lateral**, con la **última acción al principio**, ocultable.
+- Sistema visual documentado en [`docs/UI-GUIDE.md`](./docs/UI-GUIDE.md): tipografías self-hosted, iconografía SVG para la UI (el emoji queda solo para contenido), tokens de motion y reglas de animación (transform/opacity, disparos únicos, `prefers-reduced-motion`).
+- Cartas grandes en la mano (≈200 px) y en la vista de mazo (≈190 px), con insignias SVG de mejorada (estrella) y reliquia (corona); el efecto fusionado conserva su icono de contenido.
+- **Barras de vida** con tinte por porcentaje (verde → ámbar → rojo) y estela de daño; números flotantes y sacudida al recibir golpes.
+- **Log de combate lateral**, con la **última acción al principio**, ocultable mediante el botón «Registro».
 - Chips de estado activos (bloqueo, fuerza, vulnerable, efectos con rondas restantes) para héroe y enemigo.
 - Restricciones visibles en cada carta (solo arcanos, fuerza, a dos manos, arco…).
 

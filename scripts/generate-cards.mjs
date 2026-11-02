@@ -31,6 +31,9 @@ const PATH_PROMPTS = {
   treasure: "an ornate treasure chest overflowing with gold coins and glowing gems in a dark dungeon",
   forge: "a glowing blacksmith forge with an anvil, hammer and flying sparks in a stone workshop",
   challenge: "an ancient rune-covered wayshrine with a glowing magical portal in a misty forest, mysterious atmosphere",
+  menu: "an armored hero standing at the mouth of a stone archway on a mountain path, banner and distant castle in a violet dusk sky, embers drifting, epic scale",
+  victory: "a triumphant hero raising a glowing sword on a sunlit battlefield, scattered enemy banners and golden mist, hopeful dawn light, epic scale",
+  defeat: "a broken sword and torn cloak lying on a rain-soaked dark road at night, crows silhouetted against a blood-red haze, mournful atmosphere, epic scale",
 };
 
 const CARD_PROMPTS = {

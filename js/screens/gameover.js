@@ -1,4 +1,5 @@
 import { esc } from "../ui.js";
+import { icon as ic } from "../icons.js";
 import { getEnemy } from "../enemies.js";
 
 export function gameover(ctx) {
@@ -8,7 +9,7 @@ export function gameover(ctx) {
   const nextAscension = run ? (run.ascension || 0) + 2 : 2;
   const finalBossName = run && run.finalBossId ? getEnemy(run.finalBossId).name : "el guardián de la senda";
   const summary = run
-    ? `<p class="muted">${run.heroDef.icon} ${run.heroDef.name} · Nivel ${run.level} · Senda ★${(run.ascension || 0) + 1} · ❤️ ${run.hp}/${run.maxHp} · 🪙 ${run.coins} · ${run.deck.length} cartas</p>`
+    ? `<p class="muted">${run.heroDef.icon} ${run.heroDef.name} · Nivel ${run.level} · Senda ★${(run.ascension || 0) + 1} · ${ic("heart")} ${run.hp}/${run.maxHp} · ${ic("coin")} ${run.coins} · ${ic("cards")} ${run.deck.length} cartas</p>`
     : "";
 
   const morality = run && run.morality
@@ -25,19 +26,19 @@ export function gameover(ctx) {
     choices = `
     <h2>¿Qué quieres hacer ahora?</h2>
     <div class="options">
-      <button class="option-card" data-action="continue">
-        <span class="option-icon">⭐</span>
+      <button class="option-card" data-action="continue" data-tilt>
+        <span class="option-icon">${ic("star")}</span>
         <span class="option-label">Continuar → Senda ★${nextAscension}</span>
         <span class="option-hint">Conservas mazo, equipo, nivel, perks y monedas · te curas del todo · los enemigos serán un 15% más poderosos</span>
       </button>
-      <button class="option-card" data-action="menu">
-        <span class="option-icon">🚪</span>
+      <button class="option-card" data-action="menu" data-tilt>
+        <span class="option-icon">${ic("door")}</span>
         <span class="option-label">Volver al menú</span>
         <span class="option-hint">Abandona la partida</span>
       </button>
     </div>`;
   } else {
-    choices = `<button class="btn primary" data-action="menu">Volver al menú</button>`;
+    choices = `<button class="btn primary" data-action="menu">${ic("arrowLeft")} Volver al menú</button>`;
   }
 
   const html = `
