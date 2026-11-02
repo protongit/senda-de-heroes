@@ -1263,7 +1263,7 @@
     "id": "victory",
     "group": "paths",
     "file": "assets/paths/victory.png",
-    "prompt": "a triumphant hero raising a glowing sword on a sunlit battlefield, scattered enemy banners and golden mist, hopeful dawn light, epic scale",
+    "prompt": "a radiant golden crown resting on an ancient stone victory monument on a hilltop, sunlit dawn sky with god rays, scattered banners and drifting light motes, no people, no human figures, no characters, hopeful atmosphere, epic scale",
     "seed": 1140,
     "model": "flux-2-klein",
     "size": "1024x640"

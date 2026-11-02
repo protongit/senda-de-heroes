@@ -337,6 +337,13 @@ pre { color: var(--text); white-space: pre-wrap; }
   from { opacity: 0; transform: translate3d(0, 10px, 0); }
   to { opacity: 1; transform: none; }
 }
+/* game over: entrada sin transform — un valor rellenado (aunque sea identity)
+   convierte la sección en bloque contenedor y ancla al viewport los fondos fixed */
+.gameover.screen-enter { animation-name: screen-fade; }
+@keyframes screen-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
 /* ---------- HUD ---------- */
 .hud {
@@ -371,6 +378,7 @@ pre { color: var(--text); white-space: pre-wrap; }
 /* ---------- panel ---------- */
 .panel,
 .chronicle,
+.go-panel,
 .enemy-panel,
 .hero-panel,
 .combat-log,
@@ -1653,18 +1661,76 @@ pre { color: var(--text); white-space: pre-wrap; }
   background: radial-gradient(ellipse at center, transparent 24%, #1a0308d6 76%, #090103f0 100%);
 }
 .gameover.win::before { background-image: var(--art-victory); }
-/* el arte de victoria es muy luminoso: sin este velo el texto se lava */
-.gameover.win::after { background: radial-gradient(ellipse at 50% 42%, #150d02a6 0%, #2c1c05d1 55%, #0c0802f5 100%); }
+/* velo suave: el arte es luminoso pero el texto ya vive sobre paneles y sombras */
+.gameover.win::after { background: radial-gradient(ellipse at 50% 36%, #150d022e 0%, #2c1c058c 58%, #0c0802e6 100%); }
 .gameover.win p,
 .gameover.win h2 { text-shadow: 0 1px 6px #000, 0 0 18px #000000d9; }
+
+/* título: letra a letra, golpe en la derrota / ascenso dorado en la victoria */
+.go-stage { position: relative; display: inline-block; padding: 10px 30px; }
 .gameover-title {
-  animation: bloom 680ms var(--ease-out) both;
-  font-size: clamp(2.1rem, 6.4vw, 3.9rem);
-  color: #ffe6ac;
+  font-size: clamp(2.4rem, 7.6vw, 4.6rem);
+  color: var(--gold-bright);
   text-shadow: 0 3px 0 #2b1706, 0 0 40px #e6bd6b66;
+  letter-spacing: 0.02em;
 }
-.gameover.lose .gameover-title { color: #ffa79d; text-shadow: 0 3px 0 #00000088, 0 0 36px #df574a66; }
-.gameover .options { animation: screen-in 600ms var(--ease-out) both 260ms; }
+.gameover.lose .gameover-title {
+  color: #ffb4ab;
+  text-shadow: 0 3px 0 #1a0308, 0 0 26px #df574a99, 0 6px 24px #000000b3;
+}
+.go-ch { display: inline-block; will-change: transform, opacity; }
+.go-ch.sp { width: 0.32em; }
+.gameover.win .go-ch { animation: go-rise 560ms var(--ease-out) both; animation-delay: calc(var(--i) * 45ms); }
+.gameover.lose .go-ch { animation: go-slam 640ms cubic-bezier(0.5, 0, 0.75, 0) both; animation-delay: calc(var(--i) * 55ms); }
+
+/* onda de choque del impacto */
+.go-shock {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  width: 130px;
+  height: 130px;
+  margin: -65px 0 0 -65px;
+  border-radius: 50%;
+  border: 3px solid var(--gold-bright);
+  opacity: 0;
+  pointer-events: none;
+}
+.gameover.lose .go-shock { border-color: #ff6b5f; box-shadow: 0 0 34px #df574a66, inset 0 0 24px #df574a3d; animation: go-shockwave 900ms var(--ease-out) both 660ms; }
+.gameover.win .go-shock { box-shadow: 0 0 34px #e6bd6b66, inset 0 0 24px #e6bd6b3d; animation: go-shockwave 900ms var(--ease-out) both 620ms; }
+
+/* rayos del fondo de victoria (se asientan y quedan: un solo disparo) */
+.go-rays {
+  position: absolute;
+  inset: -180% -90%;
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
+  background: repeating-conic-gradient(from 0deg at 50% 50%, #e6bd6b30 0deg 6deg, transparent 6deg 22deg);
+  -webkit-mask: radial-gradient(closest-side, #000 6%, transparent 58%);
+  mask: radial-gradient(closest-side, #000 6%, transparent 58%);
+}
+.gameover.win .go-rays { animation: go-rays 1.5s var(--ease-out) both 320ms; }
+
+/* partículas de un solo disparo (las genera gameoverFx) */
+.go-p { position: absolute; left: var(--x); width: var(--sz); height: var(--sz); border-radius: 50%; pointer-events: none; opacity: 0; }
+.go-p.ember { top: -8px; background: radial-gradient(circle, #ffb27a 0%, #df574a00 70%); animation: go-fall var(--t) linear both var(--dl); }
+.go-p.mote { bottom: -8px; background: radial-gradient(circle, #fff3cf 0%, #e6bd6b00 70%); animation: go-lift var(--t) var(--ease-out) both var(--dl); }
+
+/* legibilidad: el contenido se asienta sobre paneles, no sobre el arte */
+.go-sub {
+  color: #f5ecd9;
+  font-size: clamp(1rem, 2.8vw, 1.15rem);
+  text-shadow: 0 1px 4px #000d, 0 0 16px #000000b3;
+  margin: 6px 0 16px;
+  animation: card-up 520ms var(--ease-out) both 780ms;
+}
+.gameover .go-panel { max-width: 760px; margin: 0 auto 14px; padding: 12px 18px; text-align: center; animation: card-up 520ms var(--ease-out) both 920ms; }
+.gameover .go-panel p { margin: 4px 0; }
+.gameover .go-panel .muted { color: #d8cadd; font-size: 0.95rem; }
+.gameover .chronicle { animation: card-up 520ms var(--ease-out) both 1040ms; }
+.gameover .go-actions { animation: card-up 520ms var(--ease-out) both 1160ms; }
+.gameover .go-actions .options { justify-content: center; }
 
 /* ---------- overlays ---------- */
 [data-tip] { outline: none; }
@@ -1869,6 +1935,37 @@ pre { color: var(--text); white-space: pre-wrap; }
   from { opacity: 0; }
   to { opacity: 1; }
 }
+/* game over: la derrota "cae" con peso; la victoria asciende y se dora */
+@keyframes go-slam {
+  0% { opacity: 0; transform: translate3d(0, -160%, 0) scale(2.8) rotate(-8deg); filter: blur(12px); }
+  48% { opacity: 1; transform: translate3d(0, 0, 0) scale(0.9) rotate(2deg); filter: blur(0); }
+  68% { transform: translate3d(0, -5px, 0) scale(1.07) rotate(-1deg); }
+  100% { opacity: 1; transform: none; filter: blur(0); }
+}
+@keyframes go-rise {
+  0% { opacity: 0; transform: translate3d(0, 70%, 0) scale(0.55); filter: blur(7px); }
+  58% { opacity: 1; transform: translate3d(0, -7%, 0) scale(1.09); filter: blur(0); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes go-shockwave {
+  0% { opacity: 0.85; transform: scale(0.2); }
+  100% { opacity: 0; transform: scale(6); }
+}
+@keyframes go-rays {
+  0% { opacity: 0; transform: rotate(-26deg) scale(0.7); }
+  45% { opacity: 0.85; }
+  100% { opacity: 0.45; transform: rotate(0deg) scale(1); }
+}
+@keyframes go-fall {
+  0% { opacity: 0; transform: translate(0, 0); }
+  12% { opacity: 0.9; }
+  100% { opacity: 0; transform: translate(var(--drift, 0px), 190px); }
+}
+@keyframes go-lift {
+  0% { opacity: 0; transform: translate(0, 0); }
+  14% { opacity: 0.95; }
+  100% { opacity: 0; transform: translate(var(--drift, 0px), -210px); }
+}
 
 /* ---------- responsive ---------- */
 @media (min-width: 900px) {
@@ -1978,6 +2075,9 @@ pre { color: var(--text); white-space: pre-wrap; }
   .card, .hero-card, .option-card { transform: none !important; }
   .screen-enter, .card-up, .loot-slot, .victory-banner, .gameover-title, .toast,
   #game-tooltip.visible, .active-combatant { animation-duration: 1ms !important; animation-delay: 0ms !important; }
+  .go-ch, .go-sub, .gameover .go-panel, .gameover .chronicle, .gameover .go-actions { animation-duration: 1ms !important; animation-delay: 0ms !important; }
+  .go-shock, .go-p { display: none; }
+  .go-rays { animation: none !important; opacity: 0.45; }
   .fx-float { animation-duration: 1ms !important; }
   *, *::before, *::after { transition-duration: 60ms !important; }
 }

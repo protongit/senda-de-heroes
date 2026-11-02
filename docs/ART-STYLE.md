@@ -10,6 +10,7 @@
 - **Cartas** (`assets/cards/<id>.png`): 768×1024 (múltiplo de 16), retrato vertical, objeto/acción centrada, fondo atmosférico.
 - **Retratos** (`assets/portraits/<id>.png`): 1024×1024, busto del personaje, mirando al frente.
 - **Caminos** (`assets/paths/<type>.png`): 1024×640, escena horizontal para la selección de senda, composición cinematográfica y sin borde decorativo.
+- **Fondos de fin de partida** (`assets/paths/victory|defeat.png`): 1024×640 a pantalla completa; escenas **sin personajes** (monumento con corona / espada rota) para no competir con el texto. `menu.png` sí lleva héroe (no hay texto encima).
 - **Ventajas** (`assets/perks/<perk_id>.png`): 1024×1024, medallón de un solo objeto simbólico con borde ornamental, legible a ~150 px en la pantalla de nivel.
 - Modelo: `flux-2-klein`, `response_format: b64_json`, `seed` fijo por id (reproducible).
 

@@ -91,6 +91,28 @@ Estas reglas viven aquí porque las skills de diseño de las que proceden
 - Las monedas de recompensa suben con `countUp()` (720 ms, easing cúbico);
   con reduced-motion se escribe el valor final directamente.
 
+## Pantalla de fin de partida
+
+- El título se parte en letras (`.go-ch` con `--i`) y cada una entra con stagger:
+  **derrota** = `go-slam` (cae desde arriba con desenfoque, aterriza con rebote,
+  curva de aceleración `cubic-bezier(.5,0,.75,0)`); **victoria** = `go-rise`
+  (asciende con rebote dorado, `--ease-out`). Al aterrizar la última letra
+  (~700–760 ms) `gameoverFx()` sacude la pantalla (`fx-shake`) y la onda de
+  choque `.go-shock` se expande una sola vez.
+- Partículas de un solo disparo: brasas que caen (derrota) / motas de luz que
+  ascienden (victoria), generadas en `fx.js → gameoverFx()` y auto-limpadas.
+- Los rayos de victoria (`.go-rays`, cónico repetido enmascarado) giran y
+  **se asientan** (terminan en `opacity: .45`), no giran en bucle.
+- **Legibilidad**: el resumen y la moralidad viven en `.go-panel` (panel con
+  fondo propio), el subtítulo lleva doble sombra, y el velo radial de victoria
+  es suave porque el arte ya no compite con el texto.
+- **Trampa de `position: fixed`**: cualquier `transform` (incluso la identity
+  que deja `animation-fill-mode: both` al acabar) convierte la sección en
+  bloque contenedor y ancla el fondo al cuadro de la sección. Por eso esta
+  pantalla entra con `screen-fade` (solo `opacity`) en vez de `screen-in`.
+- Reduced-motion: letras y contenido a 1 ms, ondas/partículas fuera, rayos
+  estáticos; `gameoverFx()` sale antes de generar nada.
+
 ## Responsive y móvil
 
 - 4 breakpoints: 980 (log y tienda a una columna), 900 (abanico de mano),
@@ -116,5 +138,8 @@ Estas reglas viven aquí porque las skills de diseño de las que proceden
   `scripts/generate-cards.mjs → PATH_PROMPTS`, entradas en
   `data/image-manifest.json`). Se consumen vía `--art-*` en `:root`; si falta
   el PNG, el CSS degrada a degradado plano sin hueco visible.
+- **Victoria y derrota son escenas sin personajes** (monumento con corona /
+  espada rota): el fondo no debe competir con el texto ni con el héroe del
+  jugador. El prompt de victoria lo pide explícitamente.
 - El escenario de combate (`.arena-stage`) usa `assets/paths/combat_<enemigo>.png`
   desenfocado y oscurecido; `--stage` se fija en pantalla.

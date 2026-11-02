@@ -1,6 +1,18 @@
 import { esc } from "../ui.js";
 import { icon as ic } from "../icons.js";
 import { getEnemy } from "../enemies.js";
+import { gameoverFx } from "../fx.js";
+
+// Título letra a letra: cada carácter recibe su índice --i para el stagger de entrada.
+function splitTitle(text) {
+  return Array.from(text)
+    .map((ch, i) =>
+      ch === " "
+        ? `<span class="go-ch sp" style="--i:${i}" aria-hidden="true">&nbsp;</span>`
+        : `<span class="go-ch" style="--i:${i}">${esc(ch)}</span>`
+    )
+    .join("");
+}
 
 export function gameover(ctx) {
   const { G, payload } = ctx;
@@ -8,6 +20,10 @@ export function gameover(ctx) {
   const win = payload && payload.win;
   const nextAscension = run ? (run.ascension || 0) + 2 : 2;
   const finalBossName = run && run.finalBossId ? getEnemy(run.finalBossId).name : "el guardián de la senda";
+  const title = win ? "¡Victoria!" : "Has caído";
+  const sub = win
+    ? `Has derrotado al jefe final: ${esc(finalBossName)} y completado la Senda de Héroes.`
+    : "La senda termina aquí... por ahora.";
   const summary = run
     ? `<p class="muted">${run.heroDef.icon} ${run.heroDef.name} · Nivel ${run.level} · Senda ★${(run.ascension || 0) + 1} · ${ic("heart")} ${run.hp}/${run.maxHp} · ${ic("coin")} ${run.coins} · ${ic("cards")} ${run.deck.length} cartas</p>`
     : "";
@@ -24,29 +40,37 @@ export function gameover(ctx) {
   let choices = "";
   if (win && run) {
     choices = `
-    <h2>¿Qué quieres hacer ahora?</h2>
-    <div class="options">
-      <button class="option-card" data-action="continue" data-tilt>
-        <span class="option-icon">${ic("star")}</span>
-        <span class="option-label">Continuar → Senda ★${nextAscension}</span>
-        <span class="option-hint">Conservas mazo, equipo, nivel, perks y monedas · te curas del todo · los enemigos serán un 15% más poderosos</span>
-      </button>
-      <button class="option-card" data-action="menu" data-tilt>
-        <span class="option-icon">${ic("door")}</span>
-        <span class="option-label">Volver al menú</span>
-        <span class="option-hint">Abandona la partida</span>
-      </button>
+    <div class="go-actions">
+      <h2>¿Qué quieres hacer ahora?</h2>
+      <div class="options">
+        <button class="option-card" data-action="continue" data-tilt>
+          <span class="option-icon">${ic("star")}</span>
+          <span class="option-label">Continuar → Senda ★${nextAscension}</span>
+          <span class="option-hint">Conservas mazo, equipo, nivel, perks y monedas · te curas del todo · los enemigos serán un 15% más poderosos</span>
+        </button>
+        <button class="option-card" data-action="menu" data-tilt>
+          <span class="option-icon">${ic("door")}</span>
+          <span class="option-label">Volver al menú</span>
+          <span class="option-hint">Abandona la partida</span>
+        </button>
+      </div>
     </div>`;
   } else {
-    choices = `<button class="btn primary" data-action="menu">${ic("arrowLeft")} Volver al menú</button>`;
+    choices = `<div class="go-actions"><button class="btn primary" data-action="menu">${ic("arrowLeft")} Volver al menú</button></div>`;
   }
 
   const html = `
   <section class="screen gameover ${win ? "win" : "lose"}">
-    <h1 class="gameover-title">${win ? "¡Victoria!" : "Has caído"}</h1>
-    <p>${win ? `Has derrotado al jefe final: ${esc(finalBossName)} y completado la Senda de Héroes.` : "La senda termina aquí... por ahora."}</p>
-    ${summary}
-    ${morality}
+    <div class="go-stage">
+      <span class="go-rays" aria-hidden="true"></span>
+      <span class="go-shock" aria-hidden="true"></span>
+      <h1 class="gameover-title" aria-label="${esc(title)}">${splitTitle(title)}</h1>
+    </div>
+    <p class="go-sub">${sub}</p>
+    ${summary || morality ? `<div class="go-panel">
+      ${summary}
+      ${morality}
+    </div>` : ""}
     ${chronicle}
     ${choices}
   </section>`;
@@ -56,6 +80,7 @@ export function gameover(ctx) {
       const cont = root.querySelector('[data-action="continue"]');
       if (cont) cont.onclick = () => ctx.continueAscension();
       root.querySelector('[data-action="menu"]').onclick = () => ctx.go("menu");
+      gameoverFx(root, !!win);
     },
   };
 }

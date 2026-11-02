@@ -435,3 +435,29 @@ export function countUp(el, to, format) {
 }
 
 export { reduced as prefersReducedMotion };
+
+// ---------- fin de partida ----------
+// Partículas de un solo disparo (brasas que caen en la derrota, motas de luz que
+// ascienden en la victoria) + sacudida sincronizada con la caída de la última letra.
+export function gameoverFx(root, win) {
+  const stage = root.querySelector(".go-stage");
+  if (!stage || reduced()) return;
+  const kind = win ? "mote" : "ember";
+  const frag = document.createDocumentFragment();
+  const nodes = [];
+  for (let i = 0; i < 26; i++) {
+    const p = document.createElement("span");
+    p.className = `go-p ${kind}`;
+    p.style.setProperty("--x", `${(Math.random() * 100).toFixed(1)}%`);
+    p.style.setProperty("--sz", `${(3 + Math.random() * 5).toFixed(1)}px`);
+    p.style.setProperty("--drift", `${Math.round((Math.random() * 2 - 1) * 60)}px`);
+    p.style.setProperty("--t", `${Math.round(1400 + Math.random() * 1600)}ms`);
+    p.style.setProperty("--dl", `${Math.round(200 + Math.random() * 900)}ms`);
+    frag.appendChild(p);
+    nodes.push(p);
+  }
+  stage.appendChild(frag);
+  window.setTimeout(() => nodes.forEach((n) => n.remove()), 3400);
+  // La última letra aterriza a los ~760 ms (stagger 8·55 + 48 % del slam).
+  window.setTimeout(() => shake(root), win ? 700 : 760);
+}
