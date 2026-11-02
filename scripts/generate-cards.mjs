@@ -11,6 +11,13 @@ const PATH_STYLE =
 
 const PATH_PROMPTS = {
   combat: "a dramatic medieval battlefield with two crossed swords planted in the ground, distant castle banners and smoke, ominous sky",
+  combat_goblin: "a goblin war band ambushing travelers on a dark forest road, wide cinematic composition, full figures, headroom",
+  combat_lobo: "a pack of snarling dire wolves emerging from a snowy forest, wide cinematic composition, full figures, headroom",
+  combat_esqueleto: "skeleton warriors with rusty swords rising in an ancient crypt, wide cinematic composition, full figures, headroom",
+  combat_trol: "a massive mossy stone troll guarding a forest cave, wide cinematic composition, full figures, headroom",
+  combat_nigromante: "a gaunt necromancer in dark robes casting green magic in a ritual chamber, wide cinematic composition, full figures, headroom",
+  combat_senor_orco: "an orc warlord with a tall banner leading a warband on a smoky battlefield, wide cinematic composition, full figures, headroom",
+  combat_lich: "an ancient lich king on a frozen throne with crown and glowing blue eyes, wide cinematic composition, full figures, headroom",
   shop: "a bustling medieval merchant stall with potions, scrolls, weapons and hanging lanterns, warm inviting light",
   treasure: "an ornate treasure chest overflowing with gold coins and glowing gems in a dark dungeon",
   forge: "a glowing blacksmith forge with an anvil, hammer and flying sparks in a stone workshop",

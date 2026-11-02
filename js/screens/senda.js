@@ -27,6 +27,7 @@ export function senda(ctx) {
     .map(
       (n, i) => `<button class="option-card ${n.type === "challenge" ? "challenge-option-card" : ""}" style="--i:${i}" data-option="${i}">
         <span class="option-art">
+          <span class="option-art-bg" style="background-image:url('${art(n)}')"></span>
           <img src="${art(n)}" alt="" loading="lazy" onload="this.parentElement.classList.add('has-art')" onerror="this.parentElement.classList.add('no-art')">
           <span class="option-icon">${icon(n)}</span>
         </span>

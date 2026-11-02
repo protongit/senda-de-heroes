@@ -990,6 +990,69 @@
     "size": "1024x640"
   },
   {
+    "id": "combat_goblin",
+    "group": "paths",
+    "file": "assets/paths/combat_goblin.png",
+    "prompt": "a goblin war band ambushing travelers on a dark forest road, wide cinematic composition, full figures, headroom",
+    "seed": 1114,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "combat_lobo",
+    "group": "paths",
+    "file": "assets/paths/combat_lobo.png",
+    "prompt": "a pack of snarling dire wolves emerging from a snowy forest, wide cinematic composition, full figures, headroom",
+    "seed": 1115,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "combat_esqueleto",
+    "group": "paths",
+    "file": "assets/paths/combat_esqueleto.png",
+    "prompt": "skeleton warriors with rusty swords rising in an ancient crypt, wide cinematic composition, full figures, headroom",
+    "seed": 1116,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "combat_trol",
+    "group": "paths",
+    "file": "assets/paths/combat_trol.png",
+    "prompt": "a massive mossy stone troll guarding a forest cave, wide cinematic composition, full figures, headroom",
+    "seed": 1117,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "combat_nigromante",
+    "group": "paths",
+    "file": "assets/paths/combat_nigromante.png",
+    "prompt": "a gaunt necromancer in dark robes casting green magic in a ritual chamber, wide cinematic composition, full figures, headroom",
+    "seed": 1118,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "combat_senor_orco",
+    "group": "paths",
+    "file": "assets/paths/combat_senor_orco.png",
+    "prompt": "an orc warlord with a tall banner leading a warband on a smoky battlefield, wide cinematic composition, full figures, headroom",
+    "seed": 1119,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "combat_lich",
+    "group": "paths",
+    "file": "assets/paths/combat_lich.png",
+    "prompt": "an ancient lich king on a frozen throne with crown and glowing blue eyes, wide cinematic composition, full figures, headroom",
+    "seed": 1120,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
     "id": "shop",
     "group": "paths",
     "file": "assets/paths/shop.png",

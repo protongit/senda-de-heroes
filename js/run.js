@@ -37,7 +37,7 @@ function combatOption(tier, label) {
     type: "combat",
     tier,
     label,
-    art: enemyId ? `assets/portraits/${enemyId}.png` : "assets/paths/combat.png",
+    art: enemyId ? `assets/paths/combat_${enemyId}.png` : "assets/paths/combat.png",
   };
 }
 
