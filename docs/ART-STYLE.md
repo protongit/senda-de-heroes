@@ -10,6 +10,7 @@
 - **Cartas** (`assets/cards/<id>.png`): 768×1024 (múltiplo de 16), retrato vertical, objeto/acción centrada, fondo atmosférico.
 - **Retratos** (`assets/portraits/<id>.png`): 1024×1024, busto del personaje, mirando al frente.
 - **Caminos** (`assets/paths/<type>.png`): 1024×640, escena horizontal para la selección de senda, composición cinematográfica y sin borde decorativo.
+- **Ventajas** (`assets/perks/<perk_id>.png`): 1024×1024, medallón de un solo objeto simbólico con borde ornamental, legible a ~150 px en la pantalla de nivel.
 - Modelo: `flux-2-klein`, `response_format: b64_json`, `seed` fijo por id (reproducible).
 
 ## Esquema de `data/image-manifest.json`
@@ -20,7 +21,7 @@
     "seed": 101, "model": "flux-2-klein", "size": "768x1024" }
 ]
 ```
-Campos: `id`, `group` (`cards`|`portraits`|`paths`), `file`, `prompt` (sin el prefijo; el script lo añade), `seed`, `model`, `size`.
+Campos: `id`, `group` (`cards`|`portraits`|`paths`|`perks`), `file`, `prompt` (sin el prefijo; el script lo añade), `seed`, `model`, `size`.
 
 ## QA visual
 - Sin texto ni marcas en la imagen.

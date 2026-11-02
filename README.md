@@ -33,7 +33,7 @@ Juego de cartas de **construcción de mazos** (estilo Slay the Spire / Star Real
 ## Contenido
 - **4 héroes:** Guerrero, Enano, Hechicera (arcana), Elfa (arcana) — mazos iniciales de **12 cartas** cada uno, con cartas de clase adicionales en los mazos de duelo.
 - **16 enemigos:** 8 normales (goblin, bandido, lobo, oso, esqueleto, espectro, trol, ogro), 2 élites (nigromante, vampiro), 2 jefes intermedios (Señor Orco, Capitán Osario) y 4 jefes finales (Lich, Dragón de Ceniza, Reina de las Arañas, Señor del Abismo).
-- **98 cartas**: equipo, habilidades, recursos, efectos, gemas/runas, reacciones, consumibles, **reliquias**, **maldiciones de mazo** y **cartas elementales**. Incluye **20 retratos** y **3 fondos de pantalla** (nan.builders, `flux-2-klein`).
+- **98 cartas**: equipo, habilidades, recursos, efectos, gemas/runas, reacciones, consumibles, **reliquias**, **maldiciones de mazo** y **cartas elementales**. Incluye **20 retratos**, **3 fondos de pantalla** y **11 medallones de ventaja** (nan.builders, `flux-2-klein`).
 - **12 desafíos narrativos** con estilos distintos, decisiones morales y desenlaces variables.
 - **Cooperativo táctico:** amenaza, provocar, cubrir y rescatar mediante cartas de clase exclusivas de los duelos.
 - **Sendas con ascensión (NG+):** al derrotar al jefe final puedes continuar con el mismo héroe (mazo, nivel, perks y monedas) en una senda ★2 con enemigos un 15% más poderosos; cada senda completada sube la dificultad otro 15%.
@@ -57,7 +57,7 @@ senda-de-heroes/
 │   └── screens/ (menu, select, senda, battle, reward, shop, forge, perk, deck, gameover, duelsetup, duelbattle, challenge)
 ├── data/image-manifest.json
 ├── scripts/ (generate-cards.mjs, smoke.mjs, balance.mjs)
-├── assets/{cards,portraits,paths,fonts}/
+├── assets/{cards,portraits,paths,perks,fonts}/
 └── docs/
 ```
 
@@ -88,7 +88,7 @@ NAN_API_KEY=sk-... node scripts/generate-cards.mjs            # salta los existe
 NAN_API_KEY=sk-... node scripts/generate-cards.mjs --force    # regenera todo
 NAN_API_KEY=sk-... node scripts/generate-cards.mjs --only=fireball,lich
 ```
-Modelo `flux-2-klein` (768×1024 cartas, 1024×1024 retratos, 1024×640 caminos), `b64_json`, semilla fija. Si falta un PNG, la UI usa emoji/fondo CSS.
+Modelo `flux-2-klein` (768×1024 cartas, 1024×1024 retratos y ventajas, 1024×640 caminos), `b64_json`, semilla fija. Si falta un PNG, la UI usa emoji/fondo CSS.
 
 ## Licencia
 MIT — ver [LICENSE](./LICENSE).

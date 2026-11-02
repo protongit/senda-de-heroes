@@ -10,7 +10,11 @@ export function perk(ctx) {
   const cards = options
     .map(
       (p, i) => `<button class="option-card perk-option levelup-choice" style="--i:${i}" data-perk="${i}" data-tilt>
-        <span class="option-icon">${p.icon}</span>
+        <span class="option-art">
+          <span class="option-art-bg" style="background-image:url('${p.art}')"></span>
+          <img src="${p.art}" alt="" loading="lazy" onload="this.parentElement.classList.add('has-art')" onerror="this.parentElement.classList.add('no-art')">
+          <span class="option-icon">${p.icon}</span>
+        </span>
         <span class="option-label">${esc(p.name)}</span>
         <span class="option-hint">${esc(p.text)}</span>
       </button>`
