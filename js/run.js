@@ -1,5 +1,5 @@
 import { getCharacter } from "./characters.js";
-import { getEnemy } from "./enemies.js";
+import { getEnemy, MID_BOSSES, FINAL_BOSSES } from "./enemies.js";
 import { createRng } from "./rng.js";
 import { rollDrops, rollCoins, DROP_POOLS } from "./loot.js";
 import { getCard, makeInstance } from "./cards.js";
@@ -12,36 +12,36 @@ export const MAX_STEPS = 7;
 const CARRIED_FIELDS = ["coins", "xp", "level", "str", "energyPerRound", "maxHp", "perks", "drawBonus", "startBlock", "damageBonus", "onHitPoison", "sellBonus", "forgeDiscount", "afterWinHeal", "scrapped", "morality", "chronicle"];
 
 const TIER_ENEMIES = {
-  1: ["goblin"],
-  2: ["lobo"],
-  3: ["esqueleto"],
-  4: ["trol"],
-  5: ["nigromante"],
-  boss1: ["senor_orco"],
-  boss2: ["lich"],
+  1: ["goblin", "bandido"],
+  2: ["lobo", "oso"],
+  3: ["esqueleto", "espectro"],
+  4: ["trol", "ogro"],
+  5: ["nigromante", "vampiro"],
 };
 
-const TIER_LABELS = {
-  1: "Emboscada goblin",
-  2: "Bestias salvajes",
-  3: "No-muertos",
-  4: "Guarida del trol",
-  5: "Élite nigromante",
-  boss1: "Jefe: Señor Orco",
-  boss2: "Jefe final: Lich Anciano",
-};
-
-function combatOption(tier, label) {
-  const enemyId = TIER_ENEMIES[tier]?.[0];
+function combatOption(tier, enemyId) {
+  const enemy = getEnemy(enemyId);
   return {
     type: "combat",
     tier,
-    label,
-    art: enemyId ? `assets/paths/combat_${enemyId}.png` : "assets/paths/combat.png",
+    enemyId,
+    label: enemy.battleLabel || enemy.name,
+    art: `assets/paths/combat_${enemyId}.png`,
   };
 }
 
+function drawFinalBoss(run) {
+  if (!Array.isArray(run.finalBossBag) || !run.finalBossBag.length) {
+    const rng = run.bossRng || run.mapRng;
+    run.finalBossBag = rng.shuffle([...FINAL_BOSSES]);
+  }
+  run.finalBossId = run.finalBossBag.shift();
+  return run.finalBossId;
+}
+
 export function enemyForTier(tier, rng, ascension = 0) {
+  if (tier === "boss1") return getEnemy(rng.pick(MID_BOSSES), ascension);
+  if (tier === "boss2") return getEnemy(rng.pick(FINAL_BOSSES), ascension);
   const pool = TIER_ENEMIES[tier] || TIER_ENEMIES[1];
   return getEnemy(rng.pick(pool), ascension);
 }
@@ -54,19 +54,21 @@ export function rollOptions(run) {
   const d = run.depth;
   if (d >= MAX_STEPS) return [];
   if (d === MAX_STEPS - 1) {
-    return [combatOption("boss2", TIER_LABELS.boss2)];
+    const bossId = run.finalBossId || drawFinalBoss(run);
+    return [combatOption("boss2", bossId)];
   }
   if (d === MAX_STEPS - 2) {
+    if (!run.midBossId) run.midBossId = run.mapRng.pick(MID_BOSSES);
     return run.mapRng.shuffle([
       { type: "shop", label: "Mercader" },
-      combatOption("boss1", TIER_LABELS.boss1),
+      combatOption("boss1", run.midBossId),
     ]);
   }
   const tier = tierForDepth(d);
-  const candidates = [combatOption(tier, TIER_LABELS[tier])];
+  const candidates = [combatOption(tier, run.mapRng.pick(TIER_ENEMIES[tier]))];
   if (tier > 1) {
     const lower = tier - 1;
-    candidates.push(combatOption(lower, TIER_LABELS[lower]));
+    candidates.push(combatOption(lower, run.mapRng.pick(TIER_ENEMIES[lower])));
   }
   candidates.push({ type: "shop", label: "Mercader" });
   if (d >= 1) candidates.push({ type: "treasure", label: "Cofre del tesoro" });
@@ -106,9 +108,13 @@ export function createRun(heroId, seed) {
     mapRng: createRng((seed ^ 0x9e3779b9) >>> 0),
     challengeRng: createRng((seed ^ 0x51ed270b) >>> 0),
     serviceRng: createRng((seed ^ 0x2c1b3c6d) >>> 0),
+    bossRng: createRng((seed ^ 0x7f4a7c15) >>> 0),
     heroDef,
     depth: 0,
     options: [],
+    finalBossBag: [],
+    finalBossId: null,
+    midBossId: null,
     coins: BALANCE.startingCoins,
     xp: 0,
     level: 1,
@@ -133,6 +139,7 @@ export function createRun(heroId, seed) {
     result: null,
   };
   for (const cardId of heroDef.startingDeck) addCardToRun(run, cardId);
+  drawFinalBoss(run);
   run.options = rollOptions(run);
   return run;
 }
@@ -309,12 +316,17 @@ export function removeCurseAtShop(run, uid) {
 // Nueva senda con el mismo héroe (NG+): conserva mazo, nivel, perks y monedas; sube la ascensión
 export function continueRunAscension(prev) {
   const seed = ((prev.seed ^ (0x9e3779b9 * ((prev.ascension || 0) + 1))) >>> 0) || ((Date.now() & 0xffffffff) || 1);
+  const carriedFinalBossBag = Array.isArray(prev.finalBossBag) ? [...prev.finalBossBag] : [];
   const run = createRun(prev.heroId, seed);
   run.ascension = (prev.ascension || 0) + 1;
   run.deck = prev.deck;
   run.loadout = prev.loadout;
   run.nextUid = prev.nextUid;
   for (const f of CARRIED_FIELDS) run[f] = prev[f] ?? run[f];
+  run.finalBossBag = carriedFinalBossBag;
+  run.finalBossId = null;
+  run.midBossId = null;
+  drawFinalBoss(run);
   run.hp = run.maxHp; // se cura por completo al emprender la nueva senda
   run.actionsPerRound = prev.actionsPerRound ?? run.heroDef.actionsPerRound;
   run.market = null;
@@ -402,12 +414,9 @@ export function finishCombat(run, winner, enemyDef, combat = null, options = {})
 
   const advance = options.advance !== false;
   let result = "continue";
-  if (advance && enemyDef.id === "lich") {
-    run.finished = true;
-    run.result = "victory";
-    result = "victory";
-  } else if (advance) {
+  if (advance) {
     advanceDepth(run);
+    if (run.finished && run.result === "victory") result = "victory";
   } else {
     result = "challenge";
   }

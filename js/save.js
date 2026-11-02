@@ -1,4 +1,5 @@
 import { createRun } from "./run.js";
+import { getEnemy } from "./enemies.js";
 
 const SAVE_KEY = "senda-de-heroes.save";
 const SAVE_VERSION = 1;
@@ -9,7 +10,7 @@ const RUN_FIELDS = [
   "challengesSeen", "challengeDoneDepth", "morality", "chronicle", "scrapped",
   "perks", "drawBonus", "startBlock", "damageBonus", "onHitPoison", "sellBonus",
   "forgeDiscount", "afterWinHeal", "finished", "result", "options", "market",
-  "shopServices",
+  "shopServices", "finalBossBag", "finalBossId", "midBossId",
 ];
 
 function clone(value) {
@@ -39,6 +40,7 @@ export function serializeRun(run) {
   data.mapRngState = rngState(run.mapRng);
   data.challengeRngState = rngState(run.challengeRng);
   data.serviceRngState = rngState(run.serviceRng);
+  data.bossRngState = rngState(run.bossRng);
   return {
     version: SAVE_VERSION,
     savedAt: Date.now(),
@@ -82,6 +84,15 @@ export function deserializeRun(payload) {
   restoreRng(run.mapRng, data.mapRngState);
   restoreRng(run.challengeRng, data.challengeRngState);
   restoreRng(run.serviceRng, data.serviceRngState);
+  restoreRng(run.bossRng, data.bossRngState);
+  // Partidas antiguas: completa el enemigo de las opciones de combate ya generadas.
+  run.options = (run.options || []).map((node) => {
+    if (!node || node.type !== "combat" || node.enemyId) return node;
+    const enemyId = node.tier === "boss2" ? run.finalBossId : node.tier === "boss1" ? (run.midBossId || "senor_orco") : null;
+    if (!enemyId) return node;
+    const enemy = getEnemy(enemyId);
+    return { ...node, enemyId, label: enemy.battleLabel || enemy.name, art: `assets/paths/combat_${enemyId}.png` };
+  });
   return run;
 }
 

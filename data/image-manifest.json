@@ -927,11 +927,29 @@
     "size": "1024x1024"
   },
   {
+    "id": "bandido",
+    "group": "portraits",
+    "file": "assets/portraits/bandido.png",
+    "prompt": "a cunning human bandit in a dark hood with a rusty dagger and a smirk",
+    "seed": 1121,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
     "id": "lobo",
     "group": "portraits",
     "file": "assets/portraits/lobo.png",
     "prompt": "a ferocious grey dire wolf snarling",
     "seed": 1070,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "oso",
+    "group": "portraits",
+    "file": "assets/portraits/oso.png",
+    "prompt": "a massive brown cave bear with thick fur and heavy claws",
+    "seed": 1122,
     "model": "flux-2-klein",
     "size": "1024x1024"
   },
@@ -945,11 +963,29 @@
     "size": "1024x1024"
   },
   {
+    "id": "espectro",
+    "group": "portraits",
+    "file": "assets/portraits/espectro.png",
+    "prompt": "a translucent ghostly specter in tattered robes with glowing pale eyes",
+    "seed": 1123,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
     "id": "trol",
     "group": "portraits",
     "file": "assets/portraits/trol.png",
     "prompt": "a large mossy stone troll guardian standing in a misty forest",
     "seed": 1072,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "ogro",
+    "group": "portraits",
+    "file": "assets/portraits/ogro.png",
+    "prompt": "a hulking ogre with a wooden club and crude hide armor",
+    "seed": 1124,
     "model": "flux-2-klein",
     "size": "1024x1024"
   },
@@ -963,6 +999,15 @@
     "size": "1024x1024"
   },
   {
+    "id": "vampiro",
+    "group": "portraits",
+    "file": "assets/portraits/vampiro.png",
+    "prompt": "a pale aristocratic vampire in a black cloak with glowing red eyes",
+    "seed": 1125,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
     "id": "senor_orco",
     "group": "portraits",
     "file": "assets/portraits/senor_orco.png",
@@ -972,11 +1017,47 @@
     "size": "1024x1024"
   },
   {
+    "id": "capitan_osario",
+    "group": "portraits",
+    "file": "assets/portraits/capitan_osario.png",
+    "prompt": "a skeletal captain in rusted armor holding a broken sword and a torn banner",
+    "seed": 1126,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
     "id": "lich",
     "group": "portraits",
     "file": "assets/portraits/lich.png",
     "prompt": "an ancient lich king with a crown, skeletal face, glowing blue eyes and dark robes",
     "seed": 1075,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "dragon_ceniza",
+    "group": "portraits",
+    "file": "assets/portraits/dragon_ceniza.png",
+    "prompt": "a colossal ash dragon with dark scales, glowing embers and spread wings",
+    "seed": 1127,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "reina_aranas",
+    "group": "portraits",
+    "file": "assets/portraits/reina_aranas.png",
+    "prompt": "a giant spider queen with a dark chitinous crown and glowing green eyes",
+    "seed": 1128,
+    "model": "flux-2-klein",
+    "size": "1024x1024"
+  },
+  {
+    "id": "senor_abismo",
+    "group": "portraits",
+    "file": "assets/portraits/senor_abismo.png",
+    "prompt": "a horned infernal lord in obsidian armor with a flaming sword",
+    "seed": 1129,
     "model": "flux-2-klein",
     "size": "1024x1024"
   },
@@ -1049,6 +1130,87 @@
     "file": "assets/paths/combat_lich.png",
     "prompt": "an ancient lich king on a frozen throne with crown and glowing blue eyes, wide cinematic composition, full figures, headroom",
     "seed": 1120,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "combat_bandido",
+    "group": "paths",
+    "file": "assets/paths/combat_bandido.png",
+    "prompt": "bandits ambushing a merchant wagon on a forest road, wide cinematic composition, full figures, headroom",
+    "seed": 1130,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "combat_oso",
+    "group": "paths",
+    "file": "assets/paths/combat_oso.png",
+    "prompt": "a massive cave bear charging through a rocky forest clearing, wide cinematic composition, full figures, headroom",
+    "seed": 1131,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "combat_espectro",
+    "group": "paths",
+    "file": "assets/paths/combat_espectro.png",
+    "prompt": "a ghostly specter haunting a moonlit graveyard, wide cinematic composition, full figures, headroom",
+    "seed": 1132,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "combat_ogro",
+    "group": "paths",
+    "file": "assets/paths/combat_ogro.png",
+    "prompt": "a hulking ogre guarding a crude mountain camp, wide cinematic composition, full figures, headroom",
+    "seed": 1133,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "combat_vampiro",
+    "group": "paths",
+    "file": "assets/paths/combat_vampiro.png",
+    "prompt": "a vampire lord in a candlelit crypt with bats and red mist, wide cinematic composition, full figures, headroom",
+    "seed": 1134,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "combat_capitan_osario",
+    "group": "paths",
+    "file": "assets/paths/combat_capitan_osario.png",
+    "prompt": "a skeletal captain leading undead soldiers in a ruined fortress, wide cinematic composition, full figures, headroom",
+    "seed": 1135,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "combat_dragon_ceniza",
+    "group": "paths",
+    "file": "assets/paths/combat_dragon_ceniza.png",
+    "prompt": "a colossal ash dragon flying over a burning battlefield, wide cinematic composition, full figures, headroom",
+    "seed": 1136,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "combat_reina_aranas",
+    "group": "paths",
+    "file": "assets/paths/combat_reina_aranas.png",
+    "prompt": "a giant spider queen in a web-covered cavern, wide cinematic composition, full figures, headroom",
+    "seed": 1137,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "combat_senor_abismo",
+    "group": "paths",
+    "file": "assets/paths/combat_senor_abismo.png",
+    "prompt": "a demon lord on a throne of obsidian in a fiery abyss, wide cinematic composition, full figures, headroom",
+    "seed": 1138,
     "model": "flux-2-klein",
     "size": "1024x640"
   },

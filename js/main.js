@@ -197,7 +197,7 @@ function chooseOption(index) {
   if (node.type === "challenge") {
     startChallenge(node);
   } else if (node.type === "combat") {
-    const enemy = enemyForTier(node.tier, G.run.rng, G.run.ascension);
+    const enemy = node.enemyId ? getEnemy(node.enemyId, G.run.ascension) : enemyForTier(node.tier, G.run.rng, G.run.ascension);
     G.enemyDef = enemy;
     G.combat = createCombat(G.run.heroDef, heroStatsForCombat(G.run), enemy, G.run.deck.slice(), G.run.rng, G.run.loadout);
     G.logHidden = false;

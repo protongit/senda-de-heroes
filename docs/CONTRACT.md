@@ -54,12 +54,13 @@ El mazo de la run guarda **instancias**, no ids:
 ```js
 {
   id, name, level, kind: "normal"|"elite"|"boss",
-  hp, portrait, icon,
+  hp, portrait, icon, battleLabel,   // battleLabel: texto de la opción de senda
   ai: "aggressive"|"balanced"|"defensive"|"caster",
   moves: [{ id, name, icon, weight, effects: [{ kind, value }] }],
-  rewards: { coins: [min, max], xp, drops: [{ cardId, chance }] }
+  rewards: { coins: [min, max], xp, drops: [{ tier, chance }] }
 }
 ```
+`enemies.js` exporta además `MID_BOSSES` (jefes intermedios) y `FINAL_BOSSES` (bolsa de jefes finales).
 
 ## API del motor (js/engine.js)
 ```
@@ -117,7 +118,8 @@ MARKET_TIER_LABEL = { common, uncommon, rare, epic }
 ```
 - Nodos de la senda: `combat`, `shop`, `treasure`, `forge` (desde profundidad ≥ 1).
 - `run.ascension` (0 = primera senda): `getEnemy(id, ascension)` escala enemigos ×(1 + `BALANCE.ascensionStep` × ascensión) sobre `enemyScale` (⭐Senda N+1 = +15%).
-- RunState incluye: `perks`, `pendingLevels`, `scrapped`, `drawBonus`, `startBlock`, `damageBonus`, `onHitPoison`, `sellBonus`, `forgeDiscount`, `afterWinHeal`, `market`.
+- **Jefes finales:** `run.finalBossBag` guarda los jefes finales pendientes y `run.finalBossId` el de la senda actual. La bolsa no repite hasta agotarse y viaja entre ascensiones; `run.midBossId` fija el jefe intermedio de la profundidad 5.
+- RunState incluye: `perks`, `pendingLevels`, `scrapped`, `drawBonus`, `startBlock`, `damageBonus`, `onHitPoison`, `sellBonus`, `forgeDiscount`, `afterWinHeal`, `market`, `finalBossBag`, `finalBossId`, `midBossId`.
 
 ## API de shop (js/shop.js)
 ```

@@ -3,7 +3,7 @@
 Juego de cartas de **construcción de mazos** (estilo Slay the Spire / Star Realms / Dominion) con progresión tipo Diablo, ambientado en fantasía medieval. Para navegador, sin build ni dependencias: **HTML + CSS + módulos ES**.
 
 ## Modos de juego
-- **1 jugador:** recorre una senda aleatoria y derrota al Lich.
+- **1 jugador:** recorre una senda aleatoria y derrota al jefe final.
 - **Cooperativo (2P vs IA):** dos héroes (2 jugadores en el mismo navegador) contra un enemigo controlado por la IA.
 - **Competitivo (1v1):** dos héroes se enfrentan cara a cara.
 
@@ -28,14 +28,15 @@ Juego de cartas de **construcción de mazos** (estilo Slay the Spire / Star Real
 13. **Desafíos narrativos**: 12 historias con decisiones morales, pruebas de combate o puzles y epílogos distintos según el resultado. Al terminar verás el balance con monedas, XP, vida, cartas ganadas/perdidas y moralidad. Resolverlos no avanza la senda.
 14. El **log de combate** aparece en un lateral, con la última acción arriba y ocultable.
 15. Puedes **guardar la partida** desde la senda (💾 Guardar partida); se almacena en el `localStorage` del navegador y aparece como **Continuar partida** en el menú.
+16. **Jefes finales rotativos:** cada senda termina con un jefe final sacado de una bolsa sin repetición. No se repite ninguno hasta que hayan aparecido todos; cuando se agota, se baraja un nuevo orden.
 
 ## Contenido
 - **4 héroes:** Guerrero, Enano, Hechicera (arcana), Elfa (arcana) — mazos iniciales de **12 cartas** cada uno, con cartas de clase adicionales en los mazos de duelo.
-- **7 enemigos:** Goblin, Lobo, Esqueleto, Trol, Nigromante (élite) + 2 jefes (Señor Orco, Lich) — con maldiciones, venenos y plaga necrótica.
-- **98 cartas**: equipo, habilidades, recursos, efectos, gemas/runas, reacciones, consumibles, **reliquias**, **maldiciones de mazo** y **cartas elementales**. Incluye **11 retratos** (nan.builders, `flux-2-klein`).
+- **16 enemigos:** 8 normales (goblin, bandido, lobo, oso, esqueleto, espectro, trol, ogro), 2 élites (nigromante, vampiro), 2 jefes intermedios (Señor Orco, Capitán Osario) y 4 jefes finales (Lich, Dragón de Ceniza, Reina de las Arañas, Señor del Abismo).
+- **98 cartas**: equipo, habilidades, recursos, efectos, gemas/runas, reacciones, consumibles, **reliquias**, **maldiciones de mazo** y **cartas elementales**. Incluye **20 retratos** (nan.builders, `flux-2-klein`).
 - **12 desafíos narrativos** con estilos distintos, decisiones morales y desenlaces variables.
 - **Cooperativo táctico:** amenaza, provocar, cubrir y rescatar mediante cartas de clase exclusivas de los duelos.
-- **Sendas con ascensión (NG+):** al derrotar al Lich puedes continuar con el mismo héroe (mazo, nivel, perks y monedas) en una senda ★2 con enemigos un 15% más poderosos; cada senda completada sube la dificultad otro 15%.
+- **Sendas con ascensión (NG+):** al derrotar al jefe final puedes continuar con el mismo héroe (mazo, nivel, perks y monedas) en una senda ★2 con enemigos un 15% más poderosos; cada senda completada sube la dificultad otro 15%.
 
 ## Estructura
 ```
@@ -58,7 +59,7 @@ senda-de-heroes/
 
 ## Pruebas
 ```bash
-node scripts/smoke.mjs         # 370 comprobaciones (reglas, instancias, efectos, reacciones, fragua, mercado, perks, maldiciones, reliquias, marcas, desafíos, coop)
+node scripts/smoke.mjs         # 398 comprobaciones (reglas, instancias, efectos, reacciones, fragua, mercado, perks, maldiciones, reliquias, marcas, desafíos, jefes finales, coop)
 node scripts/balance.mjs 500   # tasas de victoria -> docs/balance-report.json
 ```
 Balance final y metodología en [`BALANCE.md`](./BALANCE.md).

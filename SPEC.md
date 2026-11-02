@@ -3,7 +3,7 @@
 Juego de cartas de construcción de mazos (deckbuilding) para navegador, ambientación medieval-fantástica, con progresión estilo Diablo. Slay the Spire / Star Realms / Dominion. Sin build: HTML + CSS + módulos ES.
 
 ## Modos de juego
-- **1 jugador:** recorres una senda aleatoria y derrotas al Lich.
+- **1 jugador:** recorres una senda aleatoria y derrotas al jefe final de turno.
 - **Cooperativo (2P vs IA):** dos héroes (2 jugadores locales) contra un enemigo de la IA.
 - **Competitivo (1v1):** dos héroes cara a cara.
 
@@ -26,7 +26,7 @@ Guerrero, Enano (marciales), Hechicera y Elfa (arcanas).
 - **Progresión:** niveles con perks + equipo mejorado/fusionado.
 
 ## Senda aleatoria
-Cada partida genera una senda distinta. **No se muestra el recorrido:** en cada paso el jugador **elige entre dos opciones** (combate, tienda, tesoro o fragua) y avanza hasta el jefe final. En los últimos pasos aparecen el Jefe Orco y el Lich.
+Cada partida genera una senda distinta. **No se muestra el recorrido:** en cada paso el jugador **elige entre dos opciones** (combate, tienda, tesoro o fragua) y avanza hasta el jefe final. En los últimos pasos aparece un jefe intermedio aleatorio y, al final, un jefe final de la bolsa sin repetición.
 
 ## Interfaz
 - Cartas grandes en la mano (≈200 px) y en la vista de mazo (≈190 px), con insignias de ⭐ mejorada y 🧉 efecto fusionado.

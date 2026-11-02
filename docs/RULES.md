@@ -54,7 +54,7 @@ Resumen de lo añadido sobre el núcleo original (mazo, acciones, equipo, combat
 4. **Mercado dual**: mercadería fija + rarezas rotativas con tier visible; agua y comida siempre disponibles.
 5. **Perks a elegir** al subir de nivel (sin stats automáticos).
 6. **Consumibles permanentes**: recursos y cartas de efecto se pierden al usarlas hasta volver a conseguirlos; jefes y élites infligen maldiciones, veneno y plaga.
-7. **Ascensión NG+**: continuar con el héroe tras derrotar al Lich; enemigos +15% por senda.
+7. **Ascensión NG+**: continuar con el héroe tras derrotar al jefe final; enemigos +15% por senda.
 8. **v3**: desafíos narrativos con moralidad, reliquias con maldición, maldiciones de mazo y servicios de tienda, marcas elementales con reacciones automáticas y cooperativo táctico con amenaza/cubrir/rescatar.
 
 ## Mercado
@@ -66,10 +66,11 @@ Resumen de lo añadido sobre el núcleo original (mazo, acciones, equipo, combat
 - La elección aparece tras la pantalla de recompensa; en autoplay se elige automáticamente.
 
 ## Senda aleatoria
-- En cada paso se ofrecen **dos opciones** entre combate, tienda, tesoro y (desde el paso 2) **fragua**, hasta el Jefe Orco y el Lich final.
+- En cada paso se ofrecen **dos opciones** entre combate, tienda, tesoro y (desde el paso 2) **fragua**, hasta un jefe intermedio aleatorio y un jefe final rotativo.
+- La **bolsa de jefes finales** no repite ninguno hasta agotar los cuatro; al vaciarse se baraja un nuevo orden. La bolsa se conserva entre sendas de ascensión.
 
 ## Ascensión (NG+)
-- Al derrotar al Lich, la pantalla de victoria ofrece **"Continuar con tu héroe → Senda ★N+1"**: conservas mazo, equipo, nivel, XP, monedas y perks; te curas por completo y empiezas una senda nueva.
+- Al derrotar al jefe final, la pantalla de victoria ofrece **"Continuar con tu héroe → Senda ★N+1"**: conservas mazo, equipo, nivel, XP, monedas y perks; te curas por completo y empiezas una senda nueva. El siguiente jefe final se toma de la bolsa sin repetición.
 - Cada senda de ascensión aplica **+15% de vida y daño a todos los enemigos**, acumulativo (★3 = +30%, ★4 = +45%…). El HUD de la senda muestra la insignia ⭐ con el modificador.
 
 ## Multijugador

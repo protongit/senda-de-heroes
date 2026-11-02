@@ -3,7 +3,8 @@
 ## Objetivos medibles
 - **Equidad de héroes:** victoria de senda completa dentro de **50% ±10** (40–60%) por héroe, con las mismas semillas entre héroes.
 - **Enemigos normales:** 30–80% de victoria del jugador.
-- **Jefes:** 20–60% de victoria del jugador.
+- **Jefes:** 20–60% de victoria del jugador como objetivo para los **jefes finales**. Los jefes intermedios pueden ser más asequibles (son un pico menor dentro de la senda).
+- **Bolsa de jefes finales:** cada senda consume un jefe final distinto; no se repite hasta agotar la bolsa, y al vaciarse se baraja de nuevo. La bolsa persiste entre sendas de ascensión.
 - **Ningún enemigo imposible:** si en 20 partidas la victoria es 0% → bajar stats.
 
 ## Método

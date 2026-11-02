@@ -9,7 +9,7 @@ import { BALANCE } from "../js/balance-config.js";
 import { simulateRun, simulateChallenge } from "../js/simulate.js";
 import { PERKS, perkOptions, applyPerk } from "../js/perks.js";
 import { tableEffectsHTML } from "../js/ui.js";
-import { getEnemy } from "../js/enemies.js";
+import { getEnemy, ENEMIES, MID_BOSSES, FINAL_BOSSES } from "../js/enemies.js";
 import { DROP_POOLS } from "../js/loot.js";
 import { CHALLENGE_TEMPLATES, rollChallenge, puzzleSolved, evaluateCombatOutcome } from "../js/challenges.js";
 import { createDuel, playDuelCard, currentUnit, chooseEnemyTarget, applyDuelMarks, endDuelTurn } from "../js/duel.js";
@@ -962,6 +962,54 @@ function testChallenges() {
   check("resultado derrota", evaluateCombatOutcome(c, { trial: {} }) === "loss");
 }
 
+function testEnemyRoster() {
+  check("catálogo de enemigos ampliado", Object.keys(ENEMIES).length === 16);
+  check("cuatro jefes finales", FINAL_BOSSES.length === 4);
+  check("dos jefes intermedios", MID_BOSSES.length === 2);
+  for (const id of FINAL_BOSSES) {
+    check(`jefe final válido: ${id}`, ENEMIES[id] && ENEMIES[id].kind === "boss");
+  }
+  for (const id of ["bandido", "oso", "espectro", "ogro", "vampiro", "capitan_osario", "dragon_ceniza", "reina_aranas", "senor_abismo"]) {
+    check(`enemigo nuevo: ${id}`, !!ENEMIES[id]);
+  }
+
+  const run = createRun("warrior", 301);
+  check("jefe final asignado a la senda", FINAL_BOSSES.includes(run.finalBossId));
+  check("bolsa sin el jefe ya elegido", !run.finalBossBag.includes(run.finalBossId));
+  check("bolsa completa sin repetidos", new Set([run.finalBossId, ...run.finalBossBag]).size === FINAL_BOSSES.length);
+
+  // Sucesivas sendas: no se repite ningún jefe final hasta agotar la bolsa.
+  let current = run;
+  const seen = [current.finalBossId];
+  for (let i = 1; i < FINAL_BOSSES.length; i++) {
+    current = continueRunAscension(current);
+    seen.push(current.finalBossId);
+  }
+  check("jefes finales sin repetir hasta agotar", new Set(seen).size === FINAL_BOSSES.length);
+  const nextCycle = continueRunAscension(current);
+  check("la bolsa se reinicia tras agotarse", FINAL_BOSSES.includes(nextCycle.finalBossId));
+
+  current.depth = 6;
+  current.options = rollOptions(current);
+  const finalOption = current.options[0];
+  check("opción final usa el jefe asignado", finalOption && finalOption.enemyId === current.finalBossId && finalOption.tier === "boss2");
+  check("arte de la opción final coincide", finalOption && finalOption.art.includes(current.finalBossId));
+
+  // Cualquier jefe final, no solo el Lich, cierra la senda.
+  const dragonRun = createRun("warrior", 302);
+  dragonRun.finalBossId = "dragon_ceniza";
+  dragonRun.depth = 6;
+  dragonRun.hp = dragonRun.maxHp = 999;
+  const out = finishCombat(dragonRun, "hero", getEnemy("dragon_ceniza"), null);
+  check("un jefe final distinto al Lich da la victoria", out.result === "victory" && dragonRun.finished && dragonRun.result === "victory");
+
+  // La bolsa y el jefe final sobreviven al guardado.
+  const saved = serializeRun(run);
+  const loaded = deserializeRun(saved);
+  check("guardado conserva el jefe final", loaded && loaded.finalBossId === run.finalBossId);
+  check("guardado conserva la bolsa", loaded && JSON.stringify(loaded.finalBossBag) === JSON.stringify(run.finalBossBag));
+}
+
 function testShopServices() {
   const run = createRun("warrior", 240);
   run.coins = 100;
@@ -1048,6 +1096,7 @@ function main() {
   testRelics();
   testMarks();
   testChallenges();
+  testEnemyRoster();
   testShopServices();
   testDuelCoop();
   testSimulations();

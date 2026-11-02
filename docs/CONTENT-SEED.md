@@ -20,16 +20,27 @@ Golpe de Escudo (daño 4 + bloqueo 3) · Finta (bloqueo 5, roba 1) · Esquiva (b
 ## Enemigos
 | id | Nivel | Tipo | HP | Recompensa |
 |---|---|---|---|---|
-| goblin | 1 | normal | 24 | 8–14 monedas, 10 XP, drop común 25% |
-| lobo | 2 | normal | 32 | 12–20, 18 XP, drop común 25% |
-| esqueleto | 3 | normal | 44 | 18–28, 28 XP, drop 30% |
-| trol | 4 | normal | 62 | 26–38, 40 XP, drop raro 35% |
-| nigromante | 5 | elite | 56 | 40–55, 60 XP, drop raro 45% |
-| senor_orco | — | boss | 90 | 60–85, 110 XP, drop épico 100% +VIDA |
-| lich | — | boss | 130 | 100–150, 160 XP, drop épico 100% +VIDA |
+| goblin | 1 | normal | 40 | 8–14 monedas, 10 XP, drop común 25% |
+| bandido | 1 | normal | 38 | 9–15, 11 XP, drop común 25% |
+| lobo | 2 | normal | 54 | 12–20, 18 XP, drop común 25% |
+| oso | 2 | normal | 62 | 13–21, 19 XP, drop común 25% |
+| esqueleto | 3 | normal | 75 | 18–28, 28 XP, drop común 30% |
+| espectro | 3 | normal | 68 | 18–28, 29 XP, drop común 30% |
+| trol | 4 | normal | 104 | 26–38, 40 XP, drop raro 35% |
+| ogro | 4 | normal | 118 | 27–39, 42 XP, drop raro 35% |
+| nigromante | 5 | elite | 112 | 40–55, 60 XP, drop raro 50% |
+| vampiro | 5 | elite | 108 | 42–57, 62 XP, drop raro 50% |
+| senor_orco | 6 | jefe intermedio | 160 | 60–85, 110 XP, drop raro 100% +VIDA |
+| capitan_osario | 6 | jefe intermedio | 155 | 62–88, 112 XP, drop raro 100% +VIDA |
+| lich | 7 | jefe final | 210 | 100–150, 160 XP, drop épico 100% +VIDA |
+| dragon_ceniza | 7 | jefe final | 215 | 110–160, 170 XP, drop épico 100% +VIDA |
+| reina_aranas | 7 | jefe final | 230 | 105–155, 165 XP, drop épico 100% +VIDA |
+| senor_abismo | 7 | jefe final | 220 | 120–170, 175 XP, drop épico 100% +VIDA |
+
+Los **jefes finales** se eligen de una bolsa sin repetición: cada senda consume uno distinto hasta agotar los cuatro; después la bolsa se baraja de nuevo. La bolsa viaja entre sendas de ascensión (NG+).
 
 ## Movimientos de enemigo (referencia)
-Ataques de 4–20, bloqueos de 3–10 y curaciones de 5–8 según nivel; el Nigromante y el Lich drenan vida.
+Ataques de 7–34, bloqueos de 4–22 y curaciones de 10–18 según nivel; Nigromante, Vampiro, Lich y Señor del Abismo drenan vida.
 
 ## v3 — Contenido nuevo
 - **Reliquias:** Corazón de Trol, Ojo del Lich, Bastión de Obsidiana, Cáliz de la Luna, Corona de Espinas, Guantelete de Ceniza.

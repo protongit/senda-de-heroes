@@ -1,10 +1,12 @@
 import { esc } from "../ui.js";
+import { getEnemy } from "../enemies.js";
 
 export function gameover(ctx) {
   const { G, payload } = ctx;
   const run = G.run;
   const win = payload && payload.win;
   const nextAscension = run ? (run.ascension || 0) + 2 : 2;
+  const finalBossName = run && run.finalBossId ? getEnemy(run.finalBossId).name : "el guardián de la senda";
   const summary = run
     ? `<p class="muted">${run.heroDef.icon} ${run.heroDef.name} · Nivel ${run.level} · Senda ★${(run.ascension || 0) + 1} · ❤️ ${run.hp}/${run.maxHp} · 🪙 ${run.coins} · ${run.deck.length} cartas</p>`
     : "";
@@ -41,7 +43,7 @@ export function gameover(ctx) {
   const html = `
   <section class="screen gameover ${win ? "win" : "lose"}">
     <h1 class="gameover-title">${win ? "¡Victoria!" : "Has caído"}</h1>
-    <p>${win ? "Has derrotado al Lich y completado la Senda de Héroes." : "La senda termina aquí... por ahora."}</p>
+    <p>${win ? `Has derrotado al jefe final: ${esc(finalBossName)} y completado la Senda de Héroes.` : "La senda termina aquí... por ahora."}</p>
     ${summary}
     ${morality}
     ${chronicle}

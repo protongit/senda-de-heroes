@@ -17,6 +17,7 @@ import {
   addMorality,
 } from "./run.js";
 import { createCombat } from "./engine.js";
+import { getEnemy } from "./enemies.js";
 import { getCard, resolveCard } from "./cards.js";
 import { buy, price } from "./shop.js";
 import { BALANCE } from "./balance-config.js";
@@ -163,7 +164,7 @@ export function simulateRun(heroId, seed) {
       continue;
     }
     if (node.type === "combat") {
-      const enemy = enemyForTier(node.tier, run.rng, run.ascension);
+      const enemy = node.enemyId ? getEnemy(node.enemyId, run.ascension) : enemyForTier(node.tier, run.rng, run.ascension);
       const hpBefore = run.hp;
       const combat = createCombat(run.heroDef, heroStatsForCombat(run), enemy, run.deck.slice(), run.rng, run.loadout);
       let turns = 0;
