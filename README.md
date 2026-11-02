@@ -52,7 +52,7 @@ senda-de-heroes/
 │   └── screens/ (menu, select, senda, battle, reward, shop, forge, perk, deck, gameover, duelsetup, duelbattle, challenge)
 ├── data/image-manifest.json
 ├── scripts/ (generate-cards.mjs, smoke.mjs, balance.mjs)
-├── assets/{cards,portraits}/
+├── assets/{cards,portraits,paths}/
 └── docs/
 ```
 
@@ -83,7 +83,7 @@ NAN_API_KEY=sk-... node scripts/generate-cards.mjs            # salta los existe
 NAN_API_KEY=sk-... node scripts/generate-cards.mjs --force    # regenera todo
 NAN_API_KEY=sk-... node scripts/generate-cards.mjs --only=fireball,lich
 ```
-Modelo `flux-2-klein` (768×1024 cartas, 1024×1024 retratos), `b64_json`, semilla fija. Si falta un PNG, la UI usa emoji/fondo CSS.
+Modelo `flux-2-klein` (768×1024 cartas, 1024×1024 retratos, 1024×640 caminos), `b64_json`, semilla fija. Si falta un PNG, la UI usa emoji/fondo CSS.
 
 ## Licencia
 MIT — ver [LICENSE](./LICENSE).

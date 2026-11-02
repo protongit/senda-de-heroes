@@ -4,7 +4,18 @@ import { CHARACTERS } from "../js/characters.js";
 import { ENEMIES } from "../js/enemies.js";
 
 const STYLE =
-  "medieval fantasy trading card game art, painterly digital illustration, dramatic warm lighting, rich saturated colors, centered composition, high detail, no text, no watermark";
+  "medieval fantasy trading card game art, painterly digital illustration, dramatic warm lighting, rich saturated colors, ornate decorative border, centered composition, high detail, no text, no watermark";
+
+const PATH_STYLE =
+  "medieval fantasy trading card game art, painterly digital illustration, dramatic warm lighting, rich saturated colors, cinematic wide composition, high detail, no text, no watermark";
+
+const PATH_PROMPTS = {
+  combat: "a dramatic medieval battlefield with two crossed swords planted in the ground, distant castle banners and smoke, ominous sky",
+  shop: "a bustling medieval merchant stall with potions, scrolls, weapons and hanging lanterns, warm inviting light",
+  treasure: "an ornate treasure chest overflowing with gold coins and glowing gems in a dark dungeon",
+  forge: "a glowing blacksmith forge with an anvil, hammer and flying sparks in a stone workshop",
+  challenge: "an ancient rune-covered wayshrine with a glowing magical portal in a misty forest, mysterious atmosphere",
+};
 
 const CARD_PROMPTS = {
   sword_short: "a short sword of polished steel with a leather grip on a stone ledge",
@@ -72,6 +83,49 @@ const CARD_PROMPTS = {
   runa_guarda: "a carved stone rune tile glowing with protective blue shield light",
   runa_poder: "an ancient amber rune stone etched with a fierce glowing symbol",
   runa_terror: "a cracked obsidian rune stone oozing dark purple shadow",
+
+  // Cartas con arte ya generado que faltaban en el manifiesto.
+  cat_reflex: "a lithe cat-like rogue leaping away from an incoming strike with swift motion trails",
+  web_shot: "a dense spider web strung between dark branches, glistening with green venom",
+  sun_bless: "a radiant golden sunburst blessing a kneeling knight in warm light",
+  purge_potion: "a glass vial of glowing amber cleansing potion surrounded by floating herbs",
+  stigma: "a dark rune brand of shadow floating above a faintly glowing purple sigil",
+  blast_charge: "a round black powder bomb with a lit fuse and fiery sparks",
+  gauntlets_iron: "a pair of heavy iron gauntlets resting on a stone anvil",
+
+  // Maldiciones de mazo.
+  curse_deadweight: "a heavy chained stone weight crushing a small playing card on dark ground",
+  curse_lich_whisper: "a ghostly skeletal face whispering dark mist beside a cracked crown",
+  curse_open_wound: "a crimson crack glowing across a dark stone tablet with red mist",
+
+  // Reliquias.
+  relic_troll_heart: "a large green glowing heart in a mossy amber reliquary",
+  relic_lich_eye: "a glowing blue eye encased in an obsidian medallion with silver runes",
+  relic_obsidian_bastion: "a shield made of black volcanic glass with glowing orange veins",
+  relic_moon_chalice: "an ornate silver chalice filled with glowing moonlight and floating stars",
+  relic_thorn_crown: "a jagged iron crown wrapped in dark thorns on a velvet cushion",
+  relic_ashen_gauntlet: "a charcoal-black armored gauntlet with glowing embers between its plates",
+
+  // Cartas elementales.
+  bleed_cut: "a crimson crescent slash of energy cutting through the air",
+  sunder: "a cracked stone armor plate splitting apart with a shockwave",
+  blood_ritual: "a glowing red ritual circle with floating crimson ribbons and an ancient chalice",
+  forge_hammer: "a massive blacksmith hammer striking a glowing anvil with fiery sparks",
+  anvil_slam: "a heavy iron anvil slammed into the ground causing a stone shockwave",
+  molten_armor: "a suit of armor glowing with molten metal and orange heat cracks",
+  frost_bolt: "a jagged shard of blue ice flying with frost mist and snowflakes",
+  static_arc: "a bright blue electrical arc crackling between two metal plates",
+  ember: "a single glowing orange ember floating above dark coals",
+  thermal_lance: "a lance of fire and ice energy colliding in a swirling beam",
+  gale_arrow: "an arrow wrapped in a spiral of wind and swirling leaves",
+  toxic_shot: "a green dripping arrow with a bubbling venom trail",
+  serrated_arrow: "a barbed arrowhead with jagged edges on a wooden shaft",
+
+  // Cartas de clase para cooperativo.
+  taunt_war: "a warrior beating his chest and shouting a challenge with an open hand",
+  clan_guard: "a stout dwarf guardian holding a large shield in front of an ally",
+  arcane_veil: "a mage conjuring swirling purple illusions to distract an enemy",
+  elf_rescue: "an elven ranger offering a hand to a weary companion in a sunlit forest glade, soft green light",
 };
 
 const PORTRAITS = {
@@ -89,26 +143,41 @@ const PORTRAITS = {
 };
 
 function buildManifest() {
+  let previous = [];
+  try {
+    previous = JSON.parse(readFileSync(new URL("../data/image-manifest.json", import.meta.url), "utf8"));
+  } catch {
+    // Primera generación: no hay manifiesto previo.
+  }
+  const previousSeeds = new Map(previous.map((entry) => [entry.id, entry.seed]));
+  let nextSeed = Math.max(1000, ...previous.map((entry) => entry.seed || 0)) + 1;
+
   const entries = [];
-  let seed = 1000;
+  const addEntry = (entry) => {
+    entry.seed = previousSeeds.get(entry.id) ?? nextSeed++;
+    entries.push(entry);
+  };
   for (const id of Object.keys(CARDS)) {
     const prompt = CARD_PROMPTS[id];
     if (!prompt) continue;
-    entries.push({
+    addEntry({
       id,
       group: "cards",
       file: `assets/cards/${id}.png`,
       prompt,
-      seed: seed++,
+      seed: 0,
       model: "flux-2-klein",
       size: "768x1024",
     });
   }
   for (const id of Object.keys(CHARACTERS)) {
-    entries.push({ id, group: "portraits", file: `assets/portraits/${id}.png`, prompt: PORTRAITS[id], seed: seed++, model: "flux-2-klein", size: "1024x1024" });
+    addEntry({ id, group: "portraits", file: `assets/portraits/${id}.png`, prompt: PORTRAITS[id], seed: 0, model: "flux-2-klein", size: "1024x1024" });
   }
   for (const id of Object.keys(ENEMIES)) {
-    entries.push({ id, group: "portraits", file: `assets/portraits/${id}.png`, prompt: PORTRAITS[id], seed: seed++, model: "flux-2-klein", size: "1024x1024" });
+    addEntry({ id, group: "portraits", file: `assets/portraits/${id}.png`, prompt: PORTRAITS[id], seed: 0, model: "flux-2-klein", size: "1024x1024" });
+  }
+  for (const id of Object.keys(PATH_PROMPTS)) {
+    addEntry({ id, group: "paths", file: `assets/paths/${id}.png`, prompt: PATH_PROMPTS[id], seed: 0, model: "flux-2-klein", size: "1024x640" });
   }
   return entries;
 }
@@ -129,7 +198,7 @@ async function generateOne(entry, apiKey, force) {
   }
   const body = {
     model: entry.model,
-    prompt: `${STYLE}, ${entry.prompt}`,
+    prompt: `${entry.group === "paths" ? PATH_STYLE : STYLE}, ${entry.prompt}`,
     size: entry.size,
     n: 1,
     response_format: "b64_json",

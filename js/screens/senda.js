@@ -15,10 +15,21 @@ export function senda(ctx) {
     if (n.type === "challenge") return n.hint || "Desafío secundario";
     return "Enfrentamiento";
   };
+  const art = (n) => {
+    if (n.art) return n.art;
+    if (n.type === "shop") return "assets/paths/shop.png";
+    if (n.type === "treasure") return "assets/paths/treasure.png";
+    if (n.type === "forge") return "assets/paths/forge.png";
+    if (n.type === "challenge") return "assets/paths/challenge.png";
+    return "assets/paths/combat.png";
+  };
   const buttons = options
     .map(
       (n, i) => `<button class="option-card ${n.type === "challenge" ? "challenge-option-card" : ""}" style="--i:${i}" data-option="${i}">
-        <span class="option-icon">${icon(n)}</span>
+        <span class="option-art">
+          <img src="${art(n)}" alt="" loading="lazy" onload="this.parentElement.classList.add('has-art')" onerror="this.parentElement.classList.add('no-art')">
+          <span class="option-icon">${icon(n)}</span>
+        </span>
         <span class="option-label">${n.label || (n.type === "shop" ? "Tienda" : "Combate")}</span>
         <span class="option-hint">${hint(n)}</span>
       </button>`
@@ -39,8 +50,10 @@ export function senda(ctx) {
     <h2>Elige tu camino</h2>
     <p class="muted">La senda cambia en cada partida. Escoge una de las dos opciones.</p>
     <div class="options">${buttons}</div>
-    <button class="btn" data-action="deck">Ver mazo (${run.deck.length})</button>
-    <button class="btn" data-action="save">💾 Guardar partida</button>
+    <div class="senda-actions">
+      <button class="btn" data-action="deck">Ver mazo (${run.deck.length})</button>
+      <button class="btn" data-action="save">💾 Guardar partida</button>
+    </div>
     ${toast}
   </section>`;
   return {

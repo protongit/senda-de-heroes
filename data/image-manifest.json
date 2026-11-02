@@ -477,11 +477,74 @@
     "size": "768x1024"
   },
   {
+    "id": "cat_reflex",
+    "group": "cards",
+    "file": "assets/cards/cat_reflex.png",
+    "prompt": "a lithe cat-like rogue leaping away from an incoming strike with swift motion trails",
+    "seed": 1076,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "web_shot",
+    "group": "cards",
+    "file": "assets/cards/web_shot.png",
+    "prompt": "a dense spider web strung between dark branches, glistening with green venom",
+    "seed": 1077,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "sun_bless",
+    "group": "cards",
+    "file": "assets/cards/sun_bless.png",
+    "prompt": "a radiant golden sunburst blessing a kneeling knight in warm light",
+    "seed": 1078,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
     "id": "growing_fury",
     "group": "cards",
     "file": "assets/cards/growing_fury.png",
     "prompt": "a focused warrior surrounded by glowing orange energy wisps",
     "seed": 1053,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "purge_potion",
+    "group": "cards",
+    "file": "assets/cards/purge_potion.png",
+    "prompt": "a glass vial of glowing amber cleansing potion surrounded by floating herbs",
+    "seed": 1079,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "stigma",
+    "group": "cards",
+    "file": "assets/cards/stigma.png",
+    "prompt": "a dark rune brand of shadow floating above a faintly glowing purple sigil",
+    "seed": 1080,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "blast_charge",
+    "group": "cards",
+    "file": "assets/cards/blast_charge.png",
+    "prompt": "a round black powder bomb with a lit fuse and fiery sparks",
+    "seed": 1081,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "gauntlets_iron",
+    "group": "cards",
+    "file": "assets/cards/gauntlets_iron.png",
+    "prompt": "a pair of heavy iron gauntlets resting on a stone anvil",
+    "seed": 1082,
     "model": "flux-2-klein",
     "size": "768x1024"
   },
@@ -585,6 +648,240 @@
     "size": "768x1024"
   },
   {
+    "id": "curse_deadweight",
+    "group": "cards",
+    "file": "assets/cards/curse_deadweight.png",
+    "prompt": "a heavy chained stone weight crushing a small playing card on dark ground",
+    "seed": 1083,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "curse_lich_whisper",
+    "group": "cards",
+    "file": "assets/cards/curse_lich_whisper.png",
+    "prompt": "a ghostly skeletal face whispering dark mist beside a cracked crown",
+    "seed": 1084,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "curse_open_wound",
+    "group": "cards",
+    "file": "assets/cards/curse_open_wound.png",
+    "prompt": "a crimson crack glowing across a dark stone tablet with red mist",
+    "seed": 1085,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "relic_troll_heart",
+    "group": "cards",
+    "file": "assets/cards/relic_troll_heart.png",
+    "prompt": "a large green glowing heart in a mossy amber reliquary",
+    "seed": 1086,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "relic_lich_eye",
+    "group": "cards",
+    "file": "assets/cards/relic_lich_eye.png",
+    "prompt": "a glowing blue eye encased in an obsidian medallion with silver runes",
+    "seed": 1087,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "relic_obsidian_bastion",
+    "group": "cards",
+    "file": "assets/cards/relic_obsidian_bastion.png",
+    "prompt": "a shield made of black volcanic glass with glowing orange veins",
+    "seed": 1088,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "relic_moon_chalice",
+    "group": "cards",
+    "file": "assets/cards/relic_moon_chalice.png",
+    "prompt": "an ornate silver chalice filled with glowing moonlight and floating stars",
+    "seed": 1089,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "relic_thorn_crown",
+    "group": "cards",
+    "file": "assets/cards/relic_thorn_crown.png",
+    "prompt": "a jagged iron crown wrapped in dark thorns on a velvet cushion",
+    "seed": 1090,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "relic_ashen_gauntlet",
+    "group": "cards",
+    "file": "assets/cards/relic_ashen_gauntlet.png",
+    "prompt": "a charcoal-black armored gauntlet with glowing embers between its plates",
+    "seed": 1091,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "bleed_cut",
+    "group": "cards",
+    "file": "assets/cards/bleed_cut.png",
+    "prompt": "a crimson crescent slash of energy cutting through the air",
+    "seed": 1092,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "sunder",
+    "group": "cards",
+    "file": "assets/cards/sunder.png",
+    "prompt": "a cracked stone armor plate splitting apart with a shockwave",
+    "seed": 1093,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "blood_ritual",
+    "group": "cards",
+    "file": "assets/cards/blood_ritual.png",
+    "prompt": "a glowing red ritual circle with floating crimson ribbons and an ancient chalice",
+    "seed": 1094,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "forge_hammer",
+    "group": "cards",
+    "file": "assets/cards/forge_hammer.png",
+    "prompt": "a massive blacksmith hammer striking a glowing anvil with fiery sparks",
+    "seed": 1095,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "anvil_slam",
+    "group": "cards",
+    "file": "assets/cards/anvil_slam.png",
+    "prompt": "a heavy iron anvil slammed into the ground causing a stone shockwave",
+    "seed": 1096,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "molten_armor",
+    "group": "cards",
+    "file": "assets/cards/molten_armor.png",
+    "prompt": "a suit of armor glowing with molten metal and orange heat cracks",
+    "seed": 1097,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "frost_bolt",
+    "group": "cards",
+    "file": "assets/cards/frost_bolt.png",
+    "prompt": "a jagged shard of blue ice flying with frost mist and snowflakes",
+    "seed": 1098,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "static_arc",
+    "group": "cards",
+    "file": "assets/cards/static_arc.png",
+    "prompt": "a bright blue electrical arc crackling between two metal plates",
+    "seed": 1099,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "ember",
+    "group": "cards",
+    "file": "assets/cards/ember.png",
+    "prompt": "a single glowing orange ember floating above dark coals",
+    "seed": 1100,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "thermal_lance",
+    "group": "cards",
+    "file": "assets/cards/thermal_lance.png",
+    "prompt": "a lance of fire and ice energy colliding in a swirling beam",
+    "seed": 1101,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "gale_arrow",
+    "group": "cards",
+    "file": "assets/cards/gale_arrow.png",
+    "prompt": "an arrow wrapped in a spiral of wind and swirling leaves",
+    "seed": 1102,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "toxic_shot",
+    "group": "cards",
+    "file": "assets/cards/toxic_shot.png",
+    "prompt": "a green dripping arrow with a bubbling venom trail",
+    "seed": 1103,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "serrated_arrow",
+    "group": "cards",
+    "file": "assets/cards/serrated_arrow.png",
+    "prompt": "a barbed arrowhead with jagged edges on a wooden shaft",
+    "seed": 1104,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "taunt_war",
+    "group": "cards",
+    "file": "assets/cards/taunt_war.png",
+    "prompt": "a warrior beating his chest and shouting a challenge with an open hand",
+    "seed": 1105,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "clan_guard",
+    "group": "cards",
+    "file": "assets/cards/clan_guard.png",
+    "prompt": "a stout dwarf guardian holding a large shield in front of an ally",
+    "seed": 1106,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "arcane_veil",
+    "group": "cards",
+    "file": "assets/cards/arcane_veil.png",
+    "prompt": "a mage conjuring swirling purple illusions to distract an enemy",
+    "seed": 1107,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
+    "id": "elf_rescue",
+    "group": "cards",
+    "file": "assets/cards/elf_rescue.png",
+    "prompt": "an elven ranger offering a hand to a weary companion in a sunlit forest glade, soft green light",
+    "seed": 1108,
+    "model": "flux-2-klein",
+    "size": "768x1024"
+  },
+  {
     "id": "warrior",
     "group": "portraits",
     "file": "assets/portraits/warrior.png",
@@ -682,5 +979,50 @@
     "seed": 1075,
     "model": "flux-2-klein",
     "size": "1024x1024"
+  },
+  {
+    "id": "combat",
+    "group": "paths",
+    "file": "assets/paths/combat.png",
+    "prompt": "a dramatic medieval battlefield with two crossed swords planted in the ground, distant castle banners and smoke, ominous sky",
+    "seed": 1109,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "shop",
+    "group": "paths",
+    "file": "assets/paths/shop.png",
+    "prompt": "a bustling medieval merchant stall with potions, scrolls, weapons and hanging lanterns, warm inviting light",
+    "seed": 1110,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "treasure",
+    "group": "paths",
+    "file": "assets/paths/treasure.png",
+    "prompt": "an ornate treasure chest overflowing with gold coins and glowing gems in a dark dungeon",
+    "seed": 1111,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "forge",
+    "group": "paths",
+    "file": "assets/paths/forge.png",
+    "prompt": "a glowing blacksmith forge with an anvil, hammer and flying sparks in a stone workshop",
+    "seed": 1112,
+    "model": "flux-2-klein",
+    "size": "1024x640"
+  },
+  {
+    "id": "challenge",
+    "group": "paths",
+    "file": "assets/paths/challenge.png",
+    "prompt": "an ancient rune-covered wayshrine with a glowing magical portal in a misty forest, mysterious atmosphere",
+    "seed": 1113,
+    "model": "flux-2-klein",
+    "size": "1024x640"
   }
 ]

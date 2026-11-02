@@ -31,6 +31,16 @@ const TIER_LABELS = {
   boss2: "Jefe final: Lich Anciano",
 };
 
+function combatOption(tier, label) {
+  const enemyId = TIER_ENEMIES[tier]?.[0];
+  return {
+    type: "combat",
+    tier,
+    label,
+    art: enemyId ? `assets/portraits/${enemyId}.png` : "assets/paths/combat.png",
+  };
+}
+
 export function enemyForTier(tier, rng, ascension = 0) {
   const pool = TIER_ENEMIES[tier] || TIER_ENEMIES[1];
   return getEnemy(rng.pick(pool), ascension);
@@ -44,19 +54,19 @@ export function rollOptions(run) {
   const d = run.depth;
   if (d >= MAX_STEPS) return [];
   if (d === MAX_STEPS - 1) {
-    return [{ type: "combat", tier: "boss2", label: TIER_LABELS.boss2 }];
+    return [combatOption("boss2", TIER_LABELS.boss2)];
   }
   if (d === MAX_STEPS - 2) {
     return run.mapRng.shuffle([
       { type: "shop", label: "Mercader" },
-      { type: "combat", tier: "boss1", label: TIER_LABELS.boss1 },
+      combatOption("boss1", TIER_LABELS.boss1),
     ]);
   }
   const tier = tierForDepth(d);
-  const candidates = [{ type: "combat", tier, label: TIER_LABELS[tier] }];
+  const candidates = [combatOption(tier, TIER_LABELS[tier])];
   if (tier > 1) {
     const lower = tier - 1;
-    candidates.push({ type: "combat", tier: lower, label: TIER_LABELS[lower] });
+    candidates.push(combatOption(lower, TIER_LABELS[lower]));
   }
   candidates.push({ type: "shop", label: "Mercader" });
   if (d >= 1) candidates.push({ type: "treasure", label: "Cofre del tesoro" });

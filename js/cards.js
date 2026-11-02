@@ -168,18 +168,6 @@ export const CARDS = {
   elf_rescue: C("elf_rescue", "Rescate del Bosque", { type: "skill", subtype: "heal", effects: [{ kind: "heal", value: 4 }, { kind: "rescue", value: 5 }], value: 20, text: "Cura 4. En coop, revive a un aliado caído con 5 de vida.", icon: "🌿" }),
 };
 
-// Cartas nuevas sin arte generado: la UI usa el emoji de respaldo (sin 404).
-const NO_ART = [
-  "curse_deadweight", "curse_lich_whisper", "curse_open_wound",
-  "relic_troll_heart", "relic_lich_eye", "relic_obsidian_bastion",
-  "relic_moon_chalice", "relic_thorn_crown", "relic_ashen_gauntlet",
-  "bleed_cut", "sunder", "blood_ritual", "forge_hammer", "anvil_slam",
-  "molten_armor", "frost_bolt", "static_arc", "ember", "thermal_lance",
-  "gale_arrow", "toxic_shot", "serrated_arrow",
-  "taunt_war", "clan_guard", "arcane_veil", "elf_rescue",
-];
-for (const id of NO_ART) if (CARDS[id]) CARDS[id].art = "";
-
 export function getCard(id) {
   const card = CARDS[id];
   if (!card) throw new Error(`Carta desconocida: ${id}`);
