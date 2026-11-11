@@ -5,4 +5,17 @@ services:
     container_name: senda-de-heroes
     ports:
       - "8080:8080"
+    depends_on:
+      - stats-api
     restart: unless-stopped
+  stats-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    image: senda-de-heroes-api
+    container_name: senda-de-heroes-api
+    volumes:
+      - stats:/app/data
+    restart: unless-stopped
+volumes:
+  stats:

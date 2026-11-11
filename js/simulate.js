@@ -17,7 +17,7 @@ import {
   addMorality,
 } from "./run.js";
 import { createCombat } from "./engine.js";
-import { getEnemy } from "./enemies.js";
+import { getEnemy, depthPower } from "./enemies.js";
 import { getCard, resolveCard } from "./cards.js";
 import { buy, price } from "./shop.js";
 import { BALANCE } from "./balance-config.js";
@@ -89,7 +89,7 @@ export function simulateChallenge(run, node) {
   if (node.trial?.type === "combat") {
     applySimMoral(run, node, "before");
     const tier = Math.min(5, tierForDepth(run.depth) + (node.trial.tierOffset || 1));
-    const enemy = enemyForTier(tier, run.rng, run.ascension);
+    const enemy = enemyForTier(tier, run.rng, run.ascension, depthPower(run.depth));
     const combat = createCombat(run.heroDef, heroStatsForCombat(run), enemy, run.deck.slice(), run.rng, run.loadout, {
       restrictions: node.trial.restrictions || null,
       challenge: node,
@@ -164,7 +164,7 @@ export function simulateRun(heroId, seed) {
       continue;
     }
     if (node.type === "combat") {
-      const enemy = node.enemyId ? getEnemy(node.enemyId, run.ascension) : enemyForTier(node.tier, run.rng, run.ascension);
+      const enemy = node.enemyId ? getEnemy(node.enemyId, run.ascension, node.power) : enemyForTier(node.tier, run.rng, run.ascension, node.power);
       const hpBefore = run.hp;
       const combat = createCombat(run.heroDef, heroStatsForCombat(run), enemy, run.deck.slice(), run.rng, run.loadout);
       let turns = 0;

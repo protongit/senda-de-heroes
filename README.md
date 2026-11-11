@@ -29,6 +29,8 @@ Juego de cartas de **construcción de mazos** (estilo Slay the Spire / Star Real
 14. El **log de combate** aparece en un lateral, con la última acción arriba y ocultable.
 15. Puedes **guardar la partida** desde la senda (botón «Guardar partida»); se almacena en el `localStorage` del navegador y aparece como **Continuar partida** en el menú.
 16. **Jefes finales rotativos:** cada senda termina con un jefe final sacado de una bolsa sin repetición. No se repite ninguno hasta que hayan aparecido todos; cuando se agota, se baraja un nuevo orden.
+17. **Sonido y música sintetizados** (Web Audio, sin ficheros): efectos de cartas, daño, cura, bloqueo, victoria y derrota, con música ambiental de menú/combate. Se activan con el primer gesto y se controlan desde el menú (Sonido / Música).
+18. **Estadísticas y ranking:** puedes poner **nombre a tu héroe** al elegirlo. Al terminar cada senda, la partida se registra en un **cuadro de mando** (📊) con resumen, desglose por héroe y enemigo, moralidad, historial y un **ranking** filtrable por héroe. Los datos se guardan en el servidor con un identificador anónimo (sin IP, navegador ni cookies); también hay un botón para borrarlos.
 
 ## Contenido
 - **4 héroes:** Guerrero, Enano, Hechicera (arcana), Elfa (arcana) — mazos iniciales de **12 cartas** cada uno, con cartas de clase adicionales en los mazos de duelo.
@@ -45,7 +47,9 @@ Sistema visual propio en `styles.css` (tokens de color, tipografía y motion), t
 ```
 senda-de-heroes/
 ├── index.html · styles.css
-├── Dockerfile · nginx.conf · docker-compose.yml
+├── Dockerfile · Dockerfile.api · nginx.conf · docker-compose.yml
+├── api.py               # API de estadísticas (stdlib: http.server + sqlite3)
+├── server.py            # servidor de desarrollo (estáticos + /api)
 ├── js/
 │   ├── main.js          # navegación y flujo (1P, coop, versus, fragua, perks)
 │   ├── engine.js        # motor de combate (mazos, energía, acciones, intención, reacciones, efectos)
@@ -53,8 +57,10 @@ senda-de-heroes/
 │   ├── run.js · shop.js · simulate.js · perks.js
 │   ├── cards.js · characters.js · enemies.js · loot.js · balance-config.js · rng.js · ai.js · ui.js
 │   ├── challenges.js · elements.js · save.js · icons.js   # ui.js: primitivas HTML · icons.js: sprite SVG
+│   ├── audio.js         # sonido y música sintetizados (Web Audio)
+│   ├── records.js       # identidad de jugador + envío/consulta de estadísticas
 │   ├── fx.js              # feedback: daño flotante, estela de vida, tilt, brasas, countUp
-│   └── screens/ (menu, select, senda, battle, reward, shop, forge, perk, deck, gameover, duelsetup, duelbattle, challenge)
+│   └── screens/ (menu, select, senda, battle, reward, shop, forge, perk, deck, gameover, duelsetup, duelbattle, challenge, dashboard)
 ├── data/image-manifest.json
 ├── scripts/ (generate-cards.mjs, smoke.mjs, balance.mjs)
 ├── assets/{cards,portraits,paths,perks,fonts}/
@@ -70,12 +76,10 @@ Balance final y metodología en [`BALANCE.md`](./BALANCE.md).
 
 ## Contenedor (Docker)
 ```bash
-docker buildx build --load -t senda-de-heroes .
-docker run -d --name senda-de-heroes -p 8080:8080 senda-de-heroes
-# o con compose (recomendado):
+# Compose (recomendado): web (nginx) + API de estadísticas (python) con SQLite en volumen
 docker compose up -d --build
 ```
-Abre `http://localhost:8080`. El contenedor sirve el juego con nginx (gzip para JS/CSS, caché larga para imágenes y `no-cache` para código) en el **puerto 8080** y con usuario sin privilegios, compatible con OpenShift/Knative (nan.builders).
+Abre `http://localhost:8080`. El servicio web sirve el juego con nginx (gzip para JS/CSS, caché larga para imágenes y `no-cache` para código) en el **puerto 8080**; nginx reenvía `/api/*` al contenedor `stats-api` (Python, `api.py`, SQLite en el volumen `stats`). Ambos corren con usuario sin privilegios, compatibles con OpenShift/Knative (nan.builders).
 
 ## Modo de pruebas / autoplay
 - Una partida: `?autoplay=1&hero=warrior&seed=1` → resultado en `#autoplay-result`.

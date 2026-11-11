@@ -1,38 +1,54 @@
 # Balance — Senda de Héroes
 
-## Resultado final (v3.1, 500 partidas headless por héroe, `enemyScale = 0.94`, mazos iniciales de 12 cartas, 98 cartas y 16 enemigos)
+## Resultado final (v3.2, 500 partidas headless por héroe, `enemyScale = 0.88` + curva `depthPower`, mazos iniciales de 12 cartas, 98 cartas y 16 enemigos)
 
 ### Equidad de héroes (criterio: 50% ±10)
 | Héroe | Victoria (500 headless) |
 |---|---|
-| Guerrero | 51.6% |
-| Enano | 43.4% |
-| Hechicera | 41.2% |
-| Elfa | 53.4% |
+| Guerrero | 46.6% |
+| Enano | 44.6% |
+| Hechicera | 45.0% |
+| Elfa | 43.4% |
 
-Media ≈ 47.4%; todos dentro de 40–60%.
+Media ≈ 44.9%; todos dentro de 40–60% y con un rango muy apretado (3.2 puntos, frente a los 12 de v3.1).
 
-### Enemigos (por combate, condicionado a alcanzarlos; `enemyScale = 0.94`)
+### Curva de dificultad (v3.2)
+Se añade `BALANCE.depthPower` (multiplicador por `run.depth` 0..6) para aplanar la curva:
+- **Inicio fácil** (depth 0–1: ×0.80–0.88) para conservar vida.
+- **Medio más exigente** (depth 2–4: ×1.05–1.18) y **jefe intermedio** (depth 5: ×1.12).
+- **Jefe final** (depth 6: ×1.07) compensado para seguir siendo el pico.
+
+Con `enemyScale = 0.88` (antes 0.94) la victoria de run se mantiene ≈ 45% mientras el mid-game deja de ser trivial:
+| Enemigo | v3.1 | v3.2 |
+|---|---|---|
+| Ogro (tier 4) | 91.7% | 85.4% |
+| Nigromante (élite) | 96.8% | 95.2% |
+| Señor Orco (jefe intermedio) | 84.0% | 76.4% |
+| Jefes finales (4) | ~51% | 46.5–53.8% |
+
+Ajuste de vida de héroes para apretar la banda: Enano 44→50, Hechicera 56→62, Elfa 104→100 (Guerrero sin cambios).
+
+### Enemigos (por combate, condicionado a alcanzarlos; `enemyScale = 0.88`, curva `depthPower`)
 | Enemigo | Nivel | Tipo | Victoria del jugador | Turnos |
 |---|---|---|---|---|
-| Bandido | 1 | normal | 100.0% | 2.6 |
-| Goblin | 1 | normal | 100.0% | 2.6 |
-| Lobo | 2 | normal | 100.0% | 2.7 |
-| Oso | 2 | normal | 100.0% | 2.8 |
-| Esqueleto | 3 | normal | 99.7% | 3.4 |
-| Espectro | 3 | normal | 100.0% | 3.3 |
-| Ogro | 4 | normal | 91.7% | 4.4 |
-| Trol | 4 | normal | 96.5% | 4.3 |
-| Nigromante | 5 | élite | 96.8% | 5.1 |
-| Vampiro | 5 | élite | 99.4% | 4.6 |
-| Capitán Osario | 6 | jefe intermedio | 92.9% | 6.2 |
-| Señor Orco | 6 | jefe intermedio | 84.0% | 5.2 |
+| Bandido | 1 | normal | 100.0% | 2.4 |
+| Goblin | 1 | normal | 100.0% | 2.4 |
+| Lobo | 2 | normal | 100.0% | 2.5 |
+| Oso | 2 | normal | 100.0% | 2.6 |
+| Esqueleto | 3 | normal | 99.7% | 3.5 |
+| Espectro | 3 | normal | 100.0% | 3.4 |
+| Ogro | 4 | normal | 85.4% | 4.7 |
+| Trol | 4 | normal | 94.5% | 4.5 |
+| Nigromante | 5 | élite | 95.2% | 5.7 |
+| Vampiro | 5 | élite | 98.9% | 5.1 |
+| Capitán Osario | 6 | jefe intermedio | 88.7% | 6.4 |
+| Señor Orco | 6 | jefe intermedio | 76.4% | 5.3 |
 | Dragón de Ceniza | 7 | jefe final | 52.2% | 6.1 |
-| Lich | 7 | jefe final | 51.4% | 7.6 |
-| Reina de las Arañas | 7 | jefe final | 51.2% | 8.7 |
-| Señor del Abismo | 7 | jefe final | 51.8% | 7.5 |
+| Lich | 7 | jefe final | 52.3% | 7.4 |
+| Reina de las Arañas | 7 | jefe final | 46.5% | 8.4 |
+| Señor del Abismo | 7 | jefe final | 53.8% | 7.6 |
 
-Los **jefes finales** son el pico real de dificultad y quedan agrupados en torno al 51–52%. Los combates normales siguen siendo mayoritariamente favorables, como en la curva anterior.
+Los **jefes finales** siguen siendo el pico real de dificultad (46.5–53.8%), con el mid-game (tier 4, jefes intermedios) claramente más exigente que en v3.1.
 
 ### Jefes finales rotativos
 - Cuatro jefes finales: Lich, Dragón de Ceniza, Reina de las Arañas y Señor del Abismo.

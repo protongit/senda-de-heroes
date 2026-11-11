@@ -1,3 +1,5 @@
+import { sfx } from "./audio.js";
+
 const reduced = () =>
   typeof window !== "undefined" &&
   window.matchMedia &&
@@ -44,6 +46,9 @@ function flashClass(el, cls, ms) {
 }
 
 export function floatAt(x, y, text, kind = "damage") {
+  if (kind === "damage") sfx("damage");
+  else if (kind === "heal") sfx("heal");
+  else if (kind === "block") sfx("block");
   if (typeof document === "undefined" || !Number.isFinite(x) || !Number.isFinite(y)) return null;
   const el = document.createElement("span");
   el.className = `fx-float fx-${kind}`;
@@ -99,6 +104,7 @@ export function ko(el) {
 }
 
 export function playCard(el, done) {
+  sfx("playCard");
   if (!el || reduced() || el.dataset.fxBusy === "1") {
     done();
     return;
@@ -440,6 +446,7 @@ export { reduced as prefersReducedMotion };
 // Partículas de un solo disparo (brasas que caen en la derrota, motas de luz que
 // ascienden en la victoria) + sacudida sincronizada con la caída de la última letra.
 export function gameoverFx(root, win) {
+  sfx(win ? "victory" : "defeat");
   const stage = root.querySelector(".go-stage");
   if (!stage || reduced()) return;
   const kind = win ? "mote" : "ember";

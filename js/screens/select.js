@@ -18,14 +18,19 @@ export function select(ctx) {
   const html = `
   <section class="screen select">
     <h2>Elige tu héroe</h2>
+    <label class="dash-field hero-name-field">
+      <span>Nombre de tu héroe (opcional)</span>
+      <input type="text" id="hero-name" maxlength="24" placeholder="Ej. Glorfindel" autocomplete="off" />
+    </label>
     <div class="hero-grid">${cards}</div>
     <button class="btn" data-action="back">${icon("arrowLeft")} Volver</button>
   </section>`;
   return {
     html,
     bind(root) {
+      const nameInput = root.querySelector("#hero-name");
       root.querySelectorAll("[data-hero]").forEach((b) => {
-        b.onclick = () => ctx.startRun(b.dataset.hero);
+        b.onclick = () => ctx.startRun(b.dataset.hero, null, nameInput ? nameInput.value.trim() : "");
       });
       root.querySelector('[data-action="back"]').onclick = () => ctx.go("menu");
     },

@@ -2,6 +2,7 @@ import { savedRunInfo } from "../save.js";
 import { esc } from "../ui.js";
 import { icon } from "../icons.js";
 import { accordion } from "../fx.js";
+import { getPrefs, setPrefs, unlock } from "../audio.js";
 
 export function menu(ctx) {
   const saved = savedRunInfo();
@@ -10,6 +11,7 @@ export function menu(ctx) {
         <span class="muted">${esc(saved.heroIcon)} ${esc(saved.heroName)} · Nv ${esc(saved.level)} · Paso ${esc(saved.depth + 1)}${saved.ascension ? ` · Senda ★${esc(saved.ascension + 1)}` : ""}</span>
       </button>`
     : "";
+  const prefs = getPrefs();
   const html = `
   <section class="screen menu">
     <div class="menu-stage">
@@ -20,7 +22,12 @@ export function menu(ctx) {
       <button class="btn primary" data-action="solo">${icon("sword")} 1 jugador</button>
       <button class="btn" data-action="coop">${icon("shield")} Cooperativo<span class="muted">2 jugadores vs la IA</span></button>
       <button class="btn" data-action="versus">${icon("swords")} Competitivo<span class="muted">1 contra 1</span></button>
+      <button class="btn ghost" data-action="dashboard">${icon("chart")} Cuadro de mando<span class="muted">estadísticas y ranking</span></button>
       <button class="btn ghost" data-action="help">${icon("book")} Cómo jugar</button>
+    </div>
+    <div class="menu-settings">
+      <button class="btn small ghost" data-action="toggle-sfx">${icon(prefs.sfx ? "sound" : "mute")} Sonido: ${prefs.sfx ? "Sí" : "No"}</button>
+      <button class="btn small ghost" data-action="toggle-music">${icon(prefs.music ? "sound" : "mute")} Música: ${prefs.music ? "Sí" : "No"}</button>
     </div>
     </div>
     <div class="help hidden" data-help>
@@ -69,6 +76,17 @@ export function menu(ctx) {
       root.querySelector('[data-action="solo"]').onclick = () => ctx.go("select");
       root.querySelector('[data-action="coop"]').onclick = () => ctx.go("duelsetup", { mode: "coop" });
       root.querySelector('[data-action="versus"]').onclick = () => ctx.go("duelsetup", { mode: "versus" });
+      root.querySelector('[data-action="dashboard"]').onclick = () => ctx.go("dashboard");
+      root.querySelector('[data-action="toggle-sfx"]').onclick = () => {
+        unlock();
+        setPrefs({ sfx: !getPrefs().sfx });
+        ctx.go("menu");
+      };
+      root.querySelector('[data-action="toggle-music"]').onclick = () => {
+        unlock();
+        setPrefs({ music: !getPrefs().music });
+        ctx.go("menu");
+      };
       root.querySelector('[data-action="help"]').onclick = () => {
         const panel = root.querySelector("[data-help]");
         accordion(panel, panel.classList.contains("hidden"));

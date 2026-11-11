@@ -1,10 +1,10 @@
 {
   "samples": 500,
   "heroWinRate": {
-    "warrior": 51.6,
-    "dwarf": 43.4,
-    "sorceress": 41.2,
-    "elf": 53.4
+    "warrior": 46.6,
+    "dwarf": 44.6,
+    "sorceress": 45,
+    "elf": 43.4
   },
   "enemyWinRate": {
     "esqueleto": {
@@ -13,7 +13,7 @@
       "kind": "normal"
     },
     "capitan_osario": {
-      "rate": 92.9,
+      "rate": 88.7,
       "level": 6,
       "kind": "boss"
     },
@@ -28,12 +28,12 @@
       "kind": "normal"
     },
     "trol": {
-      "rate": 96.5,
+      "rate": 94.5,
       "level": 4,
       "kind": "normal"
     },
     "lich": {
-      "rate": 51.4,
+      "rate": 52.3,
       "level": 7,
       "kind": "boss"
     },
@@ -43,12 +43,12 @@
       "kind": "normal"
     },
     "senor_orco": {
-      "rate": 84,
+      "rate": 76.4,
       "level": 6,
       "kind": "boss"
     },
     "reina_aranas": {
-      "rate": 51.2,
+      "rate": 46.5,
       "level": 7,
       "kind": "boss"
     },
@@ -58,12 +58,12 @@
       "kind": "normal"
     },
     "ogro": {
-      "rate": 91.7,
+      "rate": 85.4,
       "level": 4,
       "kind": "normal"
     },
     "senor_abismo": {
-      "rate": 51.8,
+      "rate": 53.8,
       "level": 7,
       "kind": "boss"
     },
@@ -78,12 +78,12 @@
       "kind": "normal"
     },
     "vampiro": {
-      "rate": 99.4,
+      "rate": 98.9,
       "level": 5,
       "kind": "elite"
     },
     "nigromante": {
-      "rate": 96.8,
+      "rate": 95.2,
       "level": 5,
       "kind": "elite"
     }

@@ -11,6 +11,7 @@ import { gameover } from "./screens/gameover.js";
 import { duelsetup } from "./screens/duelsetup.js";
 import { duelbattle } from "./screens/duelbattle.js";
 import { challenge } from "./screens/challenge.js";
+import { dashboard } from "./screens/dashboard.js";
 
 import { createCombat, playCard as enginePlayCard, endTurn as engineEndTurn, playReaction as enginePlayReaction, resolveEnemyTurn as engineResolveEnemyTurn, continueToHeroTurn as engineContinueToHeroTurn, enemyIntent, reactionMatches } from "./engine.js";
 import {
@@ -41,7 +42,7 @@ import { BALANCE } from "./balance-config.js";
 import { perkOptions, applyPerk } from "./perks.js";
 import { simulateRun } from "./simulate.js";
 import { CHARACTERS } from "./characters.js";
-import { getEnemy } from "./enemies.js";
+import { getEnemy, depthPower } from "./enemies.js";
 import { createRng } from "./rng.js";
 import { saveRun, loadRun } from "./save.js";
 import { initTooltips } from "./tooltip.js";
@@ -49,8 +50,10 @@ import { createDuel, playDuelCard, endDuelTurn } from "./duel.js";
 import { evaluateCombatOutcome, puzzleSolved } from "./challenges.js";
 import { koCombatant, prefersReducedMotion, initAmbience, initPressFeedback, initTilt } from "./fx.js";
 import { injectSprite } from "./icons.js";
+import { music, unlock, sfx } from "./audio.js";
+import { flushQueue } from "./records.js";
 
-const VIEWS = { menu, select, senda, battle, reward, shop, forge, perk, deck, gameover, duelsetup, duelbattle, challenge };
+const VIEWS = { menu, select, senda, battle, reward, shop, forge, perk, deck, gameover, duelsetup, duelbattle, challenge, dashboard };
 
 let lastRenderedView = null;
 
@@ -144,6 +147,7 @@ function go(view, payload) {
     console.error(err);
   }
   if (viewChanged) window.scrollTo(0, 0);
+  music(view === "battle" || view === "duelbattle" ? "combat" : "menu");
 }
 
 function toggleLog() {
@@ -151,9 +155,10 @@ function toggleLog() {
   go(G.currentView, G.currentPayload);
 }
 
-function startRun(heroId, seed) {
+function startRun(heroId, seed, name) {
   const s = seed ?? (Date.now() & 0xffffffff);
   G.run = createRun(heroId, s);
+  if (name) G.run.heroName = name;
   G.combat = null;
   G.rewards = null;
   G.challenge = null;
@@ -204,7 +209,7 @@ function chooseOption(index) {
   if (node.type === "challenge") {
     startChallenge(node);
   } else if (node.type === "combat") {
-    const enemy = node.enemyId ? getEnemy(node.enemyId, G.run.ascension) : enemyForTier(node.tier, G.run.rng, G.run.ascension);
+    const enemy = node.enemyId ? getEnemy(node.enemyId, G.run.ascension, node.power) : enemyForTier(node.tier, G.run.rng, G.run.ascension, node.power);
     G.enemyDef = enemy;
     G.combat = createCombat(G.run.heroDef, heroStatsForCombat(G.run), enemy, G.run.deck.slice(), G.run.rng, G.run.loadout);
     G.logHidden = false;
@@ -261,7 +266,7 @@ function startChallengeTrial() {
     return;
   }
   const tier = Math.min(5, tierForDepth(G.run.depth) + (node.trial.tierOffset || 1));
-  const enemy = enemyForTier(tier, G.run.rng, G.run.ascension);
+  const enemy = enemyForTier(tier, G.run.rng, G.run.ascension, depthPower(G.run.depth));
   G.enemyDef = enemy;
   G.combat = createCombat(G.run.heroDef, heroStatsForCombat(G.run), enemy, G.run.deck.slice(), G.run.rng, G.run.loadout, {
     restrictions: node.trial.restrictions || null,
@@ -581,6 +586,7 @@ function enterPerks() {
 
 function pickPerk(perkId) {
   applyPerk(G.run, perkId);
+  sfx("perk");
   G.run.pendingLevels = Math.max(0, G.run.pendingLevels - 1);
   enterPerks();
 }
@@ -613,12 +619,14 @@ function continueAscension() {
 
 function buy(cardId) {
   const res = shopBuy(G.run, cardId);
+  sfx("coin");
   G.toast = res.ok ? `Compraste ${res.card.name}` : res.reason;
   go("shop");
 }
 
 function sell(uid) {
   const res = shopSell(G.run, uid);
+  sfx("coin");
   G.toast = res.ok ? `Vendiste ${res.card.name} (+${res.gained}🪙)` : res.reason;
   go("shop");
 }
@@ -830,5 +838,9 @@ document.addEventListener("DOMContentLoaded", () => {
   initPressFeedback(app);
   initTilt(app);
   initTooltips();
+  // El audio se desbloquea con el primer gesto (política de autoplay).
+  window.addEventListener("pointerdown", () => unlock(), { once: true, passive: true });
+  window.addEventListener("keydown", () => unlock(), { once: true });
+  flushQueue();
   boot();
 });

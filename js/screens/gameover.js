@@ -2,6 +2,7 @@ import { esc } from "../ui.js";
 import { icon as ic } from "../icons.js";
 import { getEnemy } from "../enemies.js";
 import { gameoverFx } from "../fx.js";
+import { recordRun } from "../records.js";
 
 // Título letra a letra: cada carácter recibe su índice --i para el stagger de entrada.
 function splitTitle(text) {
@@ -25,7 +26,7 @@ export function gameover(ctx) {
     ? `Has derrotado al jefe final: ${esc(finalBossName)} y completado la Senda de Héroes.`
     : "La senda termina aquí... por ahora.";
   const summary = run
-    ? `<p class="muted">${run.heroDef.icon} ${run.heroDef.name} · Nivel ${run.level} · Senda ★${(run.ascension || 0) + 1} · ${ic("heart")} ${run.hp}/${run.maxHp} · ${ic("coin")} ${run.coins} · ${ic("cards")} ${run.deck.length} cartas</p>`
+    ? `<p class="muted">${run.heroDef.icon} ${run.heroDef.name}${run.heroName ? ` «${esc(run.heroName)}»` : ""} · Nivel ${run.level} · Senda ★${(run.ascension || 0) + 1} · ${ic("heart")} ${run.hp}/${run.maxHp} · ${ic("coin")} ${run.coins} · ${ic("cards")} ${run.deck.length} cartas</p>`
     : "";
 
   const morality = run && run.morality
@@ -77,6 +78,11 @@ export function gameover(ctx) {
   return {
     html,
     bind(root) {
+      // Registra la partida terminada en las estadísticas (solo partidas reales).
+      if (G.run && G.run.finished && !G.autoplay && !G.run.__recorded) {
+        G.run.__recorded = true;
+        recordRun(G.run);
+      }
       const cont = root.querySelector('[data-action="continue"]');
       if (cont) cont.onclick = () => ctx.continueAscension();
       root.querySelector('[data-action="menu"]').onclick = () => ctx.go("menu");

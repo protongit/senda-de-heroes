@@ -184,10 +184,17 @@ function currentScale() {
   return BALANCE.enemyScale ?? 1;
 }
 
-export function getEnemy(id, ascension = 0) {
+// Multiplicador de dificultad por profundidad de senda (ver BALANCE.depthPower).
+export function depthPower(depth) {
+  const arr = BALANCE.depthPower;
+  if (!Array.isArray(arr)) return 1;
+  return arr[depth] ?? 1;
+}
+
+export function getEnemy(id, ascension = 0, power = 1) {
   const e = ENEMIES[id];
   if (!e) throw new Error(`Enemigo desconocido: ${id}`);
-  const s = currentScale() * (1 + BALANCE.ascensionStep * (ascension || 0));
+  const s = currentScale() * (1 + BALANCE.ascensionStep * (ascension || 0)) * (power || 1);
   if (Math.abs(s - 1) < 1e-6) return e;
   const scale = (v) => Math.max(1, Math.round(v * s));
   return {

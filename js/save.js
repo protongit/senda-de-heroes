@@ -11,6 +11,7 @@ const RUN_FIELDS = [
   "perks", "drawBonus", "startBlock", "damageBonus", "onHitPoison", "sellBonus",
   "forgeDiscount", "afterWinHeal", "finished", "result", "options", "market",
   "shopServices", "finalBossBag", "finalBossId", "midBossId",
+  "heroName", "kills", "defeatedBy", "startedAt",
 ];
 
 function clone(value) {

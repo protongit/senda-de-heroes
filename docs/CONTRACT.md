@@ -117,9 +117,9 @@ rotateMarket(run) -> market                       // re-tira la zona rotativa (m
 MARKET_TIER_LABEL = { common, uncommon, rare, epic }
 ```
 - Nodos de la senda: `combat`, `shop`, `treasure`, `forge` (desde profundidad ≥ 1).
-- `run.ascension` (0 = primera senda): `getEnemy(id, ascension)` escala enemigos ×(1 + `BALANCE.ascensionStep` × ascensión) sobre `enemyScale` (⭐Senda N+1 = +15%).
+- `run.ascension` (0 = primera senda): `getEnemy(id, ascension, power)` escala enemigos ×(1 + `BALANCE.ascensionStep` × ascensión) sobre `enemyScale` (⭐Senda N+1 = +15%) y ×`power` (curva `BALANCE.depthPower` por `run.depth`).
 - **Jefes finales:** `run.finalBossBag` guarda los jefes finales pendientes y `run.finalBossId` el de la senda actual. La bolsa no repite hasta agotarse y viaja entre ascensiones; `run.midBossId` fija el jefe intermedio de la profundidad 5.
-- RunState incluye: `perks`, `pendingLevels`, `scrapped`, `drawBonus`, `startBlock`, `damageBonus`, `onHitPoison`, `sellBonus`, `forgeDiscount`, `afterWinHeal`, `market`, `finalBossBag`, `finalBossId`, `midBossId`.
+- RunState incluye: `perks`, `pendingLevels`, `scrapped`, `drawBonus`, `startBlock`, `damageBonus`, `onHitPoison`, `sellBonus`, `forgeDiscount`, `afterWinHeal`, `market`, `finalBossBag`, `finalBossId`, `midBossId`, y (v3.2) `heroName`, `kills` (mapa enemigo→derrotas), `defeatedBy`, `startedAt`.
 
 ## API de shop (js/shop.js)
 ```
@@ -201,3 +201,21 @@ applyPerk(run, perkId) -> perk | null
 - Instantáneos: `addCurse` (encola un lastre), `selfDamage`, `bonusActions`.
 - Solo duelos: `taunt` (amenaza + objetivo forzado), `guard` (redirige el próximo ataque), `rescue` (revive a un aliado caído).
 - Marcas elementales: `burn`, `bleed`, `fracture`, `frozen`, `shock`, `wind`, `poison`; las reacciones se resuelven en `js/elements.js`.
+
+## v3.2 — Audio y estadísticas
+
+### Audio (js/audio.js)
+- `sfx(nombre)`: efectos sintetizados (ui, playCard, damage, heal, block, draw, coin, perk, reaction, enemy, ko, victory, defeat).
+- `music(ánimo)`: cama ambiental `menu`/`combat`; `unlock()` desbloquea el contexto con el primer gesto.
+- `getPrefs()` / `setPrefs({ sfx, music })`: preferencias en `localStorage`.
+
+### Estadísticas y ranking (js/records.js ↔ api.py)
+Identidad sin login: `playerId` (UUID aleatorio en `localStorage`) + `playerName` editable. Solo se almacenan datos de juego (nunca IP, cabeceras, cookies ni metadatos del navegador).
+
+Endpoints (`api.py`, stdlib `http.server` + `sqlite3`):
+- `POST /api/stats` — registra una partida terminada. Body: `{ playerId, playerName, run }` donde `run = { heroId, heroName, level, depth, ascension, coins, result, kills, morality, finalBossId, defeatedBy, durationMs, deckSize }`. El `score` se calcula en el servidor: `victory ? 5000 : 0` + `depth*100 + level*40 + coins + ascension*800`.
+- `GET /api/stats?playerId=…` — `{ player, aggregates, byHero, byEnemy, morality, recentRuns }`.
+- `GET /api/ranking?hero=<id|all>&limit=N` — `{ ranking: [{ playerName, heroId, heroName, level, ascension, coins, result, score, createdAt, … }] }`.
+- `DELETE /api/stats?playerId=…` — borra todos los datos del jugador.
+
+En dev `server.py` monta `/api/*` (un proceso); en producción nginx reenvía `/api/*` al contenedor `stats-api` (SQLite en el volumen `stats`). Sin servidor, el cliente encola las partidas en `localStorage` y las reintenta (`flushQueue`).

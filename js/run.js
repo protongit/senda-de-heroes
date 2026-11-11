@@ -1,5 +1,5 @@
 import { getCharacter } from "./characters.js";
-import { getEnemy, MID_BOSSES, FINAL_BOSSES } from "./enemies.js";
+import { getEnemy, MID_BOSSES, FINAL_BOSSES, depthPower } from "./enemies.js";
 import { createRng } from "./rng.js";
 import { rollDrops, rollCoins, DROP_POOLS } from "./loot.js";
 import { getCard, makeInstance } from "./cards.js";
@@ -19,12 +19,13 @@ const TIER_ENEMIES = {
   5: ["nigromante", "vampiro"],
 };
 
-function combatOption(tier, enemyId) {
+function combatOption(tier, enemyId, power = 1) {
   const enemy = getEnemy(enemyId);
   return {
     type: "combat",
     tier,
     enemyId,
+    power,
     label: enemy.battleLabel || enemy.name,
     art: `assets/paths/combat_${enemyId}.png`,
   };
@@ -39,11 +40,11 @@ function drawFinalBoss(run) {
   return run.finalBossId;
 }
 
-export function enemyForTier(tier, rng, ascension = 0) {
-  if (tier === "boss1") return getEnemy(rng.pick(MID_BOSSES), ascension);
-  if (tier === "boss2") return getEnemy(rng.pick(FINAL_BOSSES), ascension);
+export function enemyForTier(tier, rng, ascension = 0, power = 1) {
+  if (tier === "boss1") return getEnemy(rng.pick(MID_BOSSES), ascension, power);
+  if (tier === "boss2") return getEnemy(rng.pick(FINAL_BOSSES), ascension, power);
   const pool = TIER_ENEMIES[tier] || TIER_ENEMIES[1];
-  return getEnemy(rng.pick(pool), ascension);
+  return getEnemy(rng.pick(pool), ascension, power);
 }
 
 export function tierForDepth(depth) {
@@ -53,22 +54,23 @@ export function tierForDepth(depth) {
 export function rollOptions(run) {
   const d = run.depth;
   if (d >= MAX_STEPS) return [];
+  const power = depthPower(d);
   if (d === MAX_STEPS - 1) {
     const bossId = run.finalBossId || drawFinalBoss(run);
-    return [combatOption("boss2", bossId)];
+    return [combatOption("boss2", bossId, power)];
   }
   if (d === MAX_STEPS - 2) {
     if (!run.midBossId) run.midBossId = run.mapRng.pick(MID_BOSSES);
     return run.mapRng.shuffle([
       { type: "shop", label: "Mercader" },
-      combatOption("boss1", run.midBossId),
+      combatOption("boss1", run.midBossId, power),
     ]);
   }
   const tier = tierForDepth(d);
-  const candidates = [combatOption(tier, run.mapRng.pick(TIER_ENEMIES[tier]))];
+  const candidates = [combatOption(tier, run.mapRng.pick(TIER_ENEMIES[tier]), power)];
   if (tier > 1) {
     const lower = tier - 1;
-    candidates.push(combatOption(lower, run.mapRng.pick(TIER_ENEMIES[lower])));
+    candidates.push(combatOption(lower, run.mapRng.pick(TIER_ENEMIES[lower]), power));
   }
   candidates.push({ type: "shop", label: "Mercader" });
   if (d >= 1) candidates.push({ type: "treasure", label: "Cofre del tesoro" });
@@ -135,6 +137,10 @@ export function createRun(heroId, seed) {
     morality: { mercy: 0, greed: 0, honor: 0, corruption: 0 },
     chronicle: [],
     shopServices: null,
+    heroName: null,
+    kills: {},
+    defeatedBy: null,
+    startedAt: Date.now(),
     finished: false,
     result: null,
   };
@@ -380,8 +386,12 @@ export function finishCombat(run, winner, enemyDef, combat = null, options = {})
     run.finished = true;
     run.result = "defeat";
     run.hp = 0;
+    run.defeatedBy = enemyDef ? enemyDef.id : null;
     return { result: "defeat", rewards: null };
   }
+
+  run.kills = run.kills || {};
+  if (enemyDef && enemyDef.id) run.kills[enemyDef.id] = (run.kills[enemyDef.id] || 0) + 1;
 
   const coins = rollCoins(enemyDef, run.rng);
   const drops = rollDrops(enemyDef, run.rng);

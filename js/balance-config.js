@@ -2,7 +2,7 @@ export const BALANCE = {
   cardsPerRound: 6,
   handLimit: 12,
   actionLimit: 3,
-  enemyScale: 0.94,
+  enemyScale: 0.88,
   startingCoins: 25,
   sellRatio: 0.5,
   minDeckToSell: 8,
@@ -17,6 +17,9 @@ export const BALANCE = {
   marketStable: 6,
   marketRotating: 4,
   ascensionStep: 0.15,
+  // Multiplicador de dificultad por profundidad de senda (run.depth 0..6).
+  // Inicio fácil, medio más duro, jefe final compensado para seguir siendo el pico.
+  depthPower: [0.8, 0.88, 1.05, 1.12, 1.18, 1.12, 1.07],
   challengeChance: 0.45,
   challengeMaxPerRun: 3,
   curseRemovalCost: 25,

@@ -2058,6 +2058,7 @@ pre { color: var(--text); white-space: pre-wrap; }
   .enemy-turn-view { gap: 10px; }
   .loot-slot .deck-card { width: min(100%, 204px); }
   .btn { min-height: 44px; }
+  .btn.small { min-height: 44px; }
 }
 
 /* ---------- motion reducido: menos movimiento, no cero feedback ---------- */
@@ -2080,4 +2081,73 @@ pre { color: var(--text); white-space: pre-wrap; }
   .go-rays { animation: none !important; opacity: 0.45; }
   .fx-float { animation-duration: 1ms !important; }
   *, *::before, *::after { transition-duration: 60ms !important; }
+}
+
+/* ---------- Cuadro de mando (estadísticas y ranking) ---------- */
+.dashboard { max-width: 940px; margin: 0 auto; padding: 18px 20px 40px; }
+.dash-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.dash-head h2 { margin: 0; display: flex; align-items: center; gap: 8px; }
+.dash-body { display: grid; gap: 16px; }
+.dash-section {
+  background: var(--panel);
+  border: 1px solid var(--panel2);
+  border-radius: 14px;
+  padding: 16px 18px;
+}
+.dash-section h3 { margin: 0 0 12px; display: flex; align-items: center; gap: 8px; font-size: 1.02rem; color: var(--gold); }
+.dash-section-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.dash-section-head h3 { margin: 0; }
+
+.dash-kpis { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.dash-kpi {
+  display: flex; flex-direction: column; gap: 2px;
+  background: var(--panel-deep); border: 1px solid var(--panel2);
+  border-radius: 10px; padding: 12px 14px;
+}
+.dash-kpi-ic { color: var(--gold); opacity: 0.85; }
+.dash-kpi-val { font-size: 1.4rem; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
+.dash-kpi-label { font-size: 0.78rem; color: var(--muted); }
+
+.dash-profile { display: grid; gap: 10px; }
+.dash-field { display: grid; gap: 5px; font-size: 0.85rem; color: var(--muted); }
+.dash-field input {
+  background: var(--panel-deep); border: 1px solid var(--panel2); border-radius: 8px;
+  color: var(--text); padding: 9px 12px; font-family: inherit; font-size: 16px; max-width: 320px;
+}
+.dash-field input:focus { outline: none; border-color: var(--gold); }
+.dash-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.dash-id { font-size: 0.75rem; color: var(--muted); margin: 0; word-break: break-all; }
+
+.dash-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.dash-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.dash-table th, .dash-table td { text-align: left; padding: 7px 9px; border-bottom: 1px solid var(--panel2); }
+.dash-table th { color: var(--muted); font-weight: 500; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.03em; }
+.dash-table td { color: var(--text-dim); font-variant-numeric: tabular-nums; }
+.dash-table tr:last-child td { border-bottom: none; }
+
+.dash-enemy-row { display: flex; align-items: center; gap: 12px; padding: 6px 0; flex-wrap: wrap; }
+.dash-enemy-name { min-width: 130px; color: var(--text); }
+.dash-bar { flex: 1; min-width: 120px; height: 8px; background: var(--panel2); border-radius: 6px; overflow: hidden; }
+.dash-bar-fill { display: block; height: 100%; background: var(--gold); border-radius: 6px; }
+.dash-enemy-stats { color: var(--muted); font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+
+.dash-morality { display: flex; gap: 8px; flex-wrap: wrap; }
+.dash-win { color: var(--good); font-weight: 600; }
+.dash-loss { color: var(--danger); font-weight: 600; }
+.dash-select {
+  background: var(--panel-deep); border: 1px solid var(--panel2); border-radius: 8px;
+  color: var(--text); padding: 7px 10px; font: inherit;
+}
+.dash-error { color: var(--danger); }
+
+/* ---------- Ajustes del menú (sonido/música) y nombre de héroe ---------- */
+.menu-settings { display: flex; gap: 8px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
+.hero-name-field { margin: 0 auto 16px; max-width: 420px; }
+.btn.danger { color: var(--danger); border-color: var(--danger-soft); }
+
+@media (max-width: 720px) {
+  .dash-kpis { grid-template-columns: repeat(2, 1fr); }
+  .dash-table { font-size: 0.8rem; }
+  .dash-table th, .dash-table td { padding: 6px 6px; }
+  .dash-enemy-name { min-width: 100px; }
 }
