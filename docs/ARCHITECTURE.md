@@ -28,7 +28,7 @@ index.html ──> js/main.js ──> js/screens/*.js (render + interacción)
 - **UI (js/ui.js, js/screens/*, index.html, styles.css):** render y eventos. Degrada arte a SVG/CSS.
 - **IA (js/ai.js):** política del enemigo y del héroe (autoplay para tests).
 - **Audio (js/audio.js):** sonido y música sintetizados con Web Audio; se activa con el primer gesto.
-- **Estadísticas (js/records.js ↔ api.py):** identidad anónima (UUID + nombre), registro de partidas y ranking. `api.py` es stdlib (`http.server` + `sqlite3`); en dev lo monta `server.py` y en producción nginx reenvía `/api/*` al contenedor `stats-api`. Solo se almacenan datos de juego (sin IP, cabeceras ni cookies).
+- **Estadísticas (js/records.js ↔ api.py):** identidad anónima (UUID + nombre), registro de partidas y ranking. `api.py` es stdlib (`http.server` + `sqlite3`); `server.py` lo monta bajo `/api/*` y sirve a la vez los estáticos, por lo que un único contenedor basta en producción (Knative/nan.builders). Solo se almacenan datos de juego (sin IP, cabeceras ni cookies).
 
 La dificultad de los enemigos se escala por `BALANCE.enemyScale` y por `BALANCE.depthPower` (curva por profundidad), aplicado en `getEnemy(id, ascension, power)`.
 

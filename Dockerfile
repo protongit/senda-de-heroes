@@ -1,17 +1,22 @@
-FROM nginx:1.27-alpine
+FROM python:3.12-alpine
 
-# Compatible con plataformas que ejecutan con UID aleatorio no-root (OpenShift/Knative):
-# pid y cachés en rutas escribibles, sin privilegios.
-RUN sed -i 's|/var/run/nginx.pid|/tmp/nginx.pid|' /etc/nginx/nginx.conf \
- && mkdir -p /var/cache/nginx /var/run \
- && chmod -R a+rwX /var/cache/nginx /var/run /var/log/nginx /tmp /etc/nginx
+# Sirve el juego (estáticos) y la API de estadísticas en un único contenedor,
+# necesario para plataformas de un solo contenedor (Knative/nan.builders).
+# Compatible con UID aleatorio no-root: el directorio de datos es escribible.
+WORKDIR /app
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY index.html styles.css /usr/share/nginx/html/
-COPY js /usr/share/nginx/html/js
-COPY data /usr/share/nginx/html/data
-COPY assets /usr/share/nginx/html/assets
+COPY server.py api.py /app/
+COPY index.html styles.css /app/
+COPY js /app/js
+COPY assets /app/assets
 
+RUN mkdir -p /app/data \
+ && chmod -R a+rwX /app/data \
+ && addgroup -S app && adduser -S app -G app
+USER app
+
+ENV PORT=8080
+ENV STATS_DB=/app/data/stats.db
 EXPOSE 8080
-HEALTHCHECK --interval=30s --timeout=3s CMD wget -qO- http://localhost:8080/ >/dev/null || exit 1
-CMD ["nginx", "-g", "daemon off;"]
+HEALTHCHECK --interval=30s --timeout=3s CMD python -c "import urllib.request as u;u.urlopen('http://localhost:8080/api/health')" || exit 1
+CMD ["python", "server.py"]

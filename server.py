@@ -10,18 +10,25 @@ Uso: python3 server.py [puerto]   (8090 por defecto)
 """
 import http.server
 import json
+import os
 import socketserver
 import sys
 from urllib.parse import parse_qs, urlparse
 
 import api
 
+STATIC_CACHE_EXTS = (".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg", ".ico", ".woff2")
+
 
 class NoCacheHandler(http.server.SimpleHTTPRequestHandler):
     def end_headers(self):
-        self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
-        self.send_header("Pragma", "no-cache")
-        self.send_header("Expires", "0")
+        path = self.path.split("?", 1)[0]
+        if path.endswith(STATIC_CACHE_EXTS):
+            self.send_header("Cache-Control", "public, max-age=604800, immutable")
+        else:
+            self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+            self.send_header("Pragma", "no-cache")
+            self.send_header("Expires", "0")
         super().end_headers()
 
     def _api(self, method):
@@ -60,7 +67,7 @@ class NoCacheHandler(http.server.SimpleHTTPRequestHandler):
 
 def main():
     api.init_db()
-    port = int(sys.argv[1]) if len(sys.argv) > 1 else 8090
+    port = int(sys.argv[1]) if len(sys.argv) > 1 else int(os.environ.get("PORT", "8090"))
     socketserver.ThreadingTCPServer.allow_reuse_address = True
     with socketserver.ThreadingTCPServer(("", port), NoCacheHandler) as httpd:
         print(f"Senda de Héroes sirviendo en http://localhost:{port}")

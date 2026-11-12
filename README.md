@@ -47,9 +47,9 @@ Sistema visual propio en `styles.css` (tokens de color, tipografía y motion), t
 ```
 senda-de-heroes/
 ├── index.html · styles.css
-├── Dockerfile · Dockerfile.api · nginx.conf · docker-compose.yml
+├── Dockerfile · docker-compose.yml
 ├── api.py               # API de estadísticas (stdlib: http.server + sqlite3)
-├── server.py            # servidor de desarrollo (estáticos + /api)
+├── server.py            # servidor (estáticos + /api), usado en dev y producción
 ├── js/
 │   ├── main.js          # navegación y flujo (1P, coop, versus, fragua, perks)
 │   ├── engine.js        # motor de combate (mazos, energía, acciones, intención, reacciones, efectos)
@@ -76,10 +76,9 @@ Balance final y metodología en [`BALANCE.md`](./BALANCE.md).
 
 ## Contenedor (Docker)
 ```bash
-# Compose (recomendado): web (nginx) + API de estadísticas (python) con SQLite en volumen
 docker compose up -d --build
 ```
-Abre `http://localhost:8080`. El servicio web sirve el juego con nginx (gzip para JS/CSS, caché larga para imágenes y `no-cache` para código) en el **puerto 8080**; nginx reenvía `/api/*` al contenedor `stats-api` (Python, `api.py`, SQLite en el volumen `stats`). Ambos corren con usuario sin privilegios, compatibles con OpenShift/Knative (nan.builders).
+Abre `http://localhost:8080`. Un único contenedor Python (`server.py` + `api.py`, stdlib) sirve los estáticos y la API de estadísticas: imágenes y fuentes con caché inmutable, JS/CSS/HTML con `no-cache`, y SQLite de estadísticas en el volumen `stats`. Corre con usuario sin privilegios, compatible con OpenShift/Knative (nan.builders).
 
 ## Modo de pruebas / autoplay
 - Una partida: `?autoplay=1&hero=warrior&seed=1` → resultado en `#autoplay-result`.

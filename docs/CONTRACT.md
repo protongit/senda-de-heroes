@@ -218,4 +218,4 @@ Endpoints (`api.py`, stdlib `http.server` + `sqlite3`):
 - `GET /api/ranking?hero=<id|all>&limit=N` — `{ ranking: [{ playerName, heroId, heroName, level, ascension, coins, result, score, createdAt, … }] }`.
 - `DELETE /api/stats?playerId=…` — borra todos los datos del jugador.
 
-En dev `server.py` monta `/api/*` (un proceso); en producción nginx reenvía `/api/*` al contenedor `stats-api` (SQLite en el volumen `stats`). Sin servidor, el cliente encola las partidas en `localStorage` y las reintenta (`flushQueue`).
+`server.py` monta `/api/*` sobre el mismo proceso que sirve los estáticos (un único contenedor en producción, con SQLite en `STATS_DB`, por defecto `data/stats.db`). Sin servidor, el cliente encola las partidas en `localStorage` y las reintenta (`flushQueue`).
