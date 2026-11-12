@@ -51,7 +51,7 @@ import { evaluateCombatOutcome, puzzleSolved } from "./challenges.js";
 import { koCombatant, prefersReducedMotion, initAmbience, initPressFeedback, initTilt } from "./fx.js";
 import { injectSprite } from "./icons.js";
 import { music, unlock, sfx } from "./audio.js";
-import { flushQueue } from "./records.js";
+import { flushQueue, getPlayerName, setPlayerName } from "./records.js";
 
 const VIEWS = { menu, select, senda, battle, reward, shop, forge, perk, deck, gameover, duelsetup, duelbattle, challenge, dashboard };
 
@@ -158,7 +158,11 @@ function toggleLog() {
 function startRun(heroId, seed, name) {
   const s = seed ?? (Date.now() & 0xffffffff);
   G.run = createRun(heroId, s);
-  if (name) G.run.heroName = name;
+  if (name) {
+    G.run.heroName = name;
+    // Si no hay nombre de perfil, adopta el del héroe para el ranking.
+    if (!getPlayerName()) setPlayerName(name);
+  }
   G.combat = null;
   G.rewards = null;
   G.challenge = null;

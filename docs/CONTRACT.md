@@ -215,7 +215,7 @@ Identidad sin login: `playerId` (UUID aleatorio en `localStorage`) + `playerName
 Endpoints (`api.py`, stdlib `http.server` + `sqlite3`):
 - `POST /api/stats` — registra una partida terminada. Body: `{ playerId, playerName, run }` donde `run = { heroId, heroName, level, depth, ascension, coins, result, kills, morality, finalBossId, defeatedBy, durationMs, deckSize }`. El `score` se calcula en el servidor: `victory ? 5000 : 0` + `depth*100 + level*40 + coins + ascension*800`.
 - `GET /api/stats?playerId=…` — `{ player, aggregates, byHero, byEnemy, morality, recentRuns }`.
-- `GET /api/ranking?hero=<id|all>&limit=N` — `{ ranking: [{ playerName, heroId, heroName, level, ascension, coins, result, score, createdAt, … }] }`.
+- `GET /api/ranking?hero=<id|all>&limit=N` — `{ ranking: [{ playerId, playerName, runs, wins, winRate, bestScore, totalCoins, totalKills, maxAscension, maxLevel, lastRun: { heroId, heroName, level, ascension, result, score, createdAt } }] }`. Una entrada **por jugador** (agregados globales + última senda), ordenada por mejor score.
 - `DELETE /api/stats?playerId=…` — borra todos los datos del jugador.
 
 `server.py` monta `/api/*` sobre el mismo proceso que sirve los estáticos (un único contenedor en producción, con SQLite en `STATS_DB`, por defecto `data/stats.db`). Sin servidor, el cliente encola las partidas en `localStorage` y las reintenta (`flushQueue`).

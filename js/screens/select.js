@@ -19,7 +19,7 @@ export function select(ctx) {
   <section class="screen select">
     <h2>Elige tu héroe</h2>
     <label class="dash-field hero-name-field">
-      <span>Nombre de tu héroe (opcional)</span>
+      <span>Tu nombre (aparecerá en el ranking)</span>
       <input type="text" id="hero-name" maxlength="24" placeholder="Ej. Glorfindel" autocomplete="off" />
     </label>
     <div class="hero-grid">${cards}</div>

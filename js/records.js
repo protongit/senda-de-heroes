@@ -90,9 +90,16 @@ export function computeScore(run) {
 export function recordRun(run) {
   const playerId = getPlayerId();
   if (!playerId) return Promise.resolve({ ok: false, queued: false });
+  // La identidad nunca se guarda vacía: usa el nombre de perfil, o el del
+  // héroe, o «Jugador» como último recurso.
+  let playerName = getPlayerName();
+  if (!playerName) {
+    playerName = sanitizeName(run.heroName) || "Jugador";
+    setPlayerName(playerName);
+  }
   const payload = {
     playerId,
-    playerName: getPlayerName(),
+    playerName,
     run: {
       heroId: run.heroId,
       heroName: sanitizeName(run.heroName),

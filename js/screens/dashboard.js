@@ -184,22 +184,24 @@ function renderRanking(ranking, heroFilter) {
     .join("");
   const rows = ranking.length
     ? ranking
-        .map((r, i) => {
-          const res = r.result === "victory" ? `<span class="dash-win">Victoria</span>` : `<span class="dash-loss">Derrota</span>`;
+        .map((p, i) => {
+          const lr = p.lastRun || {};
+          const res = lr.result === "victory" ? `<span class="dash-win">Victoria</span>` : `<span class="dash-loss">Derrota</span>`;
+          const last = lr.heroId
+            ? `${esc(heroName(lr.heroId))} · Nv ${lr.level} · ★${lr.ascension + 1} · ${res}`
+            : "—";
           return `<tr>
             <td>${i + 1}</td>
-            <td>${esc(r.playerName || "—")}</td>
-            <td>${esc(heroName(r.heroId))}</td>
-            <td>${esc(r.heroName || "—")}</td>
-            <td>Nv ${r.level}</td>
-            <td>★${r.ascension + 1}</td>
-            <td>${r.coins}</td>
-            <td>${r.score}</td>
-            <td>${res}</td>
+            <td>${esc(p.playerName || "Jugador")}</td>
+            <td>${p.runs}</td>
+            <td>${p.wins}</td>
+            <td>${p.winRate}%</td>
+            <td>${p.bestScore}</td>
+            <td>${last}</td>
           </tr>`;
         })
         .join("")
-    : `<tr><td colspan="9" class="muted">Sin resultados aún.</td></tr>`;
+    : `<tr><td colspan="7" class="muted">Sin resultados aún.</td></tr>`;
   return `
     <div class="dash-section">
       <div class="dash-section-head">
@@ -207,7 +209,7 @@ function renderRanking(ranking, heroFilter) {
         <select id="dash-hero-filter" class="dash-select">${options}</select>
       </div>
       <div class="dash-table-wrap"><table class="dash-table">
-        <thead><tr><th>#</th><th>Jugador</th><th>Héroe</th><th>Nombre</th><th>Nivel</th><th>Senda</th><th>Monedas</th><th>Score</th><th>Resultado</th></tr></thead>
+        <thead><tr><th>#</th><th>Jugador</th><th>Partidas</th><th>Victorias</th><th>% victoria</th><th>Mejor score</th><th>Última senda</th></tr></thead>
         <tbody>${rows}</tbody>
       </table></div>
     </div>`;

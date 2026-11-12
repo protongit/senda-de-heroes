@@ -11,8 +11,11 @@ let ctx = null;
 let master = null;
 let sfxGain = null;
 let musicGain = null;
+let musicFilter = null;
 let musicTimer = null;
+let arpTimer = null;
 let musicChord = 0;
+let currentChord = [];
 let prefs = { ...DEFAULT_PREFS };
 
 function storage() {
@@ -57,8 +60,13 @@ function ensureCtx() {
     sfxGain.gain.value = 1;
     sfxGain.connect(master);
     musicGain = ctx.createGain();
-    musicGain.gain.value = 0.16;
+    musicGain.gain.value = 0.22;
     musicGain.connect(master);
+    musicFilter = ctx.createBiquadFilter();
+    musicFilter.type = "lowpass";
+    musicFilter.frequency.value = 2200;
+    musicFilter.Q.value = 0.6;
+    musicFilter.connect(musicGain);
   }
   return ctx;
 }
@@ -139,8 +147,8 @@ function noise(c, dest, { dur = 0.1, gain = 0.2, at = 0, freq = 1000, q = 0.8 })
   src.stop(t0 + dur + 0.02);
 }
 
-function chord(c, dest, freqs, { dur = 2.4, gain = 0.05, type = "sine", at = 0 }) {
-  freqs.forEach((f) => tone(c, dest, { freq: f, type, dur, gain, at, attack: 0.4, release: 0.6 }));
+function chord(c, dest, freqs, { dur = 2.4, gain = 0.05, type = "sine", at = 0, attack = 0.4, release = 0.6 }) {
+  freqs.forEach((f) => tone(c, dest, { freq: f, type, dur, gain, at, attack, release }));
 }
 
 // ---------- efectos de sonido ----------
@@ -199,26 +207,59 @@ export function sfx(name) {
   if (SFX[name]) SFX[name]();
 }
 
-// ---------- música (cama ambiental) ----------
+// ---------- música (cama ambiental épica) ----------
 
 const MOODS = {
-  menu: { chords: [[220, 277.18, 329.63], [174.61, 220, 261.63], [196, 246.94, 293.66], [164.81, 207.65, 246.94]], type: "sine" },
-  combat: { chords: [[146.83, 174.61, 220], [110, 130.81, 164.81], [123.47, 146.83, 174.61], [98, 116.54, 146.83]], type: "sine" },
+  // Heroico y aventurero: I–V–vi–IV en Do mayor.
+  menu: {
+    chords: [
+      [261.63, 329.63, 392.0], // Do mayor
+      [196.0, 246.94, 293.66], // Sol mayor
+      [220.0, 261.63, 329.63], // La menor
+      [174.61, 220.0, 261.63], // Fa mayor
+    ],
+    type: "sawtooth",
+  },
+  // Épico y enérgico: vi–IV–I–V en La menor.
+  combat: {
+    chords: [
+      [220.0, 261.63, 329.63], // La menor
+      [174.61, 220.0, 261.63], // Fa mayor
+      [261.63, 329.63, 392.0], // Do mayor
+      [196.0, 246.94, 293.66], // Sol mayor
+    ],
+    type: "sawtooth",
+  },
 };
 
 function startMusic(moodKey) {
   stopMusic();
   const mood = MOODS[moodKey] || MOODS.menu;
-  const step = () => {
+  const chordDur = 4;
+
+  const playChord = () => {
     if (!ctx || !prefs.music) return;
-    const freqs = mood.chords[musicChord % mood.chords.length];
+    currentChord = mood.chords[musicChord % mood.chords.length];
     musicChord += 1;
-    // Dos capas: un acorde sostenido + un subgrave para dar cuerpo.
-    chord(ctx, musicGain, freqs, { dur: 8, gain: 0.05, type: mood.type });
-    chord(ctx, musicGain, [freqs[0] / 2], { dur: 8, gain: 0.03, type: "sine" });
+    // Pad épico (sawtooth filtrado) + refuerzo de octava + bajo grave.
+    chord(ctx, musicFilter, currentChord, { dur: chordDur + 0.5, gain: 0.055, type: mood.type, attack: 0.5, release: 0.9 });
+    chord(ctx, musicFilter, [currentChord[0] * 2], { dur: chordDur + 0.5, gain: 0.02, type: "sine", attack: 0.5, release: 0.9 });
+    tone(ctx, musicFilter, { freq: currentChord[0] / 2, type: "triangle", dur: chordDur + 0.5, gain: 0.075, attack: 0.25, release: 0.9 });
   };
-  step();
-  musicTimer = window.setInterval(step, 8000);
+
+  playChord();
+  musicTimer = window.setInterval(playChord, chordDur * 1000);
+
+  // Arpegio aventurero: recorre las notas del acorde actual una octava arriba.
+  const stepMs = 300;
+  const pattern = [0, 1, 2, 1];
+  let arpIdx = 0;
+  arpTimer = window.setInterval(() => {
+    if (!ctx || !prefs.music || !currentChord.length) return;
+    const f = currentChord[pattern[arpIdx % pattern.length]] * 2;
+    arpIdx += 1;
+    tone(ctx, musicFilter, { freq: f, type: "triangle", dur: 0.26, gain: 0.03, at: 0, attack: 0.01, release: 0.08 });
+  }, stepMs);
 }
 
 function stopMusic() {
@@ -226,6 +267,11 @@ function stopMusic() {
     clearInterval(musicTimer);
     musicTimer = null;
   }
+  if (arpTimer) {
+    clearInterval(arpTimer);
+    arpTimer = null;
+  }
+  currentChord = [];
 }
 
 // Aplica el estado de la música según las preferencias y el ánimo actual.

@@ -276,12 +276,48 @@ def get_ranking(hero, limit):
             if hero and hero != "all":
                 query += " WHERE r.hero_id = ?"
                 params.append(hero)
-            query += " ORDER BY r.score DESC, r.created_at ASC LIMIT ?"
-            params.append(int(limit))
+            query += " ORDER BY r.created_at ASC"
             rows = conn.execute(query, params).fetchall()
-            return [
-                {**_run_dict(r), "playerName": r["player_name"]} for r in rows
-            ]
+
+            # Agrupa por jugador: agregados globales + la última senda jugada.
+            by_player = {}
+            for r in rows:
+                pid = r["player_id"]
+                p = by_player.setdefault(pid, {
+                    "playerId": pid,
+                    "playerName": r["player_name"] or "Jugador",
+                    "runs": 0,
+                    "wins": 0,
+                    "bestScore": 0,
+                    "totalCoins": 0,
+                    "totalKills": 0,
+                    "maxAscension": 0,
+                    "maxLevel": 1,
+                    "lastRun": None,
+                })
+                p["runs"] += 1
+                if r["result"] == "victory":
+                    p["wins"] += 1
+                p["bestScore"] = max(p["bestScore"], r["score"])
+                p["totalCoins"] += r["coins"]
+                p["totalKills"] += sum(json.loads(r["kills"] or "{}").values())
+                p["maxAscension"] = max(p["maxAscension"], r["ascension"])
+                p["maxLevel"] = max(p["maxLevel"], r["level"])
+                p["lastRun"] = {
+                    "heroId": r["hero_id"],
+                    "heroName": r["hero_name"],
+                    "level": r["level"],
+                    "ascension": r["ascension"],
+                    "result": r["result"],
+                    "score": r["score"],
+                    "createdAt": r["created_at"],
+                }
+
+            result = list(by_player.values())
+            for p in result:
+                p["winRate"] = round(p["wins"] / p["runs"] * 100, 1) if p["runs"] else 0
+            result.sort(key=lambda p: (-p["bestScore"], -p["wins"], -p["winRate"]))
+            return result[: int(limit)]
         finally:
             conn.close()
 
