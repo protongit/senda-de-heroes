@@ -2,10 +2,15 @@
 node_modules
 scripts
 docs
-server.py
 README.md
 BALANCE.md
 SPEC.md
 package.json
 .dockerignore
 Dockerfile
+__pycache__
+*.pyc
+data/*.db
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
