@@ -30,7 +30,7 @@ Juego de cartas de **construcción de mazos** (estilo Slay the Spire / Star Real
 15. Puedes **guardar la partida** desde la senda (botón «Guardar partida»); se almacena en el `localStorage` del navegador y aparece como **Continuar partida** en el menú.
 16. **Jefes finales rotativos:** cada senda termina con un jefe final sacado de una bolsa sin repetición. No se repite ninguno hasta que hayan aparecido todos; cuando se agota, se baraja un nuevo orden.
 17. **Sonido y música sintetizados** (Web Audio, sin ficheros): efectos de cartas, daño, cura, bloqueo, victoria y derrota, con música ambiental de menú/combate. Se activan con el primer gesto y se controlan desde el menú (Sonido / Música).
-18. **Estadísticas y ranking:** puedes poner **nombre a tu héroe** al elegirlo. Al terminar cada senda, la partida se registra en un **cuadro de mando** (📊) con resumen, desglose por héroe y enemigo, moralidad, historial y un **ranking** filtrable por héroe. Los datos se guardan en el servidor con un identificador anónimo (sin IP, navegador ni cookies); también hay un botón para borrarlos.
+18. **Estadísticas y ranking:** puedes poner **nombre a tu héroe** al elegirlo. Al terminar cada senda, la partida se registra en la pantalla **Estadísticas** (📊) con resumen, desglose por héroe y enemigo, moralidad, historial y un **ranking** filtrable por héroe. Los datos se guardan en el servidor con un identificador anónimo (sin IP, navegador ni cookies); también hay un botón para borrarlos.
 
 ## Contenido
 - **4 héroes:** Guerrero, Enano, Hechicera (arcana), Elfa (arcana) — mazos iniciales de **12 cartas** cada uno, con cartas de clase adicionales en los mazos de duelo.

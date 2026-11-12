@@ -22,7 +22,7 @@ export function menu(ctx) {
       <button class="btn primary" data-action="solo">${icon("sword")} 1 jugador</button>
       <button class="btn" data-action="coop">${icon("shield")} Cooperativo<span class="muted">2 jugadores vs la IA</span></button>
       <button class="btn" data-action="versus">${icon("swords")} Competitivo<span class="muted">1 contra 1</span></button>
-      <button class="btn ghost" data-action="dashboard">${icon("chart")} Cuadro de mando<span class="muted">estadísticas y ranking</span></button>
+      <button class="btn ghost" data-action="dashboard">${icon("chart")} Estadísticas<span class="muted">ranking y progreso</span></button>
       <button class="btn ghost" data-action="help">${icon("book")} Cómo jugar</button>
     </div>
     <div class="menu-settings">

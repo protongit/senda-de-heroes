@@ -223,7 +223,7 @@ export function dashboard(ctx) {
   const html = `
   <section class="screen dashboard">
     <div class="dash-head">
-      <h2>${icon("chart")} Cuadro de mando</h2>
+      <h2>${icon("chart")} Estadísticas</h2>
       <button class="btn small" data-action="refresh">${icon("target")} Refrescar</button>
     </div>
     <div class="dash-body" data-dash-body>
