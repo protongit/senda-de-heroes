@@ -2140,6 +2140,34 @@ pre { color: var(--text); white-space: pre-wrap; }
 }
 .dash-error { color: var(--danger); }
 
+/* Resaltado de las partidas/contribución del jugador actual */
+.dash-mine { color: var(--gold-bright); }
+tr.dash-mine td { background: var(--gold-dim)14; }
+.dash-badge-mine {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 3px 7px;
+  border-radius: 999px;
+  color: var(--gold-ink);
+  background: var(--gold);
+}
+.dash-mine-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid var(--gold-dim);
+  border-radius: 9px;
+  background: var(--panel-deep);
+  font-size: 0.85rem;
+}
+.dash-mine-label { color: var(--gold-bright); font-weight: 600; display: inline-flex; gap: 6px; align-items: center; }
+.dash-vs-row { display: flex; gap: 12px; align-items: center; padding: 4px 0; flex-wrap: wrap; }
+.dash-vs-label { min-width: 52px; color: var(--muted); font-size: 0.8rem; font-weight: 600; }
+
 /* ---------- Ajustes del menú (sonido/música) y nombre de héroe ---------- */
 .menu-settings { display: flex; gap: 8px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
 .hero-name-field { margin: 0 auto 16px; max-width: 420px; }

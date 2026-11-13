@@ -49,7 +49,12 @@ function kpi(label, value, ic) {
   return `<div class="dash-kpi"><span class="dash-kpi-ic">${icon(ic)}</span><span class="dash-kpi-val">${esc(value)}</span><span class="dash-kpi-label">${esc(label)}</span></div>`;
 }
 
-function renderProfile(player, name) {
+function mineBadge() {
+  return `<span class="dash-badge-mine">tú</span>`;
+}
+
+function renderProfile(player, name, mine) {
+  const my = mine || {};
   return `
     <div class="dash-section">
       <h3>${icon("hand")} Mi perfil</h3>
@@ -63,6 +68,10 @@ function renderProfile(player, name) {
           <button class="btn small ghost danger" data-action="delete-data">${icon("trash")} Borrar mis datos</button>
         </div>
         <p class="muted dash-id">ID: ${esc((player && player.id) || "—")}</p>
+        <div class="dash-mine-box">
+          <span class="dash-mine-label">${mineBadge()} Tu contribución</span>
+          <span>${my.runs || 0} partidas · ${my.wins || 0} victorias · ${my.winRate || 0}% · mejor ${my.bestScore || 0}</span>
+        </div>
       </div>
     </div>`;
 }
@@ -71,7 +80,7 @@ function renderAggregates(a) {
   const wr = a.runs ? `${a.winRate}%` : "—";
   return `
     <div class="dash-section">
-      <h3>${icon("chart")} Resumen</h3>
+      <h3>${icon("chart")} Resumen global</h3>
       <div class="dash-kpis">
         ${kpi("Partidas", a.runs || 0, "cards")}
         ${kpi("Victorias", a.wins || 0, "trophy")}
@@ -92,22 +101,22 @@ function renderByHero(list) {
     ? list
         .map((h) => {
           const wr = h.runs ? `${Math.round((h.wins / h.runs) * 100)}%` : "—";
+          const mine = h.myRuns
+            ? `${h.myRuns} partidas · ${h.myWins} victorias · mejor ${h.myBestScore}`
+            : "—";
           return `<tr>
             <td>${esc(heroName(h.heroId))}</td>
-            <td>${h.runs}</td>
-            <td>${h.wins}</td>
-            <td>${esc(wr)}</td>
-            <td>${h.bestScore}</td>
-            <td>★${h.maxAscension + 1}</td>
+            <td>${h.runs} partidas · ${h.wins} victorias · ${esc(wr)} · mejor ${h.bestScore}</td>
+            <td class="${h.myRuns ? "dash-mine" : "muted"}">${mine}</td>
           </tr>`;
         })
         .join("")
-    : `<tr><td colspan="6" class="muted">Sin partidas todavía.</td></tr>`;
+    : `<tr><td colspan="3" class="muted">Sin partidas todavía.</td></tr>`;
   return `
     <div class="dash-section">
       <h3>${icon("swords")} Por héroe</h3>
       <div class="dash-table-wrap"><table class="dash-table">
-        <thead><tr><th>Héroe</th><th>Partidas</th><th>Victorias</th><th>% victoria</th><th>Mejor score</th><th>Máx. senda</th></tr></thead>
+        <thead><tr><th>Héroe</th><th>Global</th><th>Tú</th></tr></thead>
         <tbody>${rows}</tbody>
       </table></div>
     </div>`;
@@ -117,36 +126,39 @@ function renderByEnemy(list) {
   const rows = list.length
     ? list
         .map((e) => {
-          const total = e.defeats + e.deaths;
-          const pct = total ? Math.round((e.defeats / total) * 100) : 0;
-          return `<div class="dash-enemy-row">
-            <span class="dash-enemy-name">${esc(enemyName(e.enemyId))}</span>
-            <span class="dash-bar"><span class="dash-bar-fill" style="width:${pct}%"></span></span>
-            <span class="dash-enemy-stats">${e.defeats} derrotado${e.defeats === 1 ? "" : "s"} · ${e.deaths} derrota${e.deaths === 1 ? "" : "s"}</span>
-          </div>`;
+          const hasMine = e.myDefeats || e.myDeaths;
+          const mine = hasMine ? `${e.myDefeats} derrotas · ${e.myDeaths} muertes` : "—";
+          return `<tr>
+            <td>${esc(enemyName(e.enemyId))}</td>
+            <td>${e.defeats} derrotas · ${e.deaths} muertes</td>
+            <td class="${hasMine ? "dash-mine" : "muted"}">${mine}</td>
+          </tr>`;
         })
         .join("")
-    : `<p class="muted">Sin combates registrados.</p>`;
+    : `<tr><td colspan="3" class="muted">Sin combates registrados.</td></tr>`;
   return `
     <div class="dash-section">
       <h3>${icon("skull")} Por enemigo</h3>
-      ${rows}
+      <div class="dash-table-wrap"><table class="dash-table">
+        <thead><tr><th>Enemigo</th><th>Global</th><th>Tú</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table></div>
     </div>`;
 }
 
-function renderMorality(m) {
+function renderMorality(m, myM) {
   const items = [
     ["mercy", "🕊️", "Merced"],
     ["greed", "🪙", "Codicia"],
     ["honor", "⚖️", "Honor"],
     ["corruption", "🖤", "Corrupción"],
   ];
+  const line = (obj) => items.map(([k, ic, label]) => `<span class="chip">${ic} ${obj[k] || 0} ${label}</span>`).join("");
   return `
     <div class="dash-section">
       <h3>${icon("scales")} Moralidad acumulada</h3>
-      <div class="dash-morality">${items
-        .map(([k, ic, label]) => `<span class="chip">${ic} ${m[k] || 0} ${label}</span>`)
-        .join("")}</div>
+      <div class="dash-vs-row"><span class="dash-vs-label">Global</span><div class="dash-morality">${line(m)}</div></div>
+      <div class="dash-vs-row"><span class="dash-vs-label">${mineBadge()}</span><div class="dash-morality">${line(myM)}</div></div>
     </div>`;
 }
 
@@ -155,30 +167,30 @@ function renderHistory(runs) {
     ? runs
         .map((r) => {
           const res = r.result === "victory" ? `<span class="dash-win">Victoria</span>` : `<span class="dash-loss">Derrota</span>`;
-          return `<tr>
+          const badge = r.isMine ? ` ${mineBadge()}` : "";
+          return `<tr class="${r.isMine ? "dash-mine" : ""}">
             <td>${esc(fmtDate(r.createdAt))}</td>
+            <td>${esc(r.playerName || "Jugador")}${badge}</td>
             <td>${esc(heroName(r.heroId))}</td>
-            <td>${esc(r.heroName || "—")}</td>
             <td>Nv ${r.level}</td>
             <td>★${r.ascension + 1}</td>
-            <td>${r.coins}</td>
             <td>${r.score}</td>
             <td>${res}</td>
           </tr>`;
         })
         .join("")
-    : `<tr><td colspan="8" class="muted">Aún no hay partidas registradas.</td></tr>`;
+    : `<tr><td colspan="7" class="muted">Aún no hay partidas registradas.</td></tr>`;
   return `
     <div class="dash-section">
       <h3>${icon("scroll")} Historial de partidas</h3>
       <div class="dash-table-wrap"><table class="dash-table">
-        <thead><tr><th>Fecha</th><th>Héroe</th><th>Nombre</th><th>Nivel</th><th>Senda</th><th>Monedas</th><th>Score</th><th>Resultado</th></tr></thead>
+        <thead><tr><th>Fecha</th><th>Jugador</th><th>Héroe</th><th>Nivel</th><th>Senda</th><th>Score</th><th>Resultado</th></tr></thead>
         <tbody>${rows}</tbody>
       </table></div>
     </div>`;
 }
 
-function renderRanking(ranking, heroFilter) {
+function renderRanking(ranking, heroFilter, currentPlayerId) {
   const options = ["all", ...HEROES]
     .map((h) => `<option value="${h}"${h === heroFilter ? " selected" : ""}>${h === "all" ? "Todos los héroes" : esc(heroName(h))}</option>`)
     .join("");
@@ -190,9 +202,11 @@ function renderRanking(ranking, heroFilter) {
           const last = lr.heroId
             ? `${esc(heroName(lr.heroId))} · Nv ${lr.level} · ★${lr.ascension + 1} · ${res}`
             : "—";
-          return `<tr>
+          const mine = currentPlayerId && p.playerId === currentPlayerId;
+          const badge = mine ? ` ${mineBadge()}` : "";
+          return `<tr class="${mine ? "dash-mine" : ""}">
             <td>${i + 1}</td>
-            <td>${esc(p.playerName || "Jugador")}</td>
+            <td>${esc(p.playerName || "Jugador")}${badge}</td>
             <td>${p.runs}</td>
             <td>${p.wins}</td>
             <td>${p.winRate}%</td>
@@ -238,22 +252,23 @@ export function dashboard(ctx) {
     function load() {
       flushQueue();
       const name = getPlayerName();
+      const playerId = getPlayerId();
       fetchStats()
         .then((stats) => {
           const heroFilter = root.querySelector("#dash-hero-filter") ? root.querySelector("#dash-hero-filter").value : "all";
           body.innerHTML =
-            renderProfile(stats.player, name) +
+            renderProfile(stats.player, name, stats.mine) +
             renderAggregates(stats.aggregates) +
             renderByHero(stats.byHero) +
             renderByEnemy(stats.byEnemy) +
-            renderMorality(stats.morality) +
+            renderMorality(stats.morality, stats.myMorality) +
             renderHistory(stats.recentRuns);
           return fetchRanking(heroFilter).then((res) => {
-            body.innerHTML += renderRanking(res.ranking || [], heroFilter);
+            body.innerHTML += renderRanking(res.ranking || [], heroFilter, playerId);
             bindControls(root, body, name);
           });
         })
-        .catch((err) => {
+        .catch(() => {
           body.innerHTML = renderError("Sin conexión con el servidor de estadísticas. Tus partidas quedan guardadas localmente y se sincronizarán cuando vuelva a haber conexión.") +
             renderRanking([], "all");
           bindControls(root, body, name);
@@ -287,7 +302,7 @@ export function dashboard(ctx) {
         fetchRanking(filter.value)
           .then((res) => {
             const ranking = body.querySelector(".dash-section:last-child");
-            if (ranking) ranking.outerHTML = renderRanking(res.ranking || [], filter.value);
+            if (ranking) ranking.outerHTML = renderRanking(res.ranking || [], filter.value, getPlayerId());
             bindControls(root, body, name);
           })
           .catch(() => {});

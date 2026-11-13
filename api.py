@@ -174,36 +174,26 @@ def record_run(player_id, player_name, run):
             conn.close()
 
 
-def _empty_stats(player_id, name=""):
-    return {
-        "player": {"id": player_id, "name": name, "createdAt": None},
-        "aggregates": {
-            "runs": 0, "wins": 0, "losses": 0, "winRate": 0, "bestScore": 0,
-            "totalCoins": 0, "totalKills": 0, "totalPlayMs": 0,
-            "maxAscension": 0, "maxLevel": 1,
-        },
-        "byHero": [],
-        "byEnemy": [],
-        "morality": {"mercy": 0, "greed": 0, "honor": 0, "corruption": 0},
-        "recentRuns": [],
-    }
-
-
-def get_player_stats(player_id):
+def get_global_stats(player_id=None):
+    """Estadísticas globales (de todos los jugadores) con el resaltado de la
+    contribución del jugador que consulta (campos `mine`/`my*`/`isMine`)."""
     init_db()
     with _lock:
         conn = _connect()
         try:
-            p = conn.execute(
-                "SELECT * FROM players WHERE player_id = ?", (player_id,)
-            ).fetchone()
-            if not p:
-                return None
             rows = conn.execute(
-                "SELECT * FROM runs WHERE player_id = ? ORDER BY created_at DESC",
-                (player_id,),
+                "SELECT r.*, p.name AS player_name FROM runs r "
+                "JOIN players p ON p.player_id = r.player_id "
+                "ORDER BY r.created_at DESC"
             ).fetchall()
-            runs = [_run_dict(r) for r in rows]
+
+            runs = []
+            for r in rows:
+                d = _run_dict(r)
+                d["playerName"] = r["player_name"] or "Jugador"
+                d["isMine"] = bool(player_id) and r["player_id"] == player_id
+                runs.append(d)
+
             wins = sum(1 for r in runs if r["result"] == "victory")
             losses = len(runs) - wins
             total_kills = sum(sum((r["kills"] or {}).values()) for r in runs)
@@ -214,31 +204,73 @@ def get_player_stats(player_id):
             max_level = max((r["level"] for r in runs), default=1)
 
             by_hero = {}
+            by_enemy = {}
+            morality = {"mercy": 0, "greed": 0, "honor": 0, "corruption": 0}
+            my_morality = {"mercy": 0, "greed": 0, "honor": 0, "corruption": 0}
+            mine = {"runs": 0, "wins": 0, "bestScore": 0}
+
             for r in runs:
-                h = by_hero.setdefault(
-                    r["heroId"],
-                    {"heroId": r["heroId"], "runs": 0, "wins": 0, "bestScore": 0, "maxAscension": 0},
-                )
+                h = by_hero.setdefault(r["heroId"], {
+                    "heroId": r["heroId"], "runs": 0, "wins": 0, "bestScore": 0,
+                    "maxAscension": 0, "myRuns": 0, "myWins": 0, "myBestScore": 0,
+                })
                 h["runs"] += 1
                 if r["result"] == "victory":
                     h["wins"] += 1
                 h["bestScore"] = max(h["bestScore"], r["score"])
                 h["maxAscension"] = max(h["maxAscension"], r["ascension"])
+                if r["isMine"]:
+                    h["myRuns"] += 1
+                    if r["result"] == "victory":
+                        h["myWins"] += 1
+                    h["myBestScore"] = max(h["myBestScore"], r["score"])
 
-            by_enemy = {}
-            for r in runs:
                 for eid, cnt in (r["kills"] or {}).items():
-                    by_enemy.setdefault(eid, {"defeats": 0, "deaths": 0})["defeats"] += int(cnt)
+                    e = by_enemy.setdefault(eid, {
+                        "enemyId": eid, "defeats": 0, "deaths": 0,
+                        "myDefeats": 0, "myDeaths": 0,
+                    })
+                    e["defeats"] += int(cnt)
+                    if r["isMine"]:
+                        e["myDefeats"] += int(cnt)
                 if r["result"] == "defeat" and r.get("defeatedBy"):
-                    by_enemy.setdefault(r["defeatedBy"], {"defeats": 0, "deaths": 0})["deaths"] += 1
+                    e2 = by_enemy.setdefault(r["defeatedBy"], {
+                        "enemyId": r["defeatedBy"], "defeats": 0, "deaths": 0,
+                        "myDefeats": 0, "myDeaths": 0,
+                    })
+                    e2["deaths"] += 1
+                    if r["isMine"]:
+                        e2["myDeaths"] += 1
 
-            morality = {"mercy": 0, "greed": 0, "honor": 0, "corruption": 0}
-            for r in runs:
                 for k in morality:
-                    morality[k] += (r["morality"] or {}).get(k, 0)
+                    v = (r["morality"] or {}).get(k, 0)
+                    morality[k] += v
+                    if r["isMine"]:
+                        my_morality[k] += v
+
+                if r["isMine"]:
+                    mine["runs"] += 1
+                    if r["result"] == "victory":
+                        mine["wins"] += 1
+                    mine["bestScore"] = max(mine["bestScore"], r["score"])
+
+            for h in by_hero.values():
+                h["winRate"] = round(h["wins"] / h["runs"] * 100, 1) if h["runs"] else 0
+
+            by_hero_list = sorted(by_hero.values(), key=lambda h: (-h["bestScore"], h["heroId"]))
+            by_enemy_list = sorted(by_enemy.values(), key=lambda e: -((e["defeats"] + e["deaths"])))
+            mine["winRate"] = round(mine["wins"] / mine["runs"] * 100, 1) if mine["runs"] else 0
+
+            player = {"id": player_id or "", "name": ""}
+            if player_id:
+                p = conn.execute(
+                    "SELECT name FROM players WHERE player_id = ?", (player_id,)
+                ).fetchone()
+                if p:
+                    player["name"] = p["name"]
 
             return {
-                "player": {"id": p["player_id"], "name": p["name"], "createdAt": p["created_at"]},
+                "player": player,
                 "aggregates": {
                     "runs": len(runs),
                     "wins": wins,
@@ -251,12 +283,11 @@ def get_player_stats(player_id):
                     "maxAscension": max_asc,
                     "maxLevel": max_level,
                 },
-                "byHero": list(by_hero.values()),
-                "byEnemy": [
-                    {"enemyId": k, "defeats": v["defeats"], "deaths": v["deaths"]}
-                    for k, v in sorted(by_enemy.items(), key=lambda kv: -(kv[1]["defeats"] + kv[1]["deaths"]))
-                ],
+                "mine": mine,
+                "byHero": by_hero_list,
+                "byEnemy": by_enemy_list,
                 "morality": morality,
+                "myMorality": my_morality,
                 "recentRuns": runs[:20],
             }
         finally:
@@ -354,13 +385,8 @@ def dispatch(method, path, query, body):
             return 200, record_run(player_id, data.get("playerName"), run)
 
         player_id = (query.get("playerId") or [""])[0]
-        if not player_id:
-            return 400, {"error": "playerId requerido"}
         if method == "GET":
-            data = get_player_stats(player_id)
-            if data is None:
-                return 200, _empty_stats(player_id)
-            return 200, data
+            return 200, get_global_stats(player_id or None)
         if method == "DELETE":
             return 200, delete_player(player_id)
         return 405, {"error": "método no permitido"}

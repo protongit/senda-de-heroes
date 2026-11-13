@@ -214,7 +214,7 @@ Identidad sin login: `playerId` (UUID aleatorio en `localStorage`) + `playerName
 
 Endpoints (`api.py`, stdlib `http.server` + `sqlite3`):
 - `POST /api/stats` — registra una partida terminada. Body: `{ playerId, playerName, run }` donde `run = { heroId, heroName, level, depth, ascension, coins, result, kills, morality, finalBossId, defeatedBy, durationMs, deckSize }`. El `score` se calcula en el servidor: `victory ? 5000 : 0` + `depth*100 + level*40 + coins + ascension*800`.
-- `GET /api/stats?playerId=…` — `{ player, aggregates, byHero, byEnemy, morality, recentRuns }`.
+- `GET /api/stats?playerId=…` — estadísticas **globales** (de todos los jugadores) con el resaltado del jugador que consulta: `{ player, aggregates, mine, byHero, byEnemy, morality, myMorality, recentRuns }`. Los campos `mine`/`my*` y el flag `isMine` (en `recentRuns`) marcan la contribución del `playerId` dado.
 - `GET /api/ranking?hero=<id|all>&limit=N` — `{ ranking: [{ playerId, playerName, runs, wins, winRate, bestScore, totalCoins, totalKills, maxAscension, maxLevel, lastRun: { heroId, heroName, level, ascension, result, score, createdAt } }] }`. Una entrada **por jugador** (agregados globales + última senda), ordenada por mejor score.
 - `DELETE /api/stats?playerId=…` — borra todos los datos del jugador.
 
