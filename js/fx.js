@@ -298,7 +298,7 @@ export function initTilt(root) {
   };
 
   const track = (el, x, y) => {
-    if (reduced()) return;
+    if (!el || reduced()) return;
     const r = el.getBoundingClientRect();
     if (!r.width || !r.height) return;
     const dx = Math.min(1, Math.max(0, (x - r.left) / r.width)) - 0.5;
@@ -316,8 +316,15 @@ export function initTilt(root) {
   };
 
   root.addEventListener("pointermove", (e) => {
-    const el = e.target.closest("[data-tilt]");
+    const target = e.target instanceof Element ? e.target : null;
+    const el = target ? target.closest("[data-tilt]") : null;
     if (el !== current) {
+      // El objetivo cambió: descarta el frame pendiente para no aplicarlo al
+      // elemento anterior ni a `null` si el puntero salió de una carta.
+      if (frame) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
       reset(current);
       current = el;
       if (el) {
@@ -335,6 +342,7 @@ export function initTilt(root) {
     if (frame) return;
     frame = requestAnimationFrame(() => {
       frame = 0;
+      if (!current) return;
       track(current, clientX, clientY);
     });
   });
